@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'welcome_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -129,10 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   height: height * 0.07,
                   child: ElevatedButton(
-                    onPressed: () {
-                      String email = _emailController.text.trim();
-                      String userName = email.split('@')[0];
+                    onPressed: () async {
+                      final email = _emailController.text.trim();
+                      final userName = email.split('@')[0];
                       if (email.isNotEmpty) {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isLoggedIn', true);
+                        await prefs.setString('userName', userName);
+                        
+                        if (!context.mounted) return;
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

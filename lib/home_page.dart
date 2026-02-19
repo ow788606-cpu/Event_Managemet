@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'events_page.dart';
 import 'login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   final String userName;
@@ -77,12 +78,18 @@ class HomePage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.logout, color: Color(0xFF520350)),
               title: const Text('Logout', style: TextStyle(fontFamily: 'Inter')),
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => const LoginPage()),
-                  (route) => false,
-                );
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isLoggedIn', false);
+                await prefs.remove('userName');
+                
+                if (context.mounted) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginPage()),
+                    (route) => false,
+                  );
+                }
               },
             ),
           ],
