@@ -8,8 +8,7 @@ class ServicesPage extends StatefulWidget {
   State<ServicesPage> createState() => _ServicesPageState();
 }
 
-class _ServicesPageState extends State<ServicesPage>
-    with SingleTickerProviderStateMixin {
+class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -25,14 +24,10 @@ class _ServicesPageState extends State<ServicesPage>
     final height = size.height;
 
     final requests = ServicesManager.getRequests();
-    final pending =
-        requests.where((r) => r.status == ServiceStatus.pending).toList();
-    final inProgress =
-        requests.where((r) => r.status == ServiceStatus.inProgress).toList();
-    final completed =
-        requests.where((r) => r.status == ServiceStatus.completed).toList();
-    final cancelled =
-        requests.where((r) => r.status == ServiceStatus.cancelled).toList();
+    final pending = requests.where((r) => r.status == ServiceStatus.pending).toList();
+    final inProgress = requests.where((r) => r.status == ServiceStatus.inProgress).toList();
+    final completed = requests.where((r) => r.status == ServiceStatus.completed).toList();
+    final cancelled = requests.where((r) => r.status == ServiceStatus.cancelled).toList();
 
     return SafeArea(
       child: Scaffold(
@@ -40,9 +35,7 @@ class _ServicesPageState extends State<ServicesPage>
         appBar: AppBar(
           backgroundColor: const Color(0xFF520350),
           elevation: 0,
-          title: const Text('My Services',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          title: const Text('My Services', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: const Color(0xFFE7DFE7),
@@ -61,30 +54,24 @@ class _ServicesPageState extends State<ServicesPage>
           controller: _tabController,
           children: [
             _buildRequestsList(pending, width, height, ServiceStatus.pending),
-            _buildRequestsList(
-                inProgress, width, height, ServiceStatus.inProgress),
-            _buildRequestsList(
-                completed, width, height, ServiceStatus.completed),
-            _buildRequestsList(
-                cancelled, width, height, ServiceStatus.cancelled),
+            _buildRequestsList(inProgress, width, height, ServiceStatus.inProgress),
+            _buildRequestsList(completed, width, height, ServiceStatus.completed),
+            _buildRequestsList(cancelled, width, height, ServiceStatus.cancelled),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildRequestsList(List<ServiceRequest> requests, double width,
-      double height, ServiceStatus status) {
+  Widget _buildRequestsList(List<ServiceRequest> requests, double width, double height, ServiceStatus status) {
     if (requests.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.design_services,
-                size: width * 0.2, color: Colors.grey[300]),
+            Icon(Icons.design_services, size: width * 0.2, color: Colors.grey[300]),
             SizedBox(height: height * 0.02),
-            Text('No ${status.name} requests',
-                style: TextStyle(fontSize: width * 0.045, color: Colors.grey)),
+            Text('No ${status.name} requests', style: TextStyle(fontSize: width * 0.045, color: Colors.grey)),
           ],
         ),
       );
@@ -93,65 +80,40 @@ class _ServicesPageState extends State<ServicesPage>
     return ListView.builder(
       padding: EdgeInsets.all(width * 0.04),
       itemCount: requests.length,
-      itemBuilder: (context, index) =>
-          _buildRequestCard(requests[index], width, height),
+      itemBuilder: (context, index) => _buildRequestCard(requests[index], width, height),
     );
   }
 
-  Widget _buildRequestCard(
-      ServiceRequest request, double width, double height) {
-    final statusColor = request.status == ServiceStatus.pending
-        ? Colors.orange
-        : request.status == ServiceStatus.inProgress
-            ? Colors.blue
-            : request.status == ServiceStatus.completed
-                ? Colors.green
-                : Colors.red;
-
+  Widget _buildRequestCard(ServiceRequest request, double width, double height) {
     return Container(
       margin: EdgeInsets.only(bottom: height * 0.015),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFE7DFE7),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: statusColor.withValues(alpha: 0.3), width: 2),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))
-        ],
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3))],
       ),
       child: Column(
         children: [
           Container(
             padding: EdgeInsets.all(width * 0.04),
-            decoration: BoxDecoration(
-              color: statusColor.withValues(alpha: 0.1),
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(14)),
+            decoration: const BoxDecoration(
+              color: Color(0xFF520350),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Icon(Icons.receipt_long,
-                        color: statusColor, size: width * 0.05),
+                    const Icon(Icons.receipt_long, color: Colors.white, size: 20),
                     SizedBox(width: width * 0.02),
-                    Text('Request #${request.requestId}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: width * 0.038)),
+                    Text('Request #${request.requestId}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.03, vertical: height * 0.005),
-                  decoration: BoxDecoration(
-                      color: statusColor,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Text(request.status.name.toUpperCase(),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold)),
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.005),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  child: Text(request.status.name.toUpperCase(), style: const TextStyle(color: Color(0xFF520350), fontSize: 11, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -165,15 +127,10 @@ class _ServicesPageState extends State<ServicesPage>
                     Container(
                       width: width * 0.2,
                       height: height * 0.1,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(12)),
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(12)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(request.service.imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                const Icon(Icons.design_services, size: 40)),
+                        child: Image.network(request.service.imageUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.design_services, size: 40)),
                       ),
                     ),
                     SizedBox(width: width * 0.03),
@@ -181,32 +138,21 @@ class _ServicesPageState extends State<ServicesPage>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(request.service.title,
-                              style: TextStyle(
-                                  fontSize: width * 0.042,
-                                  fontWeight: FontWeight.bold)),
+                          Text(request.service.title, style: TextStyle(fontSize: width * 0.042, fontWeight: FontWeight.bold)),
                           SizedBox(height: height * 0.008),
                           Row(
                             children: [
-                              Icon(Icons.category,
-                                  size: width * 0.035, color: Colors.grey[600]),
+                              Icon(Icons.category, size: width * 0.035, color: Colors.grey[600]),
                               SizedBox(width: width * 0.01),
-                              Text(request.serviceType,
-                                  style: TextStyle(
-                                      fontSize: width * 0.032,
-                                      color: Colors.grey[600])),
+                              Text(request.serviceType, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
                             ],
                           ),
                           SizedBox(height: height * 0.005),
                           Row(
                             children: [
-                              Icon(Icons.location_on,
-                                  size: width * 0.035, color: Colors.grey[600]),
+                              Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[600]),
                               SizedBox(width: width * 0.01),
-                              Text(request.service.location,
-                                  style: TextStyle(
-                                      fontSize: width * 0.032,
-                                      color: Colors.grey[600])),
+                              Text(request.service.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
                             ],
                           ),
                         ],
@@ -218,19 +164,12 @@ class _ServicesPageState extends State<ServicesPage>
                   SizedBox(height: height * 0.015),
                   Container(
                     padding: EdgeInsets.all(width * 0.03),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
-                        Icon(Icons.note,
-                            size: width * 0.04, color: Colors.grey[600]),
+                        Icon(Icons.note, size: width * 0.04, color: const Color(0xFF520350)),
                         SizedBox(width: width * 0.02),
-                        Expanded(
-                            child: Text(request.notes,
-                                style: TextStyle(
-                                    fontSize: width * 0.032,
-                                    color: Colors.grey[700]))),
+                        Expanded(child: Text(request.notes, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700]))),
                       ],
                     ),
                   ),
@@ -239,12 +178,14 @@ class _ServicesPageState extends State<ServicesPage>
                   SizedBox(height: height * 0.015),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton.icon(
+                    child: OutlinedButton.icon(
                       onPressed: () => _cancelRequest(request),
                       icon: const Icon(Icons.cancel, size: 18),
                       label: const Text('Cancel Request'),
-                      style:
-                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFF520350),
+                        side: const BorderSide(color: Color(0xFF520350), width: 2),
+                      ),
                     ),
                   ),
                 ],
@@ -261,20 +202,16 @@ class _ServicesPageState extends State<ServicesPage>
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Cancel Request'),
-        content:
-            const Text('Are you sure you want to cancel this service request?'),
+        content: const Text('Are you sure you want to cancel this service request?'),
         actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('No')),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
           TextButton(
             onPressed: () {
               setState(() => ServicesManager.cancelRequest(request.requestId));
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Request cancelled successfully')));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Request cancelled successfully')));
             },
-            child:
-                const Text('Yes, Cancel', style: TextStyle(color: Colors.red)),
+            child: const Text('Yes, Cancel', style: TextStyle(color: Color(0xFF520350))),
           ),
         ],
       ),
