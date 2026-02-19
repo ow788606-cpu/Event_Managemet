@@ -23,52 +23,59 @@ class _AllEventsPageState extends State<AllEventsPage> {
       child: Scaffold(
         backgroundColor: Colors.grey[50],
         appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-            ],
-          ),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.filter_list, size: 18),
-                label: const Text('Filter'),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AddEventPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('Add New Event', style: TextStyle(color: Colors.white)),
-              ),
-            ),
-          ],
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+              Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+            ],
+          ),
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: SingleChildScrollView(
-            child: DataTable(
-              headingRowColor: WidgetStateProperty.all(Colors.purple[50]),
-              columns: const [
+        body: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.filter_list, size: 18),
+                      label: const Text('Filter'),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const AddEventPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF520350),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: const Text('Add New Event', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  child: DataTable(
+                    headingRowColor: WidgetStateProperty.all(Colors.purple[50]),
+                    columns: const [
                 DataColumn(label: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
                 DataColumn(label: Text('Event', style: TextStyle(fontWeight: FontWeight.bold))),
                 DataColumn(label: Text('Client Details', style: TextStyle(fontWeight: FontWeight.bold))),
@@ -79,8 +86,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
                 DataColumn(label: Text('Manager', style: TextStyle(fontWeight: FontWeight.bold))),
                 DataColumn(label: Text('Tags', style: TextStyle(fontWeight: FontWeight.bold))),
                 DataColumn(label: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold))),
-              ],
-              rows: _events.map((event) {
+                    ],
+                    rows: _events.map((event) {
                 return DataRow(
                   cells: [
                     DataCell(Text(event['id'].toString())),
@@ -141,8 +148,11 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   ],
                 );
               }).toList(),
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

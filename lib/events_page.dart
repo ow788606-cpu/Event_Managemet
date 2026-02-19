@@ -232,14 +232,8 @@ class _EventsPageState extends State<EventsPage> {
           Padding(
             padding: EdgeInsets.all(width * 0.04),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  child: Text(
-                    event.title,
-                    style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter'),
-                  ),
-                ),
                 GestureDetector(
                   onTap: () {
                     setState(() => FavoritesManager.toggleFavorite(event));
@@ -288,6 +282,8 @@ class _EventsPageState extends State<EventsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(event.title, style: TextStyle(fontSize: width * 0.035, fontWeight: FontWeight.w600, color: Colors.black, fontFamily: 'Inter'), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      SizedBox(height: height * 0.005),
                       Row(
                         children: [
                           Icon(Icons.calendar_today, size: width * 0.035, color: Colors.grey[700]),
