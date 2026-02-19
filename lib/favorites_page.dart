@@ -92,7 +92,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                           margin: EdgeInsets.symmetric(horizontal: width * 0.01),
                           padding: EdgeInsets.symmetric(vertical: height * 0.012),
                           decoration: BoxDecoration(
-                            color: isSelected ? Colors.amber : Colors.white24,
+                            color: isSelected ? const Color(0xFFE7DFE7) : Colors.white24,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(

@@ -11,46 +11,91 @@ class EventsPage extends StatefulWidget {
 }
 
 class _EventsPageState extends State<EventsPage> {
-  final List<Event> events = [
+  int _selectedTab = 0;
+
+  final List<Event> clubEvents = [
     Event(
       id: '1',
-      title: 'CR Summit East - 2020',
-      date: '15 February 2020',
-      time: '2 PM to 4 PM',
-      location: 'Ommeago In',
+      title: 'Music Festival 2024',
+      date: '15 February 2025',
+      time: '6 PM to 11 PM',
+      location: 'Central Park',
       price: 151.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400',
+      description: 'Join us for an amazing night of live music featuring top artists.',
     ),
     Event(
       id: '2',
-      title: 'CR Summit West - 2020',
-      date: '16 February 2020',
-      time: '2 PM to 4 PM',
-      location: 'Ommeago In',
+      title: 'Tech Conference 2024',
+      date: '16 February 2025',
+      time: '9 AM to 5 PM',
+      location: 'Convention Center',
       price: 121.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
+      description: 'Explore the latest in technology and innovation.',
     ),
     Event(
       id: '3',
-      title: 'CR Summit East - 2020',
-      date: '14 February 2020',
-      time: '2 PM to 4 PM',
-      location: 'Ommeago In',
+      title: 'Food & Wine Expo',
+      date: '20 February 2025',
+      time: '12 PM to 8 PM',
+      location: 'Grand Hotel',
       price: 125.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400',
+      description: 'Taste exquisite dishes and premium wines from around the world.',
     ),
     Event(
       id: '4',
-      title: 'CR Summit East - 2020',
-      date: '17 February 2020',
-      time: '2 PM to 4 PM',
-      location: 'Ommeago In',
+      title: 'Art Exhibition',
+      date: '25 February 2025',
+      time: '10 AM to 6 PM',
+      location: 'City Gallery',
       price: 130.00,
-      imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      imageUrl: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400',
+      description: 'Discover contemporary art from emerging artists.',
+    ),
+  ];
+
+  final List<Event> localEvents = [
+    Event(
+      id: '5',
+      title: 'Community Yoga Session',
+      date: '18 February 2025',
+      time: '7 AM to 9 AM',
+      location: 'Local Park',
+      price: 25.00,
+      imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400',
+      description: 'Start your day with a refreshing yoga session.',
+    ),
+    Event(
+      id: '6',
+      title: 'Farmers Market',
+      date: '19 February 2025',
+      time: '8 AM to 2 PM',
+      location: 'Town Square',
+      price: 0.00,
+      imageUrl: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400',
+      description: 'Fresh produce and local crafts from community vendors.',
+    ),
+    Event(
+      id: '7',
+      title: 'Book Club Meetup',
+      date: '22 February 2025',
+      time: '5 PM to 7 PM',
+      location: 'Local Library',
+      price: 10.00,
+      imageUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400',
+      description: 'Discuss this month\'s featured book with fellow readers.',
+    ),
+    Event(
+      id: '8',
+      title: 'Street Food Festival',
+      date: '28 February 2025',
+      time: '4 PM to 10 PM',
+      location: 'Main Street',
+      price: 15.00,
+      imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400',
+      description: 'Enjoy delicious street food from local vendors.',
     ),
   ];
 
@@ -76,7 +121,7 @@ class _EventsPageState extends State<EventsPage> {
         ),
         actions: [
           PopupMenuButton(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             itemBuilder: (BuildContext context) => [
               const PopupMenuItem(child: Text('Filter')),
               const PopupMenuItem(child: Text('Sort')),
@@ -94,32 +139,52 @@ class _EventsPageState extends State<EventsPage> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => setState(() => _selectedTab = 0),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                        decoration: const BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFF520350), width: 2)),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: _selectedTab == 0 ? const Color(0xFF520350) : Colors.grey[300]!,
+                              width: _selectedTab == 0 ? 2 : 1,
+                            ),
+                          ),
                         ),
                         child: Text(
                           'Club Event',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: width * 0.037, color: Colors.grey, fontFamily: 'Inter'),
+                          style: TextStyle(
+                            fontSize: width * 0.037,
+                            fontWeight: _selectedTab == 0 ? FontWeight.bold : FontWeight.normal,
+                            color: _selectedTab == 0 ? Colors.black : Colors.grey,
+                            fontFamily: 'Inter',
+                          ),
                         ),
                       ),
                     ),
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () => setState(() => _selectedTab = 1),
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: height * 0.015),
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.grey[300]!, width: 1)),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: _selectedTab == 1 ? const Color(0xFF520350) : Colors.grey[300]!,
+                              width: _selectedTab == 1 ? 2 : 1,
+                            ),
+                          ),
                         ),
                         child: Text(
                           'Local Event',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: width * 0.037, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter'),
+                          style: TextStyle(
+                            fontSize: width * 0.037,
+                            fontWeight: _selectedTab == 1 ? FontWeight.bold : FontWeight.normal,
+                            color: _selectedTab == 1 ? Colors.black : Colors.grey,
+                            fontFamily: 'Inter',
+                          ),
                         ),
                       ),
                     ),
@@ -144,7 +209,7 @@ class _EventsPageState extends State<EventsPage> {
                 ],
               ),
               SizedBox(height: height * 0.03),
-              ...events.map((event) => _buildEventCard(event, width, height)).toList(),
+              ...(_selectedTab == 0 ? clubEvents : localEvents).map((event) => _buildEventCard(event, width, height)).toList(),
             ],
           ),
         ),
@@ -166,9 +231,11 @@ class _EventsPageState extends State<EventsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  event.title,
-                  style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter'),
+                Expanded(
+                  child: Text(
+                    event.title,
+                    style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter'),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -238,7 +305,7 @@ class _EventsPageState extends State<EventsPage> {
                         children: [
                           Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[700]),
                           SizedBox(width: width * 0.015),
-                          Text(event.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter')),
+                          Expanded(child: Text(event.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter'))),
                         ],
                       ),
                     ],
@@ -253,7 +320,7 @@ class _EventsPageState extends State<EventsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold, color: const Color(0xFF520350), fontFamily: 'Inter')),
+                Text(event.price == 0 ? 'FREE' : '\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold, color: const Color(0xFF520350), fontFamily: 'Inter')),
                 ElevatedButton(
                   onPressed: () => _showBookingDialog(event),
                   style: ElevatedButton.styleFrom(

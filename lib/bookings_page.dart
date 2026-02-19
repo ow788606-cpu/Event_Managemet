@@ -41,8 +41,8 @@ class _BookingsPageState extends State<BookingsPage>
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.amber,
-          labelColor: Colors.amber,
+          indicatorColor: const Color(0xFFE7DFE7),
+          labelColor: const Color(0xFFE7DFE7),
           unselectedLabelColor: Colors.white70,
           tabs: [
             Tab(text: 'Upcoming (${upcoming.length})'),
