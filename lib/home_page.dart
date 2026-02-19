@@ -11,9 +11,11 @@ class HomePage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final width = size.width;
 
-    return Scaffold(
-      drawer: _buildDrawer(context, width),
-      body: const EventsPage(),
+    return SafeArea(
+      child: Scaffold(
+        drawer: _buildDrawer(context, width),
+        body: const EventsPage(),
+      ),
     );
   }
 

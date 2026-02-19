@@ -105,9 +105,10 @@ class _EventsPageState extends State<EventsPage> {
     final height = size.height;
     final width = size.width;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
         title: Text(
@@ -213,6 +214,7 @@ class _EventsPageState extends State<EventsPage> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

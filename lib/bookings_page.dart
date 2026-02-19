@@ -32,9 +32,10 @@ class _BookingsPageState extends State<BookingsPage>
     final cancelled =
         bookings.where((b) => b.status == BookingStatus.cancelled).toList();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
         title: const Text('My Bookings',
@@ -58,6 +59,7 @@ class _BookingsPageState extends State<BookingsPage>
           _buildBookingsList(completed, width, height, BookingStatus.completed),
           _buildBookingsList(cancelled, width, height, BookingStatus.cancelled),
         ],
+      ),
       ),
     );
   }

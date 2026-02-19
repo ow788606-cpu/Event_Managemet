@@ -30,9 +30,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
       return matchesSearch && matchesFilter;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
         title: const Text('My Favorites', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -137,6 +138,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   ),
           ),
         ],
+      ),
       ),
     );
   }
