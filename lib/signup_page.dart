@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -10,6 +11,25 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   bool _obscurePassword = true;
   bool _agreedToTerms = false;
+  late TextEditingController _usernameController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +70,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey[50],
@@ -69,6 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey[50],
@@ -88,6 +110,7 @@ class _SignupPageState extends State<SignupPage> {
                         fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
+                  controller: _passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     filled: true,
@@ -147,7 +170,20 @@ class _SignupPageState extends State<SignupPage> {
                   width: double.infinity,
                   height: height * 0.07,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      String username = _usernameController.text.trim();
+                      String email = _emailController.text.trim();
+                      if (username.isNotEmpty &&
+                          email.isNotEmpty &&
+                          _agreedToTerms) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => HomePage(userName: username),
+                          ),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF520350),
                       shape: RoundedRectangleBorder(
