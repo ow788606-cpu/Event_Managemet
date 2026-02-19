@@ -41,139 +41,151 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                SizedBox(height: height * 0.05),
-                Text(
-                  'Create your new\naccount',
-                  style: TextStyle(
-                    fontSize: width * 0.08,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontFamily: 'Inter',
-                  ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: height * 0.03),
+              Text(
+                'Create your new\naccount',
+                style: TextStyle(
+                  fontSize: width * 0.08,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontFamily: 'Inter',
+                  height: 1.2,
                 ),
-                SizedBox(height: height * 0.01),
-                Text(
-                  'Create an account to start looking for the food\nyou like',
+              ),
+              SizedBox(height: height * 0.01),
+              Text(
+                'Create an account to start looking for the food you like',
+                style: TextStyle(
+                    fontSize: width * 0.037,
+                    color: Colors.grey,
+                    fontFamily: 'Inter'),
+              ),
+              SizedBox(height: height * 0.025),
+              Text('Email Address',
                   style: TextStyle(
                       fontSize: width * 0.037,
-                      color: Colors.grey,
-                      fontFamily: 'Inter'),
-                ),
-                SizedBox(height: height * 0.03),
-                Text('Email Address',
-                    style: TextStyle(
-                        fontSize: width * 0.037, fontFamily: 'Inter')),
-                SizedBox(height: height * 0.01),
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Inter')),
+              SizedBox(height: height * 0.01),
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                 ),
-                SizedBox(height: height * 0.02),
-                Text('User Name',
-                    style: TextStyle(
-                        fontSize: width * 0.037, fontFamily: 'Inter')),
-                SizedBox(height: height * 0.01),
-                TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
+              ),
+              SizedBox(height: height * 0.02),
+              Text('User Name',
+                  style: TextStyle(
+                      fontSize: width * 0.037,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Inter')),
+              SizedBox(height: height * 0.01),
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
                   ),
                 ),
-                SizedBox(height: height * 0.02),
-                Text('Password',
-                    style: TextStyle(
-                        fontSize: width * 0.037, fontFamily: 'Inter')),
-                SizedBox(height: height * 0.01),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility),
-                      onPressed: () =>
-                          setState(() => _obscurePassword = !_obscurePassword),
-                    ),
+              ),
+              SizedBox(height: height * 0.02),
+              Text('Password',
+                  style: TextStyle(
+                      fontSize: width * 0.037,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Inter')),
+              SizedBox(height: height * 0.01),
+              TextField(
+                controller: _passwordController,
+                obscureText: _obscurePassword,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey[50],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey[300]!),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscurePassword
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    onPressed: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                 ),
-                SizedBox(height: height * 0.015),
-                Row(
-                  children: [
-                    Checkbox(
+              ),
+              SizedBox(height: height * 0.015),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Checkbox(
                       value: _agreedToTerms,
                       onChanged: (value) =>
                           setState(() => _agreedToTerms = value!),
                       activeColor: const Color(0xFF520350),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    Expanded(
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: width * 0.037,
-                              fontFamily: 'Inter'),
-                          children: const [
-                            TextSpan(text: 'I Agree with '),
-                            TextSpan(
-                              text: 'Terms of Service',
-                              style: TextStyle(color: Color(0xFF520350)),
-                            ),
-                            TextSpan(text: ' and '),
-                            TextSpan(
-                              text: 'Privacy Policy',
-                              style: TextStyle(color: Color(0xFF520350)),
-                            ),
-                          ],
-                        ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: width * 0.035,
+                            fontFamily: 'Inter'),
+                        children: const [
+                          TextSpan(text: 'I Agree with '),
+                          TextSpan(
+                            text: 'Terms of Service',
+                            style: TextStyle(color: Color(0xFF520350)),
+                          ),
+                          TextSpan(text: ' and '),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(color: Color(0xFF520350)),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: height * 0.02),
-                SizedBox(
-                  width: double.infinity,
-                  height: height * 0.07,
-                  child: ElevatedButton(
+                  ),
+                ],
+              ),
+              SizedBox(height: height * 0.025),
+              SizedBox(
+                width: double.infinity,
+                height: height * 0.065,
+                child: ElevatedButton(
                     onPressed: () async {
                       final username = _usernameController.text.trim();
                       final email = _emailController.text.trim();
@@ -199,62 +211,59 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(28),
                       ),
                     ),
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: width * 0.042,
-                          fontFamily: 'Inter'),
-                    ),
-                  ),
-                ),
-                SizedBox(height: height * 0.03),
-                Center(
-                    child: Text('Or sign in with',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Inter',
-                            fontSize: width * 0.037))),
-                SizedBox(height: height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _socialButton(Icons.g_mobiledata, Colors.red),
-                    SizedBox(width: width * 0.04),
-                    _socialButton(Icons.facebook, Colors.blue),
-                    SizedBox(width: width * 0.04),
-                    _socialButton(Icons.apple, Colors.black),
-                  ],
-                ),
-                SizedBox(height: height * 0.04),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Don\'t have an account? ',
-                          style: TextStyle(
-                              fontFamily: 'Inter', fontSize: width * 0.037)),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                              color: const Color(0xFF520350),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Inter',
-                              fontSize: width * 0.037),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: height * 0.02),
-                    ],
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.042,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Inter'),
                   ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: height * 0.025),
+              Center(
+                  child: Text('Or sign in with',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Inter',
+                          fontSize: width * 0.033))),
+              SizedBox(height: height * 0.02),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _socialButton(Icons.g_mobiledata, Colors.red),
+                  SizedBox(width: width * 0.04),
+                  _socialButton(Icons.facebook, Colors.blue),
+                  SizedBox(width: width * 0.04),
+                  _socialButton(Icons.apple, Colors.black),
+                ],
+              ),
+              Spacer(),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Don\'t have an account? ',
+                        style: TextStyle(
+                            fontFamily: 'Inter', fontSize: width * 0.037)),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
+                            color: const Color(0xFF520350),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
+                            fontSize: width * 0.037),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: height * 0.02),
+            ],
+          ),
         ),
       ),
     );
@@ -268,7 +277,8 @@ class _SignupPageState extends State<SignupPage> {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.grey[300]!),
       ),
-      child: Icon(icon, color: color),
+      child: Icon(icon, color: color, size: 28),
     );
   }
 }
+// ignore_for_file: prefer_const_constructors
