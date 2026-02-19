@@ -39,10 +39,15 @@ class _SignupPageState extends State<SignupPage> {
                 SizedBox(height: height * 0.01),
                 Text(
                   'Create an account to start looking for the food\nyou like',
-                  style: TextStyle(fontSize: width * 0.037, color: Colors.grey, fontFamily: 'Inter'),
+                  style: TextStyle(
+                      fontSize: width * 0.037,
+                      color: Colors.grey,
+                      fontFamily: 'Inter'),
                 ),
                 SizedBox(height: height * 0.03),
-                Text('Email Address', style: TextStyle(fontSize: width * 0.037, fontFamily: 'Inter')),
+                Text('Email Address',
+                    style: TextStyle(
+                        fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   decoration: InputDecoration(
@@ -59,7 +64,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 SizedBox(height: height * 0.02),
-                Text('User Name', style: TextStyle(fontSize: width * 0.037, fontFamily: 'Inter')),
+                Text('User Name',
+                    style: TextStyle(
+                        fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   decoration: InputDecoration(
@@ -76,7 +83,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
                 SizedBox(height: height * 0.02),
-                Text('Password', style: TextStyle(fontSize: width * 0.037, fontFamily: 'Inter')),
+                Text('Password',
+                    style: TextStyle(
+                        fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   obscureText: _obscurePassword,
@@ -92,8 +101,11 @@ class _SignupPageState extends State<SignupPage> {
                       borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
-                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
                 ),
@@ -102,13 +114,17 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Checkbox(
                       value: _agreedToTerms,
-                      onChanged: (value) => setState(() => _agreedToTerms = value!),
+                      onChanged: (value) =>
+                          setState(() => _agreedToTerms = value!),
                       activeColor: const Color(0xFF520350),
                     ),
                     Expanded(
                       child: RichText(
                         text: TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: width * 0.037, fontFamily: 'Inter'),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: width * 0.037,
+                              fontFamily: 'Inter'),
                           children: const [
                             TextSpan(text: 'I Agree with '),
                             TextSpan(
@@ -140,12 +156,20 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     child: Text(
                       'Register',
-                      style: TextStyle(color: Colors.white, fontSize: width * 0.042, fontFamily: 'Inter'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: width * 0.042,
+                          fontFamily: 'Inter'),
                     ),
                   ),
                 ),
                 SizedBox(height: height * 0.03),
-                Center(child: Text('Or sign in with', style: TextStyle(color: Colors.grey, fontFamily: 'Inter', fontSize: width * 0.037))),
+                Center(
+                    child: Text('Or sign in with',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Inter',
+                            fontSize: width * 0.037))),
                 SizedBox(height: height * 0.02),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -162,12 +186,18 @@ class _SignupPageState extends State<SignupPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don\'t have an account? ', style: TextStyle(fontFamily: 'Inter', fontSize: width * 0.037)),
+                      Text('Don\'t have an account? ',
+                          style: TextStyle(
+                              fontFamily: 'Inter', fontSize: width * 0.037)),
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Text(
                           'Sign In',
-                          style: TextStyle(color: const Color(0xFF520350), fontWeight: FontWeight.bold, fontFamily: 'Inter', fontSize: width * 0.037),
+                          style: TextStyle(
+                              color: const Color(0xFF520350),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Inter',
+                              fontSize: width * 0.037),
                         ),
                       ),
                     ],

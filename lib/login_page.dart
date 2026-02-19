@@ -39,10 +39,15 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: height * 0.01),
                 Text(
                   'Please sign in to your account',
-                  style: TextStyle(fontSize: width * 0.037, color: Colors.grey, fontFamily: 'Inter'),
+                  style: TextStyle(
+                      fontSize: width * 0.037,
+                      color: Colors.grey,
+                      fontFamily: 'Inter'),
                 ),
                 SizedBox(height: height * 0.04),
-                Text('Email Address', style: TextStyle(fontSize: width * 0.037, fontFamily: 'Inter')),
+                Text('Email Address',
+                    style: TextStyle(
+                        fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   decoration: InputDecoration(
@@ -60,7 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: height * 0.02),
-                Text('Password', style: TextStyle(fontSize: width * 0.037, fontFamily: 'Inter')),
+                Text('Password',
+                    style: TextStyle(
+                        fontSize: width * 0.037, fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   obscureText: _obscurePassword,
@@ -77,8 +84,11 @@ class _LoginPageState extends State<LoginPage> {
                       borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                     suffixIcon: IconButton(
-                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
-                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
                 ),
@@ -89,7 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {},
                     child: Text(
                       'Forgot password?',
-                      style: TextStyle(color: const Color(0xFF520350), fontFamily: 'Inter', fontSize: width * 0.037),
+                      style: TextStyle(
+                          color: const Color(0xFF520350),
+                          fontFamily: 'Inter',
+                          fontSize: width * 0.037),
                     ),
                   ),
                 ),
@@ -107,12 +120,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Text(
                       'Sign In',
-                      style: TextStyle(color: Colors.white, fontSize: width * 0.042, fontFamily: 'Inter'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: width * 0.042,
+                          fontFamily: 'Inter'),
                     ),
                   ),
                 ),
                 SizedBox(height: height * 0.03),
-                Center(child: Text('Or sign in with', style: TextStyle(color: Colors.grey, fontFamily: 'Inter', fontSize: width * 0.037))),
+                Center(
+                    child: Text('Or sign in with',
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Inter',
+                            fontSize: width * 0.037))),
                 SizedBox(height: height * 0.02),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -129,12 +150,21 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don\'t have an account? ', style: TextStyle(fontFamily: 'Inter', fontSize: width * 0.037)),
+                      Text('Don\'t have an account? ',
+                          style: TextStyle(
+                              fontFamily: 'Inter', fontSize: width * 0.037)),
                       GestureDetector(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SignupPage())),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const SignupPage())),
                         child: Text(
                           'Register',
-                          style: TextStyle(color: const Color(0xFF520350), fontWeight: FontWeight.bold, fontFamily: 'Inter', fontSize: width * 0.037),
+                          style: TextStyle(
+                              color: const Color(0xFF520350),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Inter',
+                              fontSize: width * 0.037),
                         ),
                       ),
                     ],
