@@ -18,7 +18,8 @@ class _EventsPageState extends State<EventsPage> {
       location: 'Ommeago In',
       price: 151.00,
       imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      description:
+          'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
     ),
     Event(
       id: '2',
@@ -28,7 +29,8 @@ class _EventsPageState extends State<EventsPage> {
       location: 'Ommeago In',
       price: 121.00,
       imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      description:
+          'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
     ),
     Event(
       id: '3',
@@ -38,7 +40,8 @@ class _EventsPageState extends State<EventsPage> {
       location: 'Ommeago In',
       price: 125.00,
       imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      description:
+          'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
     ),
     Event(
       id: '4',
@@ -48,7 +51,8 @@ class _EventsPageState extends State<EventsPage> {
       location: 'Ommeago In',
       price: 130.00,
       imageUrl: 'https://via.placeholder.com/150',
-      description: 'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
+      description:
+          'Lorem ipsum is simply dummy text of the printing and typesetting industry.',
     ),
   ];
 
@@ -84,7 +88,8 @@ class _EventsPageState extends State<EventsPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height * 0.02),
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.04, vertical: height * 0.02),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -97,9 +102,10 @@ class _EventsPageState extends State<EventsPage> {
                       onTap: () {},
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: const Color(0xFF520350), width: 2),
+                            bottom:
+                                BorderSide(color: Color(0xFF520350), width: 2),
                           ),
                         ),
                         child: Text(
@@ -122,7 +128,8 @@ class _EventsPageState extends State<EventsPage> {
                         padding: EdgeInsets.symmetric(vertical: height * 0.015),
                         decoration: BoxDecoration(
                           border: Border(
-                            bottom: BorderSide(color: Colors.grey[300]!, width: 1),
+                            bottom:
+                                BorderSide(color: Colors.grey[300]!, width: 1),
                           ),
                         ),
                         child: Text(
@@ -168,7 +175,9 @@ class _EventsPageState extends State<EventsPage> {
               ),
               SizedBox(height: height * 0.03),
               // Events List
-              ...events.map((event) => _buildEventCard(event, width, height)).toList(),
+              ...events
+                  .map((event) => _buildEventCard(event, width, height))
+                  .toList(),
             ],
           ),
         ),
@@ -208,7 +217,8 @@ class _EventsPageState extends State<EventsPage> {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.bookmark, size: 20, color: Color(0xFF520350)),
+                    child: const Icon(Icons.bookmark,
+                        size: 20, color: Color(0xFF520350)),
                   ),
                 ),
               ],
