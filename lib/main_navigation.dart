@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'favorites_page.dart';
-import 'bookings_page.dart';
+import 'services_page.dart';
 
 class MainNavigation extends StatefulWidget {
   final String userName;
@@ -23,7 +23,7 @@ class _MainNavigationState extends State<MainNavigation> {
     _pages = [
       HomePage(userName: widget.userName),
       const FavoritesPage(),
-      const BookingsPage(),
+      const ServicesPage(),
     ];
   }
 
@@ -41,7 +41,7 @@ class _MainNavigationState extends State<MainNavigation> {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-            BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Bookings'),
+            BottomNavigationBarItem(icon: Icon(Icons.design_services), label: 'Services'),
           ],
         ),
       ),

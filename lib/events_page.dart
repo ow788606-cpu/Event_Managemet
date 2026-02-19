@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/event_model.dart';
 import 'favorites_manager.dart';
-import 'bookings_manager.dart';
+import 'services_manager.dart';
 
 class EventsPage extends StatefulWidget {
   const EventsPage({super.key});
@@ -324,13 +324,13 @@ class _EventsPageState extends State<EventsPage> {
               children: [
                 Text(event.price == 0 ? 'FREE' : '\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold, color: const Color(0xFF520350), fontFamily: 'Inter')),
                 ElevatedButton(
-                  onPressed: () => _showBookingDialog(event),
+                  onPressed: () => _showServiceDialog(event),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF520350),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.012),
                   ),
-                  child: Text('Book Now', style: TextStyle(color: Colors.white, fontSize: width * 0.035, fontFamily: 'Inter')),
+                  child: Text('Request Service', style: TextStyle(color: Colors.white, fontSize: width * 0.035, fontFamily: 'Inter')),
                 ),
               ],
             ),
@@ -341,46 +341,31 @@ class _EventsPageState extends State<EventsPage> {
     );
   }
 
-  void _showBookingDialog(Event event) {
-    int ticketCount = 1;
+  void _showServiceDialog(Event event) {
+    String selectedType = 'Standard';
+    final notesController = TextEditingController();
+    
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Book Tickets'),
+          title: const Text('Request Service'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(event.title, style: const TextStyle(fontWeight: FontWeight.bold)),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Number of Tickets:'),
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle_outline),
-                        onPressed: () {
-                          if (ticketCount > 1) setDialogState(() => ticketCount--);
-                        },
-                      ),
-                      Text('$ticketCount', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      IconButton(
-                        icon: const Icon(Icons.add_circle_outline),
-                        onPressed: () => setDialogState(() => ticketCount++),
-                      ),
-                    ],
-                  ),
-                ],
+              DropdownButtonFormField<String>(
+                initialValue: selectedType,
+                decoration: const InputDecoration(labelText: 'Service Type', border: OutlineInputBorder()),
+                items: ['Standard', 'Premium', 'VIP'].map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
+                onChanged: (value) => setDialogState(() => selectedType = value!),
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Total Amount:'),
-                  Text('\$${(event.price * ticketCount).toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-                ],
+              const SizedBox(height: 15),
+              TextField(
+                controller: notesController,
+                decoration: const InputDecoration(labelText: 'Additional Notes', border: OutlineInputBorder()),
+                maxLines: 3,
               ),
             ],
           ),
@@ -388,14 +373,14 @@ class _EventsPageState extends State<EventsPage> {
             TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
             ElevatedButton(
               onPressed: () {
-                final bookingId = BookingsManager.addBooking(event, ticketCount);
+                final requestId = ServicesManager.addRequest(event, selectedType, notesController.text);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Booking confirmed! ID: $bookingId')),
+                  SnackBar(content: Text('Service requested! ID: $requestId')),
                 );
               },
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350)),
-              child: const Text('Confirm'),
+              child: const Text('Submit Request'),
             ),
           ],
         ),
