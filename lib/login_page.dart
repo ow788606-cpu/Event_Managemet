@@ -117,11 +117,11 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _socialButton(),
+                    _socialButton(Icons.g_mobiledata, Colors.red),
                     SizedBox(width: width * 0.04),
-                    _socialButton(),
+                    _socialButton(Icons.facebook, Colors.blue),
                     SizedBox(width: width * 0.04),
-                    _socialButton(),
+                    _socialButton(Icons.apple, Colors.black),
                   ],
                 ),
                 SizedBox(height: height * 0.04),
@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _socialButton() {
+  Widget _socialButton(IconData icon, Color color) {
     return Container(
       width: 56,
       height: 56,
@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
         shape: BoxShape.circle,
         border: Border.all(color: Colors.grey[300]!),
       ),
-      child: const Icon(Icons.circle, color: Colors.grey),
+      child: Icon(icon, color: color),
     );
   }
 }
