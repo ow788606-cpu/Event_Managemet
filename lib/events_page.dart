@@ -4,7 +4,8 @@ import 'favorites_manager.dart';
 import 'services_manager.dart';
 
 class EventsPage extends StatefulWidget {
-  const EventsPage({super.key});
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+  const EventsPage({super.key, this.scaffoldKey});
 
   @override
   State<EventsPage> createState() => _EventsPageState();
@@ -111,6 +112,10 @@ class _EventsPageState extends State<EventsPage> {
         appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: Colors.white),
+          onPressed: () => widget.scaffoldKey?.currentState?.openDrawer(),
+        ),
         title: Text(
           'Club Events',
           style: TextStyle(
@@ -139,6 +144,7 @@ class _EventsPageState extends State<EventsPage> {
               Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: GestureDetector(
                       onTap: () => setState(() => _selectedTab = 0),
                       child: Container(
@@ -155,7 +161,7 @@ class _EventsPageState extends State<EventsPage> {
                           'Club Event',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: width * 0.037,
+                            fontSize: width * 0.035,
                             fontWeight: _selectedTab == 0 ? FontWeight.bold : FontWeight.normal,
                             color: _selectedTab == 0 ? Colors.black : Colors.grey,
                             fontFamily: 'Inter',
@@ -165,6 +171,7 @@ class _EventsPageState extends State<EventsPage> {
                     ),
                   ),
                   Expanded(
+                    flex: 2,
                     child: GestureDetector(
                       onTap: () => setState(() => _selectedTab = 1),
                       child: Container(
@@ -181,7 +188,7 @@ class _EventsPageState extends State<EventsPage> {
                           'Local Event',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: width * 0.037,
+                            fontSize: width * 0.035,
                             fontWeight: _selectedTab == 1 ? FontWeight.bold : FontWeight.normal,
                             color: _selectedTab == 1 ? Colors.black : Colors.grey,
                             fontFamily: 'Inter',
@@ -191,20 +198,14 @@ class _EventsPageState extends State<EventsPage> {
                     ),
                   ),
                   Expanded(
+                    flex: 1,
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: height * 0.015),
                       decoration: const BoxDecoration(
                         color: Color(0xFFE7DFE7),
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('TODAY', style: TextStyle(fontSize: width * 0.03, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter')),
-                          SizedBox(width: width * 0.01),
-                          const Icon(Icons.arrow_drop_down, size: 18),
-                        ],
-                      ),
+                      child: const Icon(Icons.calendar_today, size: 16),
                     ),
                   ),
                 ],
@@ -291,7 +292,7 @@ class _EventsPageState extends State<EventsPage> {
                         children: [
                           Icon(Icons.calendar_today, size: width * 0.035, color: Colors.grey[700]),
                           SizedBox(width: width * 0.015),
-                          Text(event.date, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter')),
+                          Expanded(child: Text(event.date, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
                         ],
                       ),
                       SizedBox(height: height * 0.005),
@@ -299,7 +300,7 @@ class _EventsPageState extends State<EventsPage> {
                         children: [
                           Icon(Icons.access_time, size: width * 0.035, color: Colors.grey[700]),
                           SizedBox(width: width * 0.015),
-                          Text(event.time, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter')),
+                          Expanded(child: Text(event.time, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
                         ],
                       ),
                       SizedBox(height: height * 0.005),
@@ -307,7 +308,7 @@ class _EventsPageState extends State<EventsPage> {
                         children: [
                           Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[700]),
                           SizedBox(width: width * 0.015),
-                          Expanded(child: Text(event.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter'))),
+                          Expanded(child: Text(event.location, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
                         ],
                       ),
                     ],
@@ -380,7 +381,7 @@ class _EventsPageState extends State<EventsPage> {
                 );
               },
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350)),
-              child: const Text('Submit Request'),
+              child: const Text('Submit Request', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
