@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
-import 'home_page.dart';
+import 'welcome_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => HomePage(userName: userName),
+                            builder: (_) => WelcomePage(userName: userName),
                           ),
                         );
                       }

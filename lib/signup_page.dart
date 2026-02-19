@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'welcome_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -179,7 +179,7 @@ class _SignupPageState extends State<SignupPage> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => HomePage(userName: username),
+                            builder: (_) => WelcomePage(userName: username),
                           ),
                         );
                       }
