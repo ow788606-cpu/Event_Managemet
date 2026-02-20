@@ -93,6 +93,20 @@ class HomePage extends StatelessWidget {
                 }),
               ],
             ),
+            ExpansionTile(
+              leading: const Icon(Icons.people, color: Colors.white),
+              title: const Text('Clients', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              iconColor: Colors.white,
+              collapsedIconColor: Colors.white,
+              children: [
+                _drawerSubItem(context, Icons.person_add, 'Add Client', () {
+                  Navigator.pop(context);
+                }),
+                _drawerSubItem(context, Icons.people_outline, 'All Clients', () {
+                  Navigator.pop(context);
+                }),
+              ],
+            ),
             const Divider(color: Colors.white24),
             _drawerItem(context, Icons.settings, 'Settings', () => Navigator.pop(context)),
             _drawerItem(context, Icons.logout, 'Logout', () async {
