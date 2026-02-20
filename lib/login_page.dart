@@ -132,11 +132,14 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       final email = _emailController.text.trim();
+                      final password = _passwordController.text.trim();
                       final userName = email.split('@')[0];
                       if (email.isNotEmpty) {
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool('isLoggedIn', true);
                         await prefs.setString('userName', userName);
+                        await prefs.setString('userEmail', email);
+                        await prefs.setString('userPassword', password);
                         
                         if (!context.mounted) return;
                         Navigator.pushReplacement(

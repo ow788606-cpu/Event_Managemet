@@ -13,6 +13,7 @@ import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
 import 'manage_profile_page.dart';
+import 'change_password_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
@@ -166,7 +167,7 @@ class HomePage extends StatelessWidget {
                 }),
                 _drawerSubItem(context, Icons.lock, 'Change Password', () {
                   Navigator.pop(context);
-                  // TODO: Navigate to Change Password page
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordPage()));
                 }),
               ],
             ),

@@ -28,13 +28,13 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
 
   Future<void> _loadProfile() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _usernameController.text = prefs.getString('userName') ?? '';
-      _emailController.text = prefs.getString('userEmail') ?? '';
-      _phoneController.text = prefs.getString('userPhone') ?? '';
-      _dobController.text = prefs.getString('userDob') ?? '';
-      _selectedGender = prefs.getString('userGender') ?? 'Male';
-    });
+    final email = prefs.getString('userEmail') ?? '';
+    _usernameController.text = prefs.getString('userName') ?? '';
+    _emailController.text = email;
+    _phoneController.text = prefs.getString('userPhone') ?? '';
+    _dobController.text = prefs.getString('userDob') ?? '';
+    _selectedGender = prefs.getString('userGender') ?? 'Male';
+    if (mounted) setState(() {});
   }
 
   Future<void> _saveProfile() async {

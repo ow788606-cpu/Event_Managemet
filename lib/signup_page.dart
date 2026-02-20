@@ -189,6 +189,7 @@ class _SignupPageState extends State<SignupPage> {
                     onPressed: () async {
                       final username = _usernameController.text.trim();
                       final email = _emailController.text.trim();
+                      final password = _passwordController.text.trim();
                       if (username.isNotEmpty &&
                           email.isNotEmpty &&
                           _agreedToTerms) {
@@ -196,6 +197,7 @@ class _SignupPageState extends State<SignupPage> {
                         await prefs.setBool('isLoggedIn', true);
                         await prefs.setString('userName', username);
                         await prefs.setString('userEmail', email);
+                        await prefs.setString('userPassword', password);
                         
                         if (!context.mounted) return;
                         Navigator.pushReplacement(
