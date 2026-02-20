@@ -7,6 +7,7 @@ import 'add_vendor_page.dart';
 import 'add_employee_page.dart';
 import 'all_clients_page.dart';
 import 'all_vendors_page.dart';
+import 'all_employees_page.dart';
 import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
@@ -142,6 +143,7 @@ class HomePage extends StatelessWidget {
                 }),
                 _drawerSubItem(context, Icons.people, 'All Employees', () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AllEmployeesPage()));
                 }),
               ],
             ),

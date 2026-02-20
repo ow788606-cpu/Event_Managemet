@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
-import 'all_employees_page.dart';
 
-class AddEmployeePage extends StatefulWidget {
-  const AddEmployeePage({super.key});
+class EditEmployeePage extends StatefulWidget {
+  final Map<String, dynamic> employee;
+  const EditEmployeePage({super.key, required this.employee});
 
   @override
-  State<AddEmployeePage> createState() => _AddEmployeePageState();
+  State<EditEmployeePage> createState() => _EditEmployeePageState();
 }
 
-class _AddEmployeePageState extends State<AddEmployeePage> {
+class _EditEmployeePageState extends State<EditEmployeePage> {
   final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _departmentController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late TextEditingController _fullNameController;
+  late TextEditingController _emailController;
+  late TextEditingController _phoneController;
+  late TextEditingController _departmentController;
+  final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   String? _selectedRole;
-  bool _obscurePassword = true;
+  bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fullNameController = TextEditingController(text: widget.employee['name']);
+    _emailController = TextEditingController(text: widget.employee['email']);
+    _phoneController = TextEditingController(text: widget.employee['phone']);
+    _departmentController = TextEditingController(text: widget.employee['department']);
+    _selectedRole = widget.employee['role'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +42,8 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Add Employee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Create a new employee under your organization', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Edit Employee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
+              Text('Update employee details.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
             ],
           ),
           actions: [
@@ -41,10 +51,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
               padding: const EdgeInsets.only(right: 16),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AllEmployeesPage()),
-                  );
+                  Navigator.pop(context);
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xFF520350),
@@ -184,8 +191,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
-                            initialValue: _selectedRole,
-                            hint: const Text('Select Role'),
+                            value: _selectedRole,
                             isExpanded: true,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.work_outline, color: Colors.grey[400]),
@@ -200,7 +206,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                                 borderSide: BorderSide(color: Colors.grey[300]!),
                               ),
                             ),
-                            items: ['Manager', 'Coordinator', 'Assistant', 'Admin']
+                            items: ['Manager', 'Coordinator', 'Assistant', 'Admin', 'Supervisor', 'Accountant', 'Staff']
                                 .map((role) => DropdownMenuItem(value: role, child: Text(role)))
                                 .toList(),
                             onChanged: (value) => setState(() => _selectedRole = value),
@@ -213,7 +219,15 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Department', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Department ',
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              children: [
+                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _departmentController,
@@ -245,29 +259,21 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Password ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
+                          const Text('New Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
                           const SizedBox(height: 8),
                           TextFormField(
-                            controller: _passwordController,
-                            obscureText: _obscurePassword,
+                            controller: _newPasswordController,
+                            obscureText: _obscureNewPassword,
                             decoration: InputDecoration(
-                              hintText: 'Password',
+                              hintText: 'Leave blank to keep current',
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                  _obscureNewPassword ? Icons.visibility_off : Icons.visibility,
                                   color: Colors.grey[400],
                                 ),
-                                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                                onPressed: () => setState(() => _obscureNewPassword = !_obscureNewPassword),
                               ),
                               filled: true,
                               fillColor: Colors.white,
@@ -289,21 +295,13 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Confirm Password ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
+                          const Text('Confirm Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _confirmPasswordController,
                             obscureText: _obscureConfirmPassword,
                             decoration: InputDecoration(
-                              hintText: 'Confirm Password',
+                              hintText: '',
                               hintStyle: TextStyle(color: Colors.grey[400]),
                               prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
                               suffixIcon: IconButton(
@@ -335,8 +333,9 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Employee added successfully!')),
+                        const SnackBar(content: Text('Employee updated successfully!')),
                       );
+                      Navigator.pop(context);
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -344,7 +343,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text('Add Employee', style: TextStyle(color: Colors.white, fontSize: 16)),
+                  child: const Text('Update Employee', style: TextStyle(color: Colors.white, fontSize: 16)),
                 ),
               ],
             ),
@@ -360,7 +359,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
     _emailController.dispose();
     _phoneController.dispose();
     _departmentController.dispose();
-    _passwordController.dispose();
+    _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
