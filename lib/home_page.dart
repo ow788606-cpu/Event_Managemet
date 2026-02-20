@@ -4,6 +4,7 @@ import 'login_page.dart';
 import 'add_event_page.dart';
 import 'add_client_page.dart';
 import 'add_vendor_page.dart';
+import 'add_employee_page.dart';
 import 'all_clients_page.dart';
 import 'all_vendors_page.dart';
 import 'upcoming_events_page.dart';
@@ -126,6 +127,21 @@ class HomePage extends StatelessWidget {
                 _drawerSubItem(context, Icons.storefront, 'All Vendors', () {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const AllVendorsPage()));
+                }),
+              ],
+            ),
+            ExpansionTile(
+              leading: const Icon(Icons.groups, color: Colors.white),
+              title: const Text('Team', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              iconColor: Colors.white,
+              collapsedIconColor: Colors.white,
+              children: [
+                _drawerSubItem(context, Icons.person_add, 'Add Employee', () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AddEmployeePage()));
+                }),
+                _drawerSubItem(context, Icons.people, 'All Employees', () {
+                  Navigator.pop(context);
                 }),
               ],
             ),
