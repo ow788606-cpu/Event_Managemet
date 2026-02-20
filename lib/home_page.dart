@@ -111,6 +111,20 @@ class HomePage extends StatelessWidget {
                 }),
               ],
             ),
+            ExpansionTile(
+              leading: const Icon(Icons.store, color: Colors.white),
+              title: const Text('Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              iconColor: Colors.white,
+              collapsedIconColor: Colors.white,
+              children: [
+                _drawerSubItem(context, Icons.add_business, 'Add Vendor', () {
+                  Navigator.pop(context);
+                }),
+                _drawerSubItem(context, Icons.storefront, 'All Vendors', () {
+                  Navigator.pop(context);
+                }),
+              ],
+            ),
             const Divider(color: Colors.white24),
             _drawerItem(context, Icons.settings, 'Settings', () => Navigator.pop(context)),
             _drawerItem(context, Icons.logout, 'Logout', () async {
