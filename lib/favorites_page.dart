@@ -36,7 +36,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
-        title: const Text('My Favorites', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+        title: const Text('My Favorites', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep, color: Colors.white),

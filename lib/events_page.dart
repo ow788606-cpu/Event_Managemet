@@ -117,10 +117,10 @@ class _EventsPageState extends State<EventsPage> {
           icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () => widget.scaffoldKey?.currentState?.openDrawer(),
         ),
-        title: Text(
+        title: const Text(
           'Eventam',
           style: TextStyle(
-            fontSize: width * 0.05,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontFamily: 'Inter',

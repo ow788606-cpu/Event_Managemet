@@ -119,9 +119,9 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
             children: [
               const Text('All Vendors',
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color(0xFF520350),
                       fontFamily: 'Inter')),
               Text('View and manage all vendors.',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),

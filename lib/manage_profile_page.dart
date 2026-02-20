@@ -78,7 +78,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
         backgroundColor: Colors.white,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
-        title: const Text('Manage Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+        title: const Text('Manage Profile', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),

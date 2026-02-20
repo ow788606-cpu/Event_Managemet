@@ -35,7 +35,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
         appBar: AppBar(
           backgroundColor: const Color(0xFF520350),
           elevation: 0,
-          title: const Text('My Services', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+          title: const Text('My Services', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: const Color(0xFFE7DFE7),

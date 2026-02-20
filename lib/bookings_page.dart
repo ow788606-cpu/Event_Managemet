@@ -39,7 +39,7 @@ class _BookingsPageState extends State<BookingsPage>
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
         title: const Text('My Bookings',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+            style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: const Color(0xFFE7DFE7),

@@ -71,9 +71,9 @@ class _AllClientsPageState extends State<AllClientsPage> {
             children: [
               const Text('All Clients',
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Color(0xFF520350),
                       fontFamily: 'Inter')),
               Text('Manage your organization clients.',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),

@@ -103,9 +103,9 @@ class _TagsPageState extends State<TagsPage> {
           children: [
             const Text('All Tags',
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Color(0xFF520350),
                     fontFamily: 'Inter')),
             Text(
                 'Organize leads with tags for easier tracking and better reports.',
