@@ -8,6 +8,7 @@ import 'add_employee_page.dart';
 import 'all_clients_page.dart';
 import 'all_vendors_page.dart';
 import 'all_employees_page.dart';
+import 'tags_page.dart';
 import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
@@ -115,7 +116,10 @@ class HomePage extends StatelessWidget {
                 }),
               ],
             ),
-            _drawerItem(context, Icons.local_offer, 'Tags', () => Navigator.pop(context)),
+            _drawerItem(context, Icons.local_offer, 'Tags', () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const TagsPage()));
+            }),
             ExpansionTile(
               leading: const Icon(Icons.store, color: Colors.white),
               title: const Text('Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
