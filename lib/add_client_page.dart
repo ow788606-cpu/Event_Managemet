@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'all_clients_page.dart';
 
 class AddClientPage extends StatefulWidget {
   const AddClientPage({super.key});
@@ -35,7 +36,12 @@ class _AddClientPageState extends State<AddClientPage> {
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AllClientsPage()),
+                  );
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

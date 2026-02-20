@@ -3,6 +3,7 @@ import 'events_page.dart';
 import 'login_page.dart';
 import 'add_event_page.dart';
 import 'add_client_page.dart';
+import 'all_clients_page.dart';
 import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
@@ -106,6 +107,7 @@ class HomePage extends StatelessWidget {
                 }),
                 _drawerSubItem(context, Icons.people_outline, 'All Clients', () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AllClientsPage()));
                 }),
               ],
             ),
