@@ -75,10 +75,9 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
@@ -269,8 +268,7 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Color _getRoleColor(String role) {

@@ -92,146 +92,144 @@ class _TagsPageState extends State<TagsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('All Tags',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      fontFamily: 'Inter')),
-              Text(
-                  'Organize leads with tags for easier tracking and better reports.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AddTagPage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('Add Tag',
-                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-              ),
-            ),
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('All Tags',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: 'Inter')),
+            Text(
+                'Organize leads with tags for easier tracking and better reports.',
+                style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
           ],
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                headingRowColor:
-                    WidgetStateProperty.all(const Color(0xFFF5F0F5)),
-                columnSpacing: 80,
-                horizontalMargin: 24,
-                columns: const [
-                  DataColumn(
-                      label: Text('#',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Tag Name',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Description',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Color',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Actions',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                ],
-                rows: _tags.map((tag) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(tag['id'].toString(),
-                          style: const TextStyle(fontSize: 13))),
-                      DataCell(Text(tag['name'],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 14))),
-                      DataCell(Text(tag['description'],
-                          style: const TextStyle(fontSize: 13))),
-                      DataCell(
-                        Row(
-                          children: [
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: tag['color'],
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(tag['colorHex'],
-                                style: TextStyle(
-                                    fontSize: 13, color: Colors.grey[700])),
-                          ],
-                        ),
-                      ),
-                      DataCell(
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  size: 18, color: Color(0xFF520350)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => EditTagPage(tag: tag),
-                                  ),
-                                );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  size: 18, color: Colors.red),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddTagPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF520350),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
+              child: const Text('Add Tag',
+                  style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              headingRowColor:
+                  WidgetStateProperty.all(const Color(0xFFF5F0F5)),
+              columnSpacing: 80,
+              horizontalMargin: 24,
+              columns: const [
+                DataColumn(
+                    label: Text('#',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14))),
+                DataColumn(
+                    label: Text('Tag Name',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14))),
+                DataColumn(
+                    label: Text('Description',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14))),
+                DataColumn(
+                    label: Text('Color',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14))),
+                DataColumn(
+                    label: Text('Actions',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14))),
+              ],
+              rows: _tags.map((tag) {
+                return DataRow(
+                  cells: [
+                    DataCell(Text(tag['id'].toString(),
+                        style: const TextStyle(fontSize: 13))),
+                    DataCell(Text(tag['name'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 14))),
+                    DataCell(Text(tag['description'],
+                        style: const TextStyle(fontSize: 13))),
+                    DataCell(
+                      Row(
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              color: tag['color'],
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(tag['colorHex'],
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.grey[700])),
+                        ],
+                      ),
+                    ),
+                    DataCell(
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit,
+                                size: 18, color: Color(0xFF520350)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => EditTagPage(tag: tag),
+                                ),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete,
+                                size: 18, color: Colors.red),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }).toList(),
             ),
           ),
         ),
