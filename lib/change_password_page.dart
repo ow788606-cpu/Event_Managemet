@@ -148,24 +148,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               const SizedBox(height: 30),
               Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: _changePassword,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF520350),
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _changePassword,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF520350),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                     ),
-                    child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                   ),
                   const SizedBox(width: 16),
-                  OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      side: BorderSide(color: Colors.grey[400]!),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        side: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                     ),
-                    child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                   ),
                 ],
               ),
