@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'login_page.dart';
 import 'main_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,8 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF520350)),
         useMaterial3: true,
-        textTheme: GoogleFonts.interTextTheme(),
-        fontFamily: GoogleFonts.inter().fontFamily,
+        fontFamily: 'Inter',
       ),
       home: const SplashScreen(),
     );
