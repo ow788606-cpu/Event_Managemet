@@ -60,10 +60,9 @@ class _AllClientsPageState extends State<AllClientsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
@@ -208,7 +207,6 @@ class _AllClientsPageState extends State<AllClientsPage> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
