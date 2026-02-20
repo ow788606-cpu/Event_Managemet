@@ -117,7 +117,7 @@ class _EventsPageState extends State<EventsPage> {
           onPressed: () => widget.scaffoldKey?.currentState?.openDrawer(),
         ),
         title: Text(
-          'Club Events',
+          'Eventam',
           style: TextStyle(
             fontSize: width * 0.05,
             fontWeight: FontWeight.bold,
