@@ -222,15 +222,15 @@ class _EventsPageState extends State<EventsPage> {
 
   Widget _buildEventCard(Event event, double width, double height) {
     return Container(
-      margin: EdgeInsets.only(bottom: height * 0.018),
+      margin: EdgeInsets.only(bottom: height * 0.02),
       decoration: BoxDecoration(
         color: const Color(0xFFE7DFE7),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(width * 0.04),
+            padding: EdgeInsets.fromLTRB(width * 0.04, width * 0.03, width * 0.04, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -245,11 +245,11 @@ class _EventsPageState extends State<EventsPage> {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.all(width * 0.02),
+                    padding: EdgeInsets.all(width * 0.025),
                     decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
                     child: Icon(
                       FavoritesManager.isFavorite(event.id) ? Icons.bookmark : Icons.bookmark_border,
-                      size: 20,
+                      size: 22,
                       color: const Color(0xFF520350),
                     ),
                   ),
@@ -258,53 +258,97 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+            padding: EdgeInsets.fromLTRB(width * 0.04, width * 0.02, width * 0.04, width * 0.04),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: width * 0.2,
-                  height: height * 0.1,
-                  decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(8)),
+                  width: width * 0.28,
+                  height: width * 0.28,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                     child: Image.network(
                       event.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: Colors.grey[300],
-                        child: const Icon(Icons.image, color: Colors.grey),
+                        child: const Icon(Icons.image, color: Colors.grey, size: 40),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: width * 0.03),
+                SizedBox(width: width * 0.04),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(event.title, style: TextStyle(fontSize: width * 0.035, fontWeight: FontWeight.w600, color: Colors.black, fontFamily: 'Inter'), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      SizedBox(height: height * 0.005),
+                      Text(
+                        event.title,
+                        style: TextStyle(
+                          fontSize: width * 0.045,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontFamily: 'Inter',
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: height * 0.012),
                       Row(
                         children: [
-                          Icon(Icons.calendar_today, size: width * 0.035, color: Colors.grey[700]),
-                          SizedBox(width: width * 0.015),
-                          Expanded(child: Text(event.date, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
+                          Icon(Icons.calendar_today, size: width * 0.04, color: Colors.grey[700]),
+                          SizedBox(width: width * 0.02),
+                          Expanded(
+                            child: Text(
+                              event.date,
+                              style: TextStyle(
+                                fontSize: width * 0.035,
+                                color: Colors.grey[700],
+                                fontFamily: 'Inter',
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
-                      SizedBox(height: height * 0.005),
+                      SizedBox(height: height * 0.008),
                       Row(
                         children: [
-                          Icon(Icons.access_time, size: width * 0.035, color: Colors.grey[700]),
-                          SizedBox(width: width * 0.015),
-                          Expanded(child: Text(event.time, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
+                          Icon(Icons.access_time, size: width * 0.04, color: Colors.grey[700]),
+                          SizedBox(width: width * 0.02),
+                          Expanded(
+                            child: Text(
+                              event.time,
+                              style: TextStyle(
+                                fontSize: width * 0.035,
+                                color: Colors.grey[700],
+                                fontFamily: 'Inter',
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
-                      SizedBox(height: height * 0.005),
+                      SizedBox(height: height * 0.008),
                       Row(
                         children: [
-                          Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[700]),
-                          SizedBox(width: width * 0.015),
-                          Expanded(child: Text(event.location, style: TextStyle(fontSize: width * 0.03, color: Colors.grey[700], fontFamily: 'Inter'), overflow: TextOverflow.ellipsis)),
+                          Icon(Icons.location_on, size: width * 0.04, color: Colors.grey[700]),
+                          SizedBox(width: width * 0.02),
+                          Expanded(
+                            child: Text(
+                              event.location,
+                              style: TextStyle(
+                                fontSize: width * 0.035,
+                                color: Colors.grey[700],
+                                fontFamily: 'Inter',
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -313,26 +357,41 @@ class _EventsPageState extends State<EventsPage> {
               ],
             ),
           ),
-          SizedBox(height: height * 0.015),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+            padding: EdgeInsets.fromLTRB(width * 0.04, 0, width * 0.04, width * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(event.price == 0 ? 'FREE' : '\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.045, fontWeight: FontWeight.bold, color: const Color(0xFF520350), fontFamily: 'Inter')),
+                Text(
+                  event.price == 0 ? 'FREE' : '\$${event.price.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: width * 0.055,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF520350),
+                    fontFamily: 'Inter',
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () => _showServiceDialog(event),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF520350),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.012),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: height * 0.015),
+                    elevation: 0,
                   ),
-                  child: Text('Request Service', style: TextStyle(color: Colors.white, fontSize: width * 0.035, fontFamily: 'Inter')),
+                  child: Text(
+                    'Request Service',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.038,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: height * 0.015),
         ],
       ),
     );
