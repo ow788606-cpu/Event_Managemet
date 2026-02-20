@@ -191,7 +191,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                           ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
-                            value: _selectedRole,
+                            initialValue: _selectedRole,
                             isExpanded: true,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.work_outline, color: Colors.grey[400]),

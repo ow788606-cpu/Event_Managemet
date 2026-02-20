@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_employee_page.dart';
+import 'edit_employee_page.dart';
 
 class AllEmployeesPage extends StatefulWidget {
   const AllEmployeesPage({super.key});
@@ -243,7 +244,14 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                             IconButton(
                               icon: const Icon(Icons.edit,
                                   size: 18, color: Color(0xFF520350)),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => EditEmployeePage(employee: employee),
+                                  ),
+                                );
+                              },
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete,

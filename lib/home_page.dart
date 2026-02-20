@@ -115,6 +115,7 @@ class HomePage extends StatelessWidget {
                 }),
               ],
             ),
+            _drawerItem(context, Icons.local_offer, 'Tags', () => Navigator.pop(context)),
             ExpansionTile(
               leading: const Icon(Icons.store, color: Colors.white),
               title: const Text('Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
