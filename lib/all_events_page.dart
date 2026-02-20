@@ -19,141 +19,139 @@ class _AllEventsPageState extends State<AllEventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[50],
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter')),
-              Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
-            ],
-          ),
-        ),
-        body: Column(
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.filter_list, size: 18),
-                      label: const Text('Filter', style: TextStyle(fontFamily: 'Inter')),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const AddEventPage()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF520350),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: const Text('Add New Event', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(
-                  child: DataTable(
-                    headingRowColor: WidgetStateProperty.all(Colors.purple[50]),
-                    columns: const [
-                DataColumn(label: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Event', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Client Details', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Event Type', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Budget', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Location', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Exp Guest', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Manager', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Tags', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold))),
-                    ],
-                    rows: _events.map((event) {
-                return DataRow(
-                  cells: [
-                    DataCell(Text(event['id'].toString())),
-                    DataCell(
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(event['name'], style: const TextStyle(fontWeight: FontWeight.w500)),
-                          Text(event['date'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-                        ],
-                      ),
-                    ),
-                    DataCell(
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(event['client']),
-                          Text(event['phone'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-                        ],
-                      ),
-                    ),
-                    DataCell(
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF3E5F5),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(event['type'], style: const TextStyle(color: Color(0xFF8B1874), fontSize: 12, fontWeight: FontWeight.w500)),
-                      ),
-                    ),
-                    DataCell(Text(event['budget'], style: const TextStyle(fontWeight: FontWeight.w500))),
-                    DataCell(Text(event['location'])),
-                    DataCell(Text(event['guests'])),
-                    DataCell(Text(event['manager'])),
-                    DataCell(
-                      event['tag'] != '-'
-                          ? Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: event['tagColor'].withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Text(event['tag'], style: TextStyle(color: event['tagColor'], fontSize: 12, fontWeight: FontWeight.w500)),
-                            )
-                          : const Text('-'),
-                    ),
-                    DataCell(
-                      Row(
-                        children: [
-                          IconButton(icon: const Icon(Icons.visibility, size: 18), onPressed: () {}),
-                          IconButton(icon: const Icon(Icons.edit, size: 18), onPressed: () {}),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              }).toList(),
-                  ),
-                ),
-              ),
-            ),
+            const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter')),
+            Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
           ],
         ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.filter_list, size: 18),
+                    label: const Text('Filter', style: TextStyle(fontFamily: 'Inter')),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const AddEventPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF520350),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Text('Add New Event', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: DataTable(
+                  headingRowColor: WidgetStateProperty.all(Colors.purple[50]),
+                  columns: const [
+                    DataColumn(label: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Event', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Client Details', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Event Type', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Budget', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Location', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Exp Guest', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Manager', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Tags', style: TextStyle(fontWeight: FontWeight.bold))),
+                    DataColumn(label: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold))),
+                  ],
+                  rows: _events.map((event) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text(event['id'].toString())),
+                        DataCell(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(event['name'], style: const TextStyle(fontWeight: FontWeight.w500)),
+                              Text(event['date'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                            ],
+                          ),
+                        ),
+                        DataCell(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(event['client']),
+                              Text(event['phone'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                            ],
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3E5F5),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(event['type'], style: const TextStyle(color: Color(0xFF8B1874), fontSize: 12, fontWeight: FontWeight.w500)),
+                          ),
+                        ),
+                        DataCell(Text(event['budget'], style: const TextStyle(fontWeight: FontWeight.w500))),
+                        DataCell(Text(event['location'])),
+                        DataCell(Text(event['guests'])),
+                        DataCell(Text(event['manager'])),
+                        DataCell(
+                          event['tag'] != '-'
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: event['tagColor'].withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Text(event['tag'], style: TextStyle(color: event['tagColor'], fontSize: 12, fontWeight: FontWeight.w500)),
+                                )
+                              : const Text('-'),
+                        ),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(icon: const Icon(Icons.visibility, size: 18), onPressed: () {}),
+                              IconButton(icon: const Icon(Icons.edit, size: 18), onPressed: () {}),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
