@@ -153,125 +153,125 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
             Container(
               color: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Search',
-                                style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w500)),
-                            const SizedBox(height: 6),
-                            TextField(
-                              controller: _searchController,
-                              decoration: InputDecoration(
-                                hintText: 'Search by name, email or phone',
-                                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
-                                prefixIcon:
-                                    Icon(Icons.search, color: Colors.grey[400], size: 20),
-                                filled: true,
-                                fillColor: Colors.grey[50],
-                                contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Colors.grey[300]!),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Colors.grey[300]!),
-                                ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 280,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Search',
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                          const SizedBox(height: 6),
+                          TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search by name, email or phone',
+                              hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
+                              prefixIcon:
+                                  Icon(Icons.search, color: Colors.grey[400], size: 20),
+                              filled: true,
+                              fillColor: Colors.grey[50],
+                              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Category',
-                                style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w500)),
-                            const SizedBox(height: 6),
-                            DropdownButtonFormField<String>(
-                              initialValue: _selectedCategory,
-                              hint: const Text('All', style: TextStyle(fontSize: 13)),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[50],
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Colors.grey[300]!),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(color: Colors.grey[300]!),
-                                ),
+                    ),
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: 250,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Category',
+                              style: TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                          const SizedBox(height: 6),
+                          DropdownButtonFormField<String>(
+                            initialValue: _selectedCategory,
+                            hint: const Text('All', style: TextStyle(fontSize: 13)),
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey[50],
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
                               ),
-                              items: [
-                                'All',
-                                'DJ',
-                                'Catering',
-                                'Decoration',
-                                'Photography',
-                                'Venue'
-                              ]
-                                  .map((category) => DropdownMenuItem(
-                                      value: category, child: Text(category, style: const TextStyle(fontSize: 13))))
-                                  .toList(),
-                              onChanged: (value) =>
-                                  setState(() => _selectedCategory = value),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.grey[300]!),
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 19),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF520350),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 28, vertical: 14),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
+                            items: [
+                              'All',
+                              'DJ',
+                              'Catering',
+                              'Decoration',
+                              'Photography',
+                              'Venue'
+                            ]
+                                .map((category) => DropdownMenuItem(
+                                    value: category, child: Text(category, style: const TextStyle(fontSize: 13))))
+                                .toList(),
+                            onChanged: (value) =>
+                                setState(() => _selectedCategory = value),
                           ),
-                          child: const Text('Apply',
-                              style: TextStyle(color: Colors.white, fontSize: 14)),
-                        ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 19),
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              _searchController.clear();
-                              _selectedCategory = null;
-                            });
-                          },
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 28, vertical: 14),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
-                            side: BorderSide(color: Colors.grey[400]!),
-                          ),
-                          child: Text('Reset',
-                              style: TextStyle(color: Colors.grey[700], fontSize: 14)),
+                    ),
+                    const SizedBox(width: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 19),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF520350),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 28, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
                         ),
+                        child: const Text('Apply',
+                            style: TextStyle(color: Colors.white, fontSize: 14)),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(width: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 19),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            _searchController.clear();
+                            _selectedCategory = null;
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 28, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          side: BorderSide(color: Colors.grey[400]!),
+                        ),
+                        child: Text('Reset',
+                            style: TextStyle(color: Colors.grey[700], fontSize: 14)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
