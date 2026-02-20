@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ManageProfilePage extends StatefulWidget {
@@ -76,6 +77,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
         title: const Text('Manage Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
       ),
       body: SingleChildScrollView(

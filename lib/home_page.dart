@@ -24,12 +24,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     
-    return SafeArea(
-      child: Scaffold(
-        key: scaffoldKey,
-        drawer: _buildDrawer(context),
-        body: EventsPage(scaffoldKey: scaffoldKey),
-      ),
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: _buildDrawer(context),
+      body: EventsPage(scaffoldKey: scaffoldKey),
     );
   }
 

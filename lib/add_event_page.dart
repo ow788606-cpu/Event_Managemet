@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AddEventPage extends StatefulWidget {
   const AddEventPage({super.key});
@@ -38,8 +39,7 @@ class _AddEventPageState extends State<AddEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Column(
@@ -52,6 +52,7 @@ class _AddEventPageState extends State<AddEventPage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -206,7 +207,6 @@ class _AddEventPageState extends State<AddEventPage> {
             ],
           ),
         ),
-      ),
       ),
     );
   }
