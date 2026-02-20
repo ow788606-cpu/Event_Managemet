@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'all_clients_page.dart';
+import 'services/database_service.dart';
 
 class AddClientPage extends StatefulWidget {
   const AddClientPage({super.key});
@@ -215,11 +216,27 @@ class _AddClientPageState extends State<AddClientPage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Client added successfully!')),
-                      );
+                      final navigator = Navigator.of(context);
+                      final messenger = ScaffoldMessenger.of(context);
+                      try {
+                        await DatabaseService.addClient({
+                          'name': _nameController.text,
+                          'email': _emailController.text,
+                          'phone': _phoneController.text,
+                          'city': _cityController.text,
+                          'state': _stateController.text,
+                        });
+                        messenger.showSnackBar(
+                          const SnackBar(content: Text('Client added successfully!')),
+                        );
+                        navigator.pop();
+                      } catch (e) {
+                        messenger.showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(

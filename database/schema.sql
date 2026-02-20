@@ -1,0 +1,68 @@
+-- Create database
+CREATE DATABASE IF NOT EXISTS event;
+USE event;
+
+-- Clients table
+CREATE TABLE IF NOT EXISTS clients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(20) NOT NULL,
+  city VARCHAR(100),
+  state VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Employees table
+CREATE TABLE IF NOT EXISTS employees (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  role VARCHAR(100) NOT NULL,
+  department VARCHAR(100),
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Vendors table
+CREATE TABLE IF NOT EXISTS vendors (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  business_name VARCHAR(255) NOT NULL,
+  contact_name VARCHAR(255) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  email VARCHAR(255),
+  address TEXT,
+  state VARCHAR(100),
+  city VARCHAR(100),
+  zip VARCHAR(20),
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tags table
+CREATE TABLE IF NOT EXISTS tags (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT,
+  color VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Events table
+CREATE TABLE IF NOT EXISTS events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_name VARCHAR(255) NOT NULL,
+  event_type VARCHAR(100) NOT NULL,
+  event_date DATE NOT NULL,
+  venue VARCHAR(255) NOT NULL,
+  client_name VARCHAR(255) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  email VARCHAR(255),
+  guest_count INT,
+  food_preference VARCHAR(50),
+  alcohol_served BOOLEAN DEFAULT FALSE,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

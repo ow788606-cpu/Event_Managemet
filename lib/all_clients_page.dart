@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_client_page.dart';
 import 'edit_client_page.dart';
+import 'services/database_service.dart';
 
 class AllClientsPage extends StatefulWidget {
   const AllClientsPage({super.key});
@@ -10,53 +11,32 @@ class AllClientsPage extends StatefulWidget {
 }
 
 class _AllClientsPageState extends State<AllClientsPage> {
-  final List<Map<String, dynamic>> _clients = [
-    {
-      'id': 1,
-      'name': 'Rahul Patel',
-      'email': 'rahulpatel005@gmail.com',
-      'phone': '9925991462',
-      'city': 'Ahmedabad',
-      'state': 'Gujarat',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 2,
-      'name': 'Priya Shah',
-      'email': 'priyashah@gmail.com',
-      'phone': '9876543210',
-      'city': 'Mumbai',
-      'state': 'Maharashtra',
-      'created': '15 Feb 2026'
-    },
-    {
-      'id': 3,
-      'name': 'Amit Kumar',
-      'email': 'amitkumar@gmail.com',
-      'phone': '9988776655',
-      'city': 'Delhi',
-      'state': 'Delhi',
-      'created': '20 Feb 2026'
-    },
-    {
-      'id': 4,
-      'name': 'Neha Mehta',
-      'email': 'nehamehta@gmail.com',
-      'phone': '9123456789',
-      'city': 'Pune',
-      'state': 'Maharashtra',
-      'created': '25 Feb 2026'
-    },
-    {
-      'id': 5,
-      'name': 'Rohan Desai',
-      'email': 'rohandesai@gmail.com',
-      'phone': '9898989898',
-      'city': 'Surat',
-      'state': 'Gujarat',
-      'created': '01 Mar 2026'
-    },
-  ];
+  List<Map<String, dynamic>> _clients = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClients();
+  }
+
+  Future<void> _loadClients() async {
+    setState(() => _isLoading = true);
+    try {
+      final clients = await DatabaseService.getClients();
+      setState(() {
+        _clients = clients;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading clients: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +80,9 @@ class _AllClientsPageState extends State<AllClientsPage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator(color: Color(0xFF520350)))
+            : SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Container(
             decoration: BoxDecoration(
@@ -153,17 +135,17 @@ class _AllClientsPageState extends State<AllClientsPage> {
                 rows: _clients.map((client) {
                   return DataRow(
                     cells: [
-                      DataCell(Text(client['id'].toString(),
+                      DataCell(Text((client['id'] ?? '').toString(),
                           style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(client['name'],
+                            Text(client['name'] ?? '',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Inter')),
-                            Text(client['email'],
+                            Text(client['email'] ?? '',
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
                           ],
@@ -175,16 +157,16 @@ class _AllClientsPageState extends State<AllClientsPage> {
                             Icon(Icons.phone,
                                 size: 14, color: Colors.grey[600]),
                             const SizedBox(width: 6),
-                            Text(client['phone'],
+                            Text(client['phone'] ?? '',
                                 style: const TextStyle(fontSize: 13, fontFamily: 'Inter')),
                           ],
                         ),
                       ),
-                      DataCell(Text(client['city'],
+                      DataCell(Text(client['city'] ?? '',
                           style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
-                      DataCell(Text(client['state'],
+                      DataCell(Text(client['state'] ?? '',
                           style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
-                      DataCell(Text(client['created'],
+                      DataCell(Text(client['created_at'] ?? '',
                           style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(
                         IconButton(
