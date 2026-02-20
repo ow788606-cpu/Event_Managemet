@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_client_page.dart';
+import 'edit_client_page.dart';
 
 class AllClientsPage extends StatefulWidget {
   const AllClientsPage({super.key});
@@ -189,7 +190,14 @@ class _AllClientsPageState extends State<AllClientsPage> {
                         IconButton(
                           icon: const Icon(Icons.edit,
                               size: 18, color: Color(0xFF520350)),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => EditClientPage(client: client),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
