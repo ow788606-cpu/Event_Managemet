@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'all_vendors_page.dart';
 
 class AddVendorPage extends StatefulWidget {
   const AddVendorPage({super.key});
@@ -40,7 +41,12 @@ class _AddVendorPageState extends State<AddVendorPage> {
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AllVendorsPage()),
+                  );
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

@@ -5,6 +5,7 @@ import 'add_event_page.dart';
 import 'add_client_page.dart';
 import 'add_vendor_page.dart';
 import 'all_clients_page.dart';
+import 'all_vendors_page.dart';
 import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
@@ -124,6 +125,7 @@ class HomePage extends StatelessWidget {
                 }),
                 _drawerSubItem(context, Icons.storefront, 'All Vendors', () {
                   Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const AllVendorsPage()));
                 }),
               ],
             ),
