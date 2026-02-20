@@ -41,11 +41,12 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.06),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               SizedBox(height: height * 0.03),
               Text(
                 'Create your new\naccount',
@@ -242,12 +243,12 @@ class _SignupPageState extends State<SignupPage> {
                   _socialButton(Icons.apple, Colors.black),
                 ],
               ),
-              Spacer(),
+              SizedBox(height: height * 0.02),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Don\'t have an account? ',
+                    Text('Already have an account? ',
                         style: TextStyle(
                             fontFamily: 'Inter', fontSize: width * 0.037)),
                     GestureDetector(
@@ -268,6 +269,7 @@ class _SignupPageState extends State<SignupPage> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
