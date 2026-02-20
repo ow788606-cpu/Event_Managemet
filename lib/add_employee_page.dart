@@ -32,8 +32,8 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Add Employee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Create a new employee under your organization', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Add Employee', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Create a new employee under your organization', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -50,7 +50,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Employees', style: TextStyle(color: Colors.white)),
+                child: const Text('All Employees', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -65,7 +65,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                 RichText(
                   text: const TextSpan(
                     text: 'Full Name ',
-                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                     children: [
                       TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                     ],
@@ -100,7 +100,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Email ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -136,7 +136,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Phone ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -176,7 +176,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Role ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -185,7 +185,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedRole,
-                            hint: const Text('Select Role'),
+                            hint: const Text('Select Role', style: TextStyle(fontFamily: 'Inter')),
                             isExpanded: true,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.work_outline, color: Colors.grey[400]),
@@ -201,7 +201,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                               ),
                             ),
                             items: ['Manager', 'Coordinator', 'Assistant', 'Admin']
-                                .map((role) => DropdownMenuItem(value: role, child: Text(role)))
+                                .map((role) => DropdownMenuItem(value: role, child: Text(role, style: const TextStyle(fontFamily: 'Inter'))))
                                 .toList(),
                             onChanged: (value) => setState(() => _selectedRole = value),
                           ),
@@ -213,7 +213,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Department', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Department', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _departmentController,
@@ -248,7 +248,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Password ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -292,7 +292,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Confirm Password ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -344,7 +344,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text('Add Employee', style: TextStyle(color: Colors.white, fontSize: 16)),
+                  child: const Text('Add Employee', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                 ),
               ],
             ),

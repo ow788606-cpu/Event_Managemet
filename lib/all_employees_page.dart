@@ -89,9 +89,10 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+                      color: Colors.black,
+                      fontFamily: 'Inter')),
               Text('Manage your organization team members.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -110,7 +111,7 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 child: const Text('Add Employees',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],

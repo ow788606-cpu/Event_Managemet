@@ -29,8 +29,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
-              Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('All Events', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black, fontFamily: 'Inter')),
+              Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
         ),
@@ -46,7 +46,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     OutlinedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.filter_list, size: 18),
-                      label: const Text('Filter'),
+                      label: const Text('Filter', style: TextStyle(fontFamily: 'Inter')),
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.grey),
                       ),
@@ -63,7 +63,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                         backgroundColor: const Color(0xFF520350),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Add New Event', style: TextStyle(color: Colors.white)),
+                      child: const Text('Add New Event', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
                     ),
                   ],
                 ),

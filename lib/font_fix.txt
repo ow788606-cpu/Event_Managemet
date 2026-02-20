@@ -1,0 +1,17 @@
+Files that need fontFamily: 'Inter' added to all TextStyle:
+
+1. completed_events_page.dart
+2. upcoming_events_page.dart  
+3. tags_page.dart
+4. all_employees_page.dart
+5. all_events_page.dart
+6. all_vendors_page.dart
+7. edit_client_page.dart
+8. edit_employee_page.dart
+9. edit_tag_page.dart
+10. edit_vendor_page.dart
+
+Pattern to find: TextStyle(
+Pattern to replace with: TextStyle(fontFamily: 'Inter',
+
+OR add fontFamily: 'Inter' as last parameter before closing parenthesis

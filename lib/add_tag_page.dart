@@ -41,8 +41,8 @@ class _AddTagPageState extends State<AddTagPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Add Tag', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Create a new tag for better organization.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Add Tag', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Create a new tag for better organization.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -56,7 +56,7 @@ class _AddTagPageState extends State<AddTagPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Tags', style: TextStyle(color: Colors.white)),
+                child: const Text('All Tags', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -71,7 +71,7 @@ class _AddTagPageState extends State<AddTagPage> {
                 RichText(
                   text: const TextSpan(
                     text: 'Tag Name ',
-                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                     children: [
                       TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                     ],
@@ -96,7 +96,7 @@ class _AddTagPageState extends State<AddTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _descriptionController,
@@ -117,7 +117,7 @@ class _AddTagPageState extends State<AddTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -164,7 +164,7 @@ class _AddTagPageState extends State<AddTagPage> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text('Pick a color that will be shown as a swatch in the list.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                Text('Pick a color that will be shown as a swatch in the list.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
                 const SizedBox(height: 16),
                 Wrap(
                   spacing: 12,
@@ -210,7 +210,7 @@ class _AddTagPageState extends State<AddTagPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Add Tag', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text('Add Tag', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                     ),
                     const SizedBox(width: 16),
                     OutlinedButton(
@@ -222,7 +222,7 @@ class _AddTagPageState extends State<AddTagPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         side: BorderSide(color: Colors.grey[400]!),
                       ),
-                      child: Text('Close', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+                      child: Text('Close', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                     ),
                   ],
                 ),

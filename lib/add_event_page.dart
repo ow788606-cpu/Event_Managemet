@@ -45,8 +45,8 @@ class _AddEventPageState extends State<AddEventPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Add Event', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            Text('Create a new event.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+            const Text('Add Event', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+            Text('Create a new event.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
           ],
         ),
         backgroundColor: Colors.white,
@@ -62,7 +62,7 @@ class _AddEventPageState extends State<AddEventPage> {
                 backgroundColor: const Color(0xFF520350),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('All Events', style: TextStyle(color: Colors.white)),
+              child: const Text('All Events', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
             ),
           ),
         ],
@@ -202,7 +202,7 @@ class _AddEventPageState extends State<AddEventPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('Create Event', style: TextStyle(color: Colors.white, fontSize: 16)),
+                child: const Text('Create Event', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
               ),
             ],
           ),
@@ -215,7 +215,7 @@ class _AddEventPageState extends State<AddEventPage> {
     return RichText(
       text: TextSpan(
         text: text,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black87),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black87, fontFamily: 'Inter'),
         children: required
             ? [const TextSpan(text: ' *', style: TextStyle(color: Colors.red))]
             : [],
@@ -276,7 +276,7 @@ class _AddEventPageState extends State<AddEventPage> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
       items: ['Wedding', 'Corporate', 'Birthday', 'Conference']
-          .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+          .map((type) => DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontFamily: 'Inter'))))
           .toList(),
       onChanged: (value) => setState(() => _eventType = value),
     );
@@ -313,7 +313,7 @@ class _AddEventPageState extends State<AddEventPage> {
         ),
         child: Text(
           (isStart ? _startDate : _endDate)?.toString().split(' ')[0] ?? hint,
-          style: TextStyle(color: (isStart ? _startDate : _endDate) == null ? Colors.grey[400] : Colors.black),
+          style: TextStyle(color: (isStart ? _startDate : _endDate) == null ? Colors.grey[400] : Colors.black, fontFamily: 'Inter'),
         ),
       ),
     );
@@ -385,7 +385,7 @@ class _AddEventPageState extends State<AddEventPage> {
                 : null,
           ),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 14)),
+          Text(label, style: const TextStyle(fontSize: 14, fontFamily: 'Inter')),
         ],
       ),
     );

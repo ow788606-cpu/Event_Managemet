@@ -35,7 +35,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
         appBar: AppBar(
           backgroundColor: const Color(0xFF520350),
           elevation: 0,
-          title: const Text('My Services', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          title: const Text('My Services', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
           bottom: TabBar(
             controller: _tabController,
             indicatorColor: const Color(0xFFE7DFE7),
@@ -48,6 +48,8 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
               Tab(text: 'Completed (${completed.length})'),
               Tab(text: 'Cancelled (${cancelled.length})'),
             ],
+            labelStyle: const TextStyle(fontFamily: 'Inter'),
+            unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
           ),
         ),
         body: TabBarView(
@@ -71,7 +73,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           children: [
             Icon(Icons.design_services, size: width * 0.2, color: Colors.grey[300]),
             SizedBox(height: height * 0.02),
-            Text('No ${status.name} requests', style: TextStyle(fontSize: width * 0.045, color: Colors.grey)),
+            Text('No ${status.name} requests', style: TextStyle(fontSize: width * 0.045, color: Colors.grey, fontFamily: 'Inter')),
           ],
         ),
       );
@@ -107,13 +109,13 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                   children: [
                     const Icon(Icons.receipt_long, color: Colors.white, size: 20),
                     SizedBox(width: width * 0.02),
-                    Text('Request #${request.requestId}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
+                    Text('Request #${request.requestId}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white, fontFamily: 'Inter')),
                   ],
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.005),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
-                  child: Text(request.status.name.toUpperCase(), style: const TextStyle(color: Color(0xFF520350), fontSize: 11, fontWeight: FontWeight.bold)),
+                  child: Text(request.status.name.toUpperCase(), style: const TextStyle(color: Color(0xFF520350), fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 ),
               ],
             ),
@@ -138,13 +140,13 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(request.service.title, style: TextStyle(fontSize: width * 0.042, fontWeight: FontWeight.bold)),
+                          Text(request.service.title, style: TextStyle(fontSize: width * 0.042, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           SizedBox(height: height * 0.008),
                           Row(
                             children: [
                               Icon(Icons.category, size: width * 0.035, color: Colors.grey[600]),
                               SizedBox(width: width * 0.01),
-                              Text(request.serviceType, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
+                              Text(request.serviceType, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600], fontFamily: 'Inter')),
                             ],
                           ),
                           SizedBox(height: height * 0.005),
@@ -152,7 +154,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                             children: [
                               Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[600]),
                               SizedBox(width: width * 0.01),
-                              Text(request.service.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
+                              Text(request.service.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600], fontFamily: 'Inter')),
                             ],
                           ),
                         ],
@@ -169,7 +171,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                       children: [
                         Icon(Icons.note, size: width * 0.04, color: const Color(0xFF520350)),
                         SizedBox(width: width * 0.02),
-                        Expanded(child: Text(request.notes, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700]))),
+                        Expanded(child: Text(request.notes, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[700], fontFamily: 'Inter'))),
                       ],
                     ),
                   ),
@@ -181,7 +183,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                     child: OutlinedButton.icon(
                       onPressed: () => _cancelRequest(request),
                       icon: const Icon(Icons.cancel, size: 18),
-                      label: const Text('Cancel Request'),
+                      label: const Text('Cancel Request', style: TextStyle(fontFamily: 'Inter')),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: const Color(0xFF520350),
                         side: const BorderSide(color: Color(0xFF520350), width: 2),
@@ -201,17 +203,17 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Cancel Request'),
-        content: const Text('Are you sure you want to cancel this service request?'),
+        title: const Text('Cancel Request', style: TextStyle(fontFamily: 'Inter')),
+        content: const Text('Are you sure you want to cancel this service request?', style: TextStyle(fontFamily: 'Inter')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No', style: TextStyle(fontFamily: 'Inter'))),
           TextButton(
             onPressed: () {
               setState(() => ServicesManager.cancelRequest(request.requestId));
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Request cancelled successfully')));
             },
-            child: const Text('Yes, Cancel', style: TextStyle(color: Color(0xFF520350))),
+            child: const Text('Yes, Cancel', style: TextStyle(color: Color(0xFF520350), fontFamily: 'Inter')),
           ),
         ],
       ),

@@ -74,9 +74,10 @@ class _AllClientsPageState extends State<AllClientsPage> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+                      color: Colors.black,
+                      fontFamily: 'Inter')),
               Text('Manage your organization clients.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -95,7 +96,7 @@ class _AllClientsPageState extends State<AllClientsPage> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 child: const Text('Add Client',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -124,37 +125,37 @@ class _AllClientsPageState extends State<AllClientsPage> {
                   DataColumn(
                       label: Text('#',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('Client',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('Contact',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('City',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('State',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('Created',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                   DataColumn(
                       label: Text('Action',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
+                              fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
                 ],
                 rows: _clients.map((client) {
                   return DataRow(
                     cells: [
                       DataCell(Text(client['id'].toString(),
-                          style: const TextStyle(fontSize: 13))),
+                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,10 +163,10 @@ class _AllClientsPageState extends State<AllClientsPage> {
                           children: [
                             Text(client['name'],
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 14)),
+                                    fontWeight: FontWeight.w600, fontSize: 14, fontFamily: 'Inter')),
                             Text(client['email'],
                                 style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[600])),
+                                    fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
                           ],
                         ),
                       ),
@@ -176,16 +177,16 @@ class _AllClientsPageState extends State<AllClientsPage> {
                                 size: 14, color: Colors.grey[600]),
                             const SizedBox(width: 6),
                             Text(client['phone'],
-                                style: const TextStyle(fontSize: 13)),
+                                style: const TextStyle(fontSize: 13, fontFamily: 'Inter')),
                           ],
                         ),
                       ),
                       DataCell(Text(client['city'],
-                          style: const TextStyle(fontSize: 13))),
+                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(Text(client['state'],
-                          style: const TextStyle(fontSize: 13))),
+                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(Text(client['created'],
-                          style: const TextStyle(fontSize: 13))),
+                          style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))),
                       DataCell(
                         IconButton(
                           icon: const Icon(Icons.edit,

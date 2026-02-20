@@ -33,8 +33,8 @@ class _AddVendorPageState extends State<AddVendorPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('New Vendors', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Create a new vendor profile.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('New Vendors', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Create a new vendor profile.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -51,7 +51,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Vendors', style: TextStyle(color: Colors.white)),
+                child: const Text('All Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -72,7 +72,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Company Name ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -108,7 +108,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Category ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -130,7 +130,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                               ),
                             ),
                             items: ['Event Type', 'Catering', 'Decoration', 'Photography', 'Venue']
-                                .map((category) => DropdownMenuItem(value: category, child: Text(category)))
+                                .map((category) => DropdownMenuItem(value: category, child: Text(category, style: const TextStyle(fontFamily: 'Inter'))))
                                 .toList(),
                             onChanged: (value) => setState(() => _selectedCategory = value),
                           ),
@@ -149,7 +149,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Contact Person ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -185,7 +185,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Contact Number ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -222,7 +222,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emailController,
@@ -250,7 +250,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Address', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Address', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _addressController,
@@ -282,7 +282,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _stateController,
@@ -310,7 +310,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _cityController,
@@ -339,7 +339,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Zip', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                    const Text('Zip', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _zipController,
@@ -365,7 +365,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Notes', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                    const Text('Notes', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _notesController,
@@ -405,7 +405,7 @@ class _AddVendorPageState extends State<AddVendorPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text('Add Vendor', style: TextStyle(color: Colors.white, fontSize: 16)),
+                  child: const Text('Add Vendor', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                 ),
               ],
             ),

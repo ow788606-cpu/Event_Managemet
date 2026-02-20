@@ -42,6 +42,8 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(icon: Icon(Icons.design_services), label: 'Services'),
         ],
+        selectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
+        unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
       ),
     );
   }

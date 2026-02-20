@@ -130,8 +130,8 @@ class _EventsPageState extends State<EventsPage> {
           PopupMenuButton(
             icon: const Icon(Icons.more_vert, color: Colors.white),
             itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(child: Text('Filter')),
-              const PopupMenuItem(child: Text('Sort')),
+              const PopupMenuItem(child: Text('Filter', style: TextStyle(fontFamily: 'Inter'))),
+              const PopupMenuItem(child: Text('Sort', style: TextStyle(fontFamily: 'Inter'))),
             ],
           ),
         ],
@@ -405,28 +405,29 @@ class _EventsPageState extends State<EventsPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Request Service'),
+          title: const Text('Request Service', style: TextStyle(fontFamily: 'Inter')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(event.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(event.title, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 initialValue: selectedType,
                 decoration: const InputDecoration(labelText: 'Service Type', border: OutlineInputBorder()),
-                items: ['Standard', 'Premium', 'VIP'].map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
+                items: ['Standard', 'Premium', 'VIP'].map((type) => DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontFamily: 'Inter')))).toList(),
                 onChanged: (value) => setDialogState(() => selectedType = value!),
               ),
               const SizedBox(height: 15),
               TextField(
                 controller: notesController,
                 decoration: const InputDecoration(labelText: 'Additional Notes', border: OutlineInputBorder()),
+                style: const TextStyle(fontFamily: 'Inter'),
                 maxLines: 3,
               ),
             ],
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel', style: TextStyle(fontFamily: 'Inter'))),
             ElevatedButton(
               onPressed: () {
                 final requestId = ServicesManager.addRequest(event, selectedType, notesController.text);
@@ -436,7 +437,7 @@ class _EventsPageState extends State<EventsPage> {
                 );
               },
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350)),
-              child: const Text('Submit Request', style: TextStyle(color: Colors.white)),
+              child: const Text('Submit Request', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
             ),
           ],
         ),

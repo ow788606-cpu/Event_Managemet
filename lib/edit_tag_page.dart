@@ -51,8 +51,8 @@ class _EditTagPageState extends State<EditTagPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Edit Tag ${widget.tag['name']}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Update tag details.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              Text('Edit Tag ${widget.tag['name']}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Update tag details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -66,7 +66,7 @@ class _EditTagPageState extends State<EditTagPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Tags', style: TextStyle(color: Colors.white)),
+                child: const Text('All Tags', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -78,7 +78,7 @@ class _EditTagPageState extends State<EditTagPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Tag Name', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                const Text('Tag Name', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _tagNameController,
@@ -98,7 +98,7 @@ class _EditTagPageState extends State<EditTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _descriptionController,
@@ -119,7 +119,7 @@ class _EditTagPageState extends State<EditTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -210,7 +210,7 @@ class _EditTagPageState extends State<EditTagPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Update', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text('Update', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                     ),
                     const SizedBox(width: 16),
                     OutlinedButton(
@@ -222,7 +222,7 @@ class _EditTagPageState extends State<EditTagPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         side: BorderSide(color: Colors.grey[400]!),
                       ),
-                      child: Text('Close', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+                      child: Text('Close', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                     ),
                   ],
                 ),

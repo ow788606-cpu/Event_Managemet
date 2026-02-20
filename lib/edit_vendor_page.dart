@@ -48,8 +48,8 @@ class _EditVendorPageState extends State<EditVendorPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Edit Vendor', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Update vendor details.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Edit Vendor', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Update vendor details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -63,7 +63,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Vendors', style: TextStyle(color: Colors.white)),
+                child: const Text('All Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -84,7 +84,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Company Name ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -120,7 +120,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Category ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -143,7 +143,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                               ),
                             ),
                             items: ['Event Type', 'Catering', 'Decoration', 'Photography', 'Venue', 'DJ', 'Other', 'Honeymoon', 'License & Permission', 'Pandit / Priest', 'Florist', 'Theme Setup', 'Fireworks', 'Bartender']
-                                .map((category) => DropdownMenuItem(value: category, child: Text(category, overflow: TextOverflow.ellipsis)))
+                                .map((category) => DropdownMenuItem(value: category, child: Text(category, overflow: TextOverflow.ellipsis, style: const TextStyle(fontFamily: 'Inter'))))
                                 .toList(),
                             onChanged: (value) => setState(() => _selectedCategory = value),
                           ),
@@ -235,7 +235,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emailController,
@@ -263,7 +263,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Address', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Address', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _addressController,
@@ -295,7 +295,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _stateController,
@@ -323,7 +323,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _cityController,
@@ -352,7 +352,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Zip', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                    const Text('Zip', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _zipController,
@@ -378,7 +378,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Notes', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                    const Text('Notes', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: _notesController,
@@ -421,7 +421,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Update Vendor', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text('Update Vendor', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                     ),
                     const SizedBox(width: 16),
                     OutlinedButton(
@@ -433,7 +433,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         side: BorderSide(color: Colors.grey[400]!),
                       ),
-                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                     ),
                   ],
                 ),

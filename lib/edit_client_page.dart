@@ -38,8 +38,8 @@ class _EditClientPageState extends State<EditClientPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Edit Client', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Update client details.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Edit Client', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Update client details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -53,7 +53,7 @@ class _EditClientPageState extends State<EditClientPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Clients', style: TextStyle(color: Colors.white)),
+                child: const Text('All Clients', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -68,7 +68,7 @@ class _EditClientPageState extends State<EditClientPage> {
                 RichText(
                   text: const TextSpan(
                     text: 'Client Name ',
-                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                     children: [
                       TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                     ],
@@ -100,7 +100,7 @@ class _EditClientPageState extends State<EditClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emailController,
@@ -131,7 +131,7 @@ class _EditClientPageState extends State<EditClientPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Phone ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -168,7 +168,7 @@ class _EditClientPageState extends State<EditClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _cityController,
@@ -196,7 +196,7 @@ class _EditClientPageState extends State<EditClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _stateController,
@@ -238,7 +238,7 @@ class _EditClientPageState extends State<EditClientPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Update Client', style: TextStyle(color: Colors.white, fontSize: 16)),
+                      child: const Text('Update Client', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                     ),
                     const SizedBox(width: 16),
                     OutlinedButton(
@@ -250,7 +250,7 @@ class _EditClientPageState extends State<EditClientPage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         side: BorderSide(color: Colors.grey[400]!),
                       ),
-                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                     ),
                   ],
                 ),

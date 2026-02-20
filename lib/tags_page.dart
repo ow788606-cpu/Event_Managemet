@@ -106,10 +106,11 @@ class _TagsPageState extends State<TagsPage> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+                      color: Colors.black,
+                      fontFamily: 'Inter')),
               Text(
                   'Organize leads with tags for easier tracking and better reports.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -128,7 +129,7 @@ class _TagsPageState extends State<TagsPage> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 child: const Text('Add Tag',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],

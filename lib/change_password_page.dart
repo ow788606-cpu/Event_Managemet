@@ -66,7 +66,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
-        title: const Text('Change Password', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
+        title: const Text('Change Password', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -75,15 +75,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Update your password securely.', style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+              Text('Update your password securely.', style: TextStyle(fontSize: 14, color: Colors.grey[600], fontFamily: 'Inter')),
               const SizedBox(height: 30),
-              const Text('Current Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              const Text('Current Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _currentPasswordController,
                 obscureText: _obscureCurrentPassword,
                 decoration: InputDecoration(
                   hintText: 'Enter current password',
+                  hintStyle: const TextStyle(fontFamily: 'Inter'),
                   filled: true,
                   fillColor: Colors.white,
                   suffixIcon: IconButton(
@@ -93,16 +94,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                 ),
+                style: const TextStyle(fontFamily: 'Inter'),
                 validator: (value) => value?.isEmpty ?? true ? 'Please enter current password' : null,
               ),
               const SizedBox(height: 20),
-              const Text('New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              const Text('New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _newPasswordController,
                 obscureText: _obscureNewPassword,
                 decoration: InputDecoration(
                   hintText: 'Enter new password',
+                  hintStyle: const TextStyle(fontFamily: 'Inter'),
                   filled: true,
                   fillColor: Colors.white,
                   suffixIcon: IconButton(
@@ -112,6 +115,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                 ),
+                style: const TextStyle(fontFamily: 'Inter'),
                 validator: (value) {
                   if (value?.isEmpty ?? true) return 'Please enter new password';
                   if (value!.length < 6) return 'Minimum 6 characters';
@@ -119,15 +123,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 },
               ),
               const SizedBox(height: 8),
-              Text('Minimum 6 characters', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              Text('Minimum 6 characters', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
               const SizedBox(height: 20),
-              const Text('Confirm New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              const Text('Confirm New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirmPassword,
                 decoration: InputDecoration(
                   hintText: 'Confirm new password',
+                  hintStyle: const TextStyle(fontFamily: 'Inter'),
                   filled: true,
                   fillColor: Colors.white,
                   suffixIcon: IconButton(
@@ -137,6 +142,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                 ),
+                style: const TextStyle(fontFamily: 'Inter'),
                 validator: (value) => value?.isEmpty ?? true ? 'Please confirm password' : null,
               ),
               const SizedBox(height: 30),
@@ -149,7 +155,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
-                    child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16)),
+                    child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                   ),
                   const SizedBox(width: 16),
                   OutlinedButton(
@@ -159,7 +165,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       side: BorderSide(color: Colors.grey[400]!),
                     ),
-                    child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16)),
+                    child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
                   ),
                 ],
               ),

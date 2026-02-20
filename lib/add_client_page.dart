@@ -28,8 +28,8 @@ class _AddClientPageState extends State<AddClientPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Add Client', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350))),
-              Text('Create new client profile.', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              const Text('Add Client', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Create new client profile.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -46,7 +46,7 @@ class _AddClientPageState extends State<AddClientPage> {
                   backgroundColor: const Color(0xFF520350),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text('All Clients', style: TextStyle(color: Colors.white)),
+                child: const Text('All Clients', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -61,7 +61,7 @@ class _AddClientPageState extends State<AddClientPage> {
                 RichText(
                   text: const TextSpan(
                     text: 'Client Name ',
-                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                     children: [
                       TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                     ],
@@ -93,7 +93,7 @@ class _AddClientPageState extends State<AddClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('Email', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emailController,
@@ -124,7 +124,7 @@ class _AddClientPageState extends State<AddClientPage> {
                           RichText(
                             text: const TextSpan(
                               text: 'Phone ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
                               children: [
                                 TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                               ],
@@ -161,7 +161,7 @@ class _AddClientPageState extends State<AddClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('City', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _cityController,
@@ -189,7 +189,7 @@ class _AddClientPageState extends State<AddClientPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500)),
+                          const Text('State', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _stateController,
@@ -228,7 +228,7 @@ class _AddClientPageState extends State<AddClientPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text('Add Client', style: TextStyle(color: Colors.white, fontSize: 16)),
+                  child: const Text('Add Client', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
                 ),
               ],
             ),

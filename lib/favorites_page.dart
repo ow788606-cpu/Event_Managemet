@@ -36,7 +36,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
-        title: const Text('My Favorites', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text('My Favorites', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep, color: Colors.white),
@@ -45,16 +45,16 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Clear All'),
-                    content: const Text('Remove all favorites?'),
+                    title: const Text('Clear All', style: TextStyle(fontFamily: 'Inter')),
+                    content: const Text('Remove all favorites?', style: TextStyle(fontFamily: 'Inter')),
                     actions: [
-                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel', style: TextStyle(fontFamily: 'Inter'))),
                       TextButton(
                         onPressed: () {
                           setState(() => FavoritesManager.clearAll());
                           Navigator.pop(context);
                         },
-                        child: const Text('Clear', style: TextStyle(color: Colors.red)),
+                        child: const Text('Clear', style: TextStyle(color: Colors.red, fontFamily: 'Inter')),
                       ),
                     ],
                   ),
@@ -76,11 +76,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   onChanged: (value) => setState(() => _searchQuery = value),
                   decoration: InputDecoration(
                     hintText: 'Search favorites...',
+                    hintStyle: const TextStyle(fontFamily: 'Inter'),
                     filled: true,
                     fillColor: Colors.white,
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                   ),
+                  style: const TextStyle(fontFamily: 'Inter'),
                 ),
                 SizedBox(height: height * 0.015),
                 Row(
@@ -103,6 +105,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                               color: isSelected ? Colors.black : Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: width * 0.035,
+                              fontFamily: 'Inter',
                             ),
                           ),
                         ),
@@ -123,7 +126,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         SizedBox(height: height * 0.02),
                         Text(
                           favorites.isEmpty ? 'No favorites yet' : 'No results found',
-                          style: TextStyle(fontSize: width * 0.045, color: Colors.grey),
+                          style: TextStyle(fontSize: width * 0.045, color: Colors.grey, fontFamily: 'Inter'),
                         ),
                       ],
                     ),
@@ -176,13 +179,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(event.title, style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold)),
+                  Text(event.title, style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                   SizedBox(height: height * 0.005),
                   Row(
                     children: [
                       Icon(Icons.calendar_today, size: width * 0.035, color: Colors.grey[600]),
                       SizedBox(width: width * 0.01),
-                      Text(event.date, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
+                      Text(event.date, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600], fontFamily: 'Inter')),
                     ],
                   ),
                   SizedBox(height: height * 0.003),
@@ -190,11 +193,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     children: [
                       Icon(Icons.location_on, size: width * 0.035, color: Colors.grey[600]),
                       SizedBox(width: width * 0.01),
-                      Text(event.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600])),
+                      Text(event.location, style: TextStyle(fontSize: width * 0.032, color: Colors.grey[600], fontFamily: 'Inter')),
                     ],
                   ),
                   SizedBox(height: height * 0.005),
-                  Text('\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, color: const Color(0xFF520350))),
+                  Text('\$${event.price.toStringAsFixed(2)}', style: TextStyle(fontSize: width * 0.04, fontWeight: FontWeight.bold, color: const Color(0xFF520350), fontFamily: 'Inter')),
                 ],
               ),
             ),

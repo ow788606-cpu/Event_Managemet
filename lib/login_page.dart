@@ -65,7 +65,8 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: height * 0.04),
                 Text('Email Address',
                     style: TextStyle(
-                        fontSize: width * 0.037, fontFamily: 'Inter')),
+                        fontSize: width * 0.037,
+                        fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   controller: _emailController,
@@ -86,7 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: height * 0.02),
                 Text('Password',
                     style: TextStyle(
-                        fontSize: width * 0.037, fontFamily: 'Inter')),
+                        fontSize: width * 0.037,
+                        fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
                 TextField(
                   obscureText: _obscurePassword,
@@ -120,8 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                       'Forgot password?',
                       style: TextStyle(
                           color: const Color(0xFF520350),
-                          fontFamily: 'Inter',
-                          fontSize: width * 0.037),
+                          fontSize: width * 0.037,
+                          fontFamily: 'Inter'),
                     ),
                   ),
                 ),
@@ -170,8 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text('Or sign in with',
                         style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: 'Inter',
-                            fontSize: width * 0.037))),
+                            fontSize: width * 0.037,
+                            fontFamily: 'Inter'))),
                 SizedBox(height: height * 0.02),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text('Don\'t have an account? ',
                           style: TextStyle(
-                              fontFamily: 'Inter', fontSize: width * 0.037)),
+                              fontSize: width * 0.037,
+                              fontFamily: 'Inter')),
                       GestureDetector(
                         onTap: () => Navigator.push(
                             context,
@@ -201,8 +204,8 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                               color: const Color(0xFF520350),
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Inter',
-                              fontSize: width * 0.037),
+                              fontSize: width * 0.037,
+                              fontFamily: 'Inter'),
                         ),
                       ),
                     ],

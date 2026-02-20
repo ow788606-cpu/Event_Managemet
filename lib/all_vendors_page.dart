@@ -122,9 +122,10 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black)),
+                      color: Colors.black,
+                      fontFamily: 'Inter')),
               Text('View and manage all vendors.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
           actions: [
@@ -143,7 +144,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                       borderRadius: BorderRadius.circular(8)),
                 ),
                 child: const Text('Add Vendor',
-                    style: TextStyle(color: Colors.white)),
+                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
               ),
             ),
           ],
@@ -164,7 +165,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                         children: [
                           const Text('Search',
                               style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                                  fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 6),
                           TextField(
                             controller: _searchController,
@@ -197,11 +198,11 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                         children: [
                           const Text('Category',
                               style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w500)),
+                                  fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
                           const SizedBox(height: 6),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedCategory,
-                            hint: const Text('All', style: TextStyle(fontSize: 13)),
+                            hint: const Text('All', style: TextStyle(fontSize: 13, fontFamily: 'Inter')),
                             isExpanded: true,
                             decoration: InputDecoration(
                               filled: true,
@@ -225,7 +226,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                               'Venue'
                             ]
                                 .map((category) => DropdownMenuItem(
-                                    value: category, child: Text(category, style: const TextStyle(fontSize: 13))))
+                                    value: category, child: Text(category, style: const TextStyle(fontSize: 13, fontFamily: 'Inter'))))
                                 .toList(),
                             onChanged: (value) =>
                                 setState(() => _selectedCategory = value),
@@ -246,7 +247,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                               borderRadius: BorderRadius.circular(8)),
                         ),
                         child: const Text('Apply',
-                            style: TextStyle(color: Colors.white, fontSize: 14)),
+                            style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Inter')),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -267,7 +268,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                           side: BorderSide(color: Colors.grey[400]!),
                         ),
                         child: Text('Reset',
-                            style: TextStyle(color: Colors.grey[700], fontSize: 14)),
+                            style: TextStyle(color: Colors.grey[700], fontSize: 14, fontFamily: 'Inter')),
                       ),
                     ),
                   ],
