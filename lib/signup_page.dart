@@ -195,6 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool('isLoggedIn', true);
                         await prefs.setString('userName', username);
+                        await prefs.setString('userEmail', email);
                         
                         if (!context.mounted) return;
                         Navigator.pushReplacement(

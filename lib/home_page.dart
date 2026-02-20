@@ -12,6 +12,7 @@ import 'tags_page.dart';
 import 'upcoming_events_page.dart';
 import 'all_events_page.dart';
 import 'completed_events_page.dart';
+import 'manage_profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
@@ -153,7 +154,22 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const Divider(color: Colors.white24),
-            _drawerItem(context, Icons.settings, 'Settings', () => Navigator.pop(context)),
+            ExpansionTile(
+              leading: const Icon(Icons.person, color: Colors.white),
+              title: const Text('Profile', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              iconColor: Colors.white,
+              collapsedIconColor: Colors.white,
+              children: [
+                _drawerSubItem(context, Icons.manage_accounts, 'Manage Profile', () {
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const ManageProfilePage()));
+                }),
+                _drawerSubItem(context, Icons.lock, 'Change Password', () {
+                  Navigator.pop(context);
+                  // TODO: Navigate to Change Password page
+                }),
+              ],
+            ),
             _drawerItem(context, Icons.logout, 'Logout', () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.setBool('isLoggedIn', false);
