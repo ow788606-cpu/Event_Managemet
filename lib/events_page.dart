@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/event_model.dart';
 import 'favorites_manager.dart';
 import 'services_manager.dart';
@@ -106,12 +107,12 @@ class _EventsPageState extends State<EventsPage> {
     final height = size.height;
     final width = size.width;
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Color(0xFF520350), statusBarIconBrightness: Brightness.light),
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () => widget.scaffoldKey?.currentState?.openDrawer(),
@@ -215,7 +216,6 @@ class _EventsPageState extends State<EventsPage> {
             ],
           ),
         ),
-      ),
       ),
     );
   }
