@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_event_page.dart';
+import 'event_details_page.dart';
 
 class UpcomingEventsPage extends StatefulWidget {
   const UpcomingEventsPage({super.key});
@@ -9,15 +10,12 @@ class UpcomingEventsPage extends StatefulWidget {
 }
 
 class _UpcomingEventsPageState extends State<UpcomingEventsPage> {
-  String _eventTypeFilter = 'All';
-  String _managerFilter = 'Any';
-
   final List<Map<String, dynamic>> _events = [
-    {'id': 1, 'name': 'Harsh & Nidhi Wedding', 'date': '12 Jan 2024 - 15 Jan 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 16,00,000', 'manager': 'Neha Mehta', 'status': 'Completed'},
-    {'id': 2, 'name': 'Omkar Industries AGM', 'date': '18 Feb 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 98,00,000', 'manager': 'Rohan Patel', 'status': 'Completed'},
-    {'id': 3, 'name': 'Myra Shah Birthday', 'date': '22 Mar 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 45,00,000', 'manager': 'Jiya Suthar', 'status': 'Completed'},
-    {'id': 4, 'name': 'Rakesh & Sunita Anniversary', 'date': '02 Apr 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 29,00,000', 'manager': 'Jiya Suthar', 'status': 'Completed'},
-    {'id': 5, 'name': 'NextWave Startup Demo Day', 'date': '08 May 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 8,00,000', 'manager': 'Jiya Suthar', 'status': 'Completed'},
+    {'id': 1, 'name': 'Harsh & Nidhi Wedding', 'date': '12 Jan 2024 - 15 Jan 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 16,00,000', 'manager': 'Neha Mehta', 'status': 'Upcoming'},
+    {'id': 2, 'name': 'Omkar Industries AGM', 'date': '18 Feb 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Corporate', 'budget': '₹ 98,00,000', 'manager': 'Rohan Patel', 'status': 'Upcoming'},
+    {'id': 3, 'name': 'Myra Shah Birthday', 'date': '22 Mar 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Birthday', 'budget': '₹ 45,00,000', 'manager': 'Jiya Suthar', 'status': 'Upcoming'},
+    {'id': 4, 'name': 'Rakesh & Sunita Anniversary', 'date': '02 Apr 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Anniversary', 'budget': '₹ 29,00,000', 'manager': 'Jiya Suthar', 'status': 'Upcoming'},
+    {'id': 5, 'name': 'NextWave Startup Demo Day', 'date': '08 May 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Corporate', 'budget': '₹ 8,00,000', 'manager': 'Jiya Suthar', 'status': 'Upcoming'},
   ];
 
   @override
@@ -28,8 +26,8 @@ class _UpcomingEventsPageState extends State<UpcomingEventsPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Active Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-            Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
+            const Text('Upcoming Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+            Text('View and manage upcoming events.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
           ],
         ),
         backgroundColor: Colors.white,
@@ -54,166 +52,131 @@ class _UpcomingEventsPageState extends State<UpcomingEventsPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: _events.length,
+        itemBuilder: (context, index) {
+          final event = _events[index];
+          return _buildEventCard(event);
+        },
+      ),
+    );
+  }
+
+  Widget _buildEventCard(Map<String, dynamic> event) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => EventDetailsPage(event: event)),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE7DFE7),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 200,
-                    child: TextField(
-                      onChanged: (value) {},
-                      decoration: InputDecoration(
-                        hintText: 'Search event or client',
-                        prefixIcon: const Icon(Icons.search, size: 20),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  Expanded(
+                    child: Text(
+                      event['name'],
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 140,
-                    child: DropdownButtonFormField<String>(
-                      initialValue: _eventTypeFilter,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF520350),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      event['type'],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Inter',
                       ),
-                      items: ['All', 'Wedding', 'Corporate', 'Birthday'].map((type) => DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontFamily: 'Inter')))).toList(),
-                      onChanged: (value) => setState(() => _eventTypeFilter = value!),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 140,
-                    child: DropdownButtonFormField<String>(
-                      initialValue: _managerFilter,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      ),
-                      items: ['Any', 'Neha Mehta', 'Rohan Patel', 'Jiya Suthar'].map((manager) => DropdownMenuItem(value: manager, child: Text(manager, style: const TextStyle(fontFamily: 'Inter')))).toList(),
-                      onChanged: (value) => setState(() => _managerFilter = value!),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF520350),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    ),
-                    child: const Text('Apply', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-                  ),
-                  const SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        _eventTypeFilter = 'All';
-                        _managerFilter = 'Any';
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    ),
-                    child: const Text('Reset', style: TextStyle(fontFamily: 'Inter')),
                   ),
                 ],
               ),
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                child: DataTable(
-                  headingRowColor: WidgetStateProperty.all(Colors.purple[50]),
-                  columns: const [
-                    DataColumn(label: Text('#', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Event', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Client Details', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Event Type', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Budget', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Manager', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Tags', style: TextStyle(fontWeight: FontWeight.bold))),
-                    DataColumn(label: Text('Actions', style: TextStyle(fontWeight: FontWeight.bold))),
-                  ],
-                  rows: _events.map((event) {
-                    return DataRow(
-                      cells: [
-                        DataCell(Text(event['id'].toString())),
-                        DataCell(
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(event['name'], style: const TextStyle(fontWeight: FontWeight.w500)),
-                              Text(event['date'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-                            ],
-                          ),
-                        ),
-                        DataCell(
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(event['client']),
-                              Text(event['phone'], style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-                            ],
-                          ),
-                        ),
-                        DataCell(
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF3E5F5),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(event['type'], style: const TextStyle(color: Color(0xFF8B1874), fontSize: 12, fontWeight: FontWeight.w500)),
-                          ),
-                        ),
-                        DataCell(Text(event['budget'], style: const TextStyle(fontWeight: FontWeight.w500))),
-                        DataCell(Text(event['manager'])),
-                        DataCell(
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.green[50],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(event['status'], style: const TextStyle(color: Colors.green, fontSize: 12)),
-                          ),
-                        ),
-                        DataCell(
-                          Row(
-                            children: [
-                              IconButton(icon: const Icon(Icons.visibility, size: 18), onPressed: () {}),
-                              IconButton(icon: const Icon(Icons.edit, size: 18), onPressed: () {}),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16, color: Colors.black54),
+                  const SizedBox(width: 8),
+                  Text(
+                    event['date'],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                ],
               ),
-            ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.person, size: 16, color: Colors.black54),
+                  const SizedBox(width: 8),
+                  Text(
+                    event['client'],
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.attach_money, size: 16, color: Colors.black54),
+                  const SizedBox(width: 8),
+                  Text(
+                    event['budget'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.manage_accounts, size: 16, color: Colors.black54),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Manager: ${event['manager']}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                      fontFamily: 'Inter',
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
