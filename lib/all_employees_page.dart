@@ -78,44 +78,53 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('All Employees',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF520350),
-                      fontFamily: 'Inter')),
-              Text('Manage your organization team members.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AddEmployeePage()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('Add Employees',
-                    style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-              ),
-            ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('All Employees',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF520350),
+                    fontFamily: 'Inter')),
+            Text('Manage your organization team members.',
+                style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
           ],
         ),
-        body: ListView.builder(
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('View and manage employees.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AddEmployeePage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF520350),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                  child: const Text('Add Employee', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
           padding: const EdgeInsets.all(24),
           itemCount: _employees.length,
           itemBuilder: (context, index) {
@@ -205,6 +214,9 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
             );
           },
         ),
+          ),
+        ],
+      ),
       );
   }
 
