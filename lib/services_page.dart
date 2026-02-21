@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'services_manager.dart';
+import 'checklist_design_page.dart';
 
 class ServicesPage extends StatefulWidget {
-  const ServicesPage({super.key});
+  final int initialTab;
+  const ServicesPage({super.key, this.initialTab = 0});
 
   @override
   State<ServicesPage> createState() => _ServicesPageState();
@@ -14,7 +16,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initialTab);
   }
 
   @override
@@ -45,8 +47,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           labelPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           tabs: [
             Tab(text: 'Event Overview (${pending.length})'),
-            const Tab(text: 'Checklist'),
-            Tab(text: 'In Progress (${inProgress.length})'),
+            Tab(text: 'Checklist (${inProgress.length})'),
             Tab(text: 'Completed (${completed.length})'),
             Tab(text: 'Cancelled (${cancelled.length})'),
           ],
@@ -58,7 +59,6 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
         controller: _tabController,
         children: [
           _buildRequestsList(pending, width, height, ServiceStatus.pending),
-          const Center(child: Text('No Checklist found!', style: TextStyle(fontFamily: 'Inter'))),
           _buildRequestsList(inProgress, width, height, ServiceStatus.inProgress),
           _buildRequestsList(completed, width, height, ServiceStatus.completed),
           _buildRequestsList(cancelled, width, height, ServiceStatus.cancelled),
@@ -70,6 +70,10 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   Widget _buildRequestsList(List<ServiceRequest> requests, double width, double height, ServiceStatus status) {
     if (status == ServiceStatus.pending) {
       return _buildEventOverviewDesign(width, height);
+    }
+    
+    if (status == ServiceStatus.inProgress) {
+      return _buildChecklistDesign();
     }
     
     if (requests.isEmpty) {
@@ -308,6 +312,169 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
       ),
     );
   }
+
+  Widget _buildChecklistDesign() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth > 600;
+        return Row(
+          children: [
+            if (isWide)
+              Container(
+                width: 250,
+                color: Colors.white,
+                child: _buildFilters(),
+              ),
+            Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Checklist', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                        Row(
+                          children: [
+                            if (isWide)
+                              OutlinedButton(
+                                onPressed: () {},
+                                child: const Text('Export Checklist', style: TextStyle(fontSize: 12, fontFamily: 'Inter')),
+                              ),
+                            if (isWide) const SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
+                              child: const Text('Add Task', style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'Inter')),
+                            ),
+                            if (!isWide) const SizedBox(width: 8),
+                            if (!isWide)
+                              IconButton(
+                                onPressed: () => _showFilters(context),
+                                icon: const Icon(Icons.filter_list),
+                                style: IconButton.styleFrom(backgroundColor: Colors.grey.shade200),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    color: const Color(0xFFF3E5F5),
+                    child: Row(
+                      children: [
+                        Expanded(flex: 3, child: Text('Title', style: TextStyle(fontWeight: FontWeight.bold, fontSize: isWide ? 14 : 12, fontFamily: 'Inter'))),
+                        Expanded(flex: 2, child: Text('Priority', style: TextStyle(fontWeight: FontWeight.bold, fontSize: isWide ? 14 : 12, fontFamily: 'Inter'))),
+                        if (isWide) Expanded(flex: 2, child: Text('Assigned to', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
+                        if (isWide) Expanded(flex: 2, child: Text('Added Date', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
+                        Expanded(flex: 2, child: Text('Due Date', style: TextStyle(fontWeight: FontWeight.bold, fontSize: isWide ? 14 : 12, fontFamily: 'Inter'))),
+                        if (isWide) Expanded(flex: 1, child: Text('Action', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, fontFamily: 'Inter'))),
+                      ],
+                    ),
+                  ),
+                  const Expanded(
+                    child: Center(
+                      child: Text('No Checklist found!', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildFilters() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Filters', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(50, 30)),
+                child: const Text('Clear All', style: TextStyle(color: Color(0xFF520350), fontSize: 12, fontFamily: 'Inter')),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              hintStyle: const TextStyle(fontSize: 14),
+              prefixIcon: const Icon(Icons.search, size: 20),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              contentPadding: const EdgeInsets.symmetric(vertical: 8),
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text('STATUS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, fontFamily: 'Inter')),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ChoiceChip(label: const Text('All', style: TextStyle(fontSize: 12)), selected: true, selectedColor: const Color(0xFF520350), labelStyle: const TextStyle(color: Colors.white)),
+              ChoiceChip(label: const Text('Pending', style: TextStyle(fontSize: 12)), selected: false),
+              ChoiceChip(label: const Text('Completed', style: TextStyle(fontSize: 12)), selected: false),
+            ],
+          ),
+          const SizedBox(height: 24),
+          const Text('ASSIGNED TO', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, fontFamily: 'Inter')),
+          const SizedBox(height: 12),
+          _buildAssigneeItem('All', 0, true),
+          _buildAssigneeItem('Unassigned', 0, false),
+          _buildAssigneeItem('Amit Shah', 0, false),
+          _buildAssigneeItem('Jiya Suthar', 0, false),
+          _buildAssigneeItem('Neha Mehta', 0, false),
+          _buildAssigneeItem('Pooja Jain', 0, false),
+          _buildAssigneeItem('Rohan Patel', 0, false),
+          _buildAssigneeItem('Suresh Yadav', 0, false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAssigneeItem(String name, int count, bool selected) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(name, style: TextStyle(fontSize: 14, color: selected ? const Color(0xFF520350) : Colors.black, fontFamily: 'Inter')),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: selected ? const Color(0xFF520350) : Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text('$count', style: TextStyle(fontSize: 12, color: selected ? Colors.white : Colors.black, fontFamily: 'Inter')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showFilters(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: _buildFilters(),
+      ),
+    );
+  }
+
+
 
   Widget _buildRequestCard(ServiceRequest request, double width, double height) {
     return Container(

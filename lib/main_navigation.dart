@@ -15,22 +15,23 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  late final List<Widget> _pages;
-
-  @override
-  void initState() {
-    super.initState();
-    _pages = [
-      HomePage(userName: widget.userName),
-      const FavoritesPage(),
-      const ServicesPage(),
-    ];
+  Widget _getPage(int index) {
+    switch (index) {
+      case 0:
+        return HomePage(userName: widget.userName, initialTab: 0);
+      case 1:
+        return const FavoritesPage();
+      case 2:
+        return const ServicesPage(initialTab: 0);
+      default:
+        return HomePage(userName: widget.userName, initialTab: 0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: _getPage(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
@@ -39,8 +40,10 @@ class _MainNavigationState extends State<MainNavigation> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-          BottomNavigationBarItem(icon: Icon(Icons.design_services), label: 'Services'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favorites'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.design_services), label: 'Services'),
         ],
         selectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
         unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),

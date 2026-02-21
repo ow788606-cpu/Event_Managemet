@@ -6,14 +6,21 @@ import 'services_manager.dart';
 
 class EventsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;
-  const EventsPage({super.key, this.scaffoldKey});
+  final int initialTab;
+  const EventsPage({super.key, this.scaffoldKey, required this.initialTab});
 
   @override
   State<EventsPage> createState() => _EventsPageState();
 }
 
 class _EventsPageState extends State<EventsPage> {
-  int _selectedTab = 0;
+  late int _selectedTab;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTab = widget.initialTab;
+  }
 
   final List<Event> clubEvents = [
     Event(

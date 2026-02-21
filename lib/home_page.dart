@@ -19,7 +19,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   final String userName;
-  const HomePage({super.key, required this.userName});
+  final int initialTab;
+  const HomePage({super.key, required this.userName, required this.initialTab});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       drawer: _buildDrawer(context),
-      body: EventsPage(scaffoldKey: scaffoldKey),
+      body: EventsPage(scaffoldKey: scaffoldKey, initialTab: initialTab),
     );
   }
 
