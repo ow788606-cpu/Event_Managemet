@@ -52,21 +52,6 @@ class _EditVendorPageState extends State<EditVendorPage> {
               Text('Update vendor details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('All Vendors', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-              ),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -321,43 +306,6 @@ class _EditVendorPageState extends State<EditVendorPage> {
                       borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final updatedVendor = Map<String, dynamic>.from(widget.vendor);
-                          updatedVendor['name'] = _companyNameController.text;
-                          updatedVendor['category'] = _selectedCategory;
-                          updatedVendor['phone'] = _contactNumberController.text;
-                          updatedVendor['email'] = _emailController.text;
-                          updatedVendor['address'] = _addressController.text.isEmpty ? '-' : _addressController.text;
-                          
-                          Navigator.pop(context, updatedVendor);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF520350),
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: const Text('Update Vendor', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                    const SizedBox(width: 16),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        side: BorderSide(color: Colors.grey[400]!),
-                      ),
-                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                  ],
                 ),
               ],
             ),

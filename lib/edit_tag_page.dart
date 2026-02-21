@@ -55,21 +55,6 @@ class _EditTagPageState extends State<EditTagPage> {
               Text('Update tag details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('All Tags', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-              ),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -78,7 +63,7 @@ class _EditTagPageState extends State<EditTagPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Tag Name', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Tag Name', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _tagNameController,
@@ -98,7 +83,7 @@ class _EditTagPageState extends State<EditTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Description', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _descriptionController,
@@ -119,7 +104,7 @@ class _EditTagPageState extends State<EditTagPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Color', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 Row(
                   children: [
@@ -192,42 +177,6 @@ class _EditTagPageState extends State<EditTagPage> {
                       ),
                     );
                   }).toList(),
-                ),
-                const SizedBox(height: 30),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final updatedTag = Map<String, dynamic>.from(widget.tag);
-                          updatedTag['name'] = _tagNameController.text;
-                          updatedTag['description'] = _descriptionController.text;
-                          updatedTag['color'] = _selectedColor;
-                          updatedTag['colorHex'] = _colorHexController.text;
-                          
-                          Navigator.pop(context, updatedTag);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF520350),
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: const Text('Update', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                    const SizedBox(width: 16),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        side: BorderSide(color: Colors.grey[400]!),
-                      ),
-                      child: Text('Close', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                  ],
                 ),
               ],
             ),

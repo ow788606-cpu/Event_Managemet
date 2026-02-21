@@ -259,23 +259,6 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Employee updated successfully!')),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF520350),
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: const Text('Update Employee', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
-                ),
               ],
             ),
           ),
