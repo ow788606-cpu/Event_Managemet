@@ -86,51 +86,59 @@ class _AllEventsPageState extends State<AllEventsPage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('All Events',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF520350),
-                    fontFamily: 'Inter')),
-            Text('View and manage all events in one place.',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontFamily: 'Inter')),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AddEventPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF520350),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              child: const Text('Add New Event',
-                  style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-            ),
-          ),
-        ],
+        title: const Text('All Events',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF520350),
+                fontFamily: 'Inter')),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: _events.length,
-          itemBuilder: (context, index) {
-            final event = _events[index];
-            return _buildEventCard(event);
-          },
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text('View and manage all events in one place.',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                            fontFamily: 'Inter')),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const AddEventPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF520350),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    ),
+                    child: const Text('Add Event',
+                        style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _events.length,
+                itemBuilder: (context, index) {
+                  final event = _events[index];
+                  return _buildEventCard(event);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
