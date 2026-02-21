@@ -199,10 +199,13 @@ class _EditTagPageState extends State<EditTagPage> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Tag updated successfully!')),
-                          );
-                          Navigator.pop(context);
+                          final updatedTag = Map<String, dynamic>.from(widget.tag);
+                          updatedTag['name'] = _tagNameController.text;
+                          updatedTag['description'] = _descriptionController.text;
+                          updatedTag['color'] = _selectedColor;
+                          updatedTag['colorHex'] = _colorHexController.text;
+                          
+                          Navigator.pop(context, updatedTag);
                         }
                       },
                       style: ElevatedButton.styleFrom(
