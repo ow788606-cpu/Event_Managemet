@@ -78,72 +78,29 @@ class _AddEventPageState extends State<AddEventPage> {
               const SizedBox(height: 8),
               _buildTextField(_clientController, 'Select or Add New', Icons.arrow_drop_down, required: true),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLabel('Event Title', required: true),
-                        const SizedBox(height: 8),
-                        _buildTextField(_titleController, 'Event title', Icons.event, required: true),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLabel('Event Type', required: true),
-                        const SizedBox(height: 8),
-                        _buildDropdown(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              _buildLabel('Event Title', required: true),
+              const SizedBox(height: 8),
+              _buildTextField(_titleController, 'Event title', Icons.event, required: true),
+              const SizedBox(height: 20),
+              _buildLabel('Event Type', required: true),
+              const SizedBox(height: 8),
+              _buildDropdown(),
               const SizedBox(height: 20),
               _buildLabel('Event Description'),
               const SizedBox(height: 8),
               _buildTextField(_descriptionController, 'Brief event description', null, maxLines: 4),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLabel('Start Date', required: true),
-                        const SizedBox(height: 8),
-                        _buildDateField('Select date', true),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLabel('End Date', required: true),
-                        const SizedBox(height: 8),
-                        _buildDateField('Select date', false),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLabel('Client Budget'),
-                        const SizedBox(height: 8),
-                        _buildTextField(_budgetController, 'Estimated budget', Icons.attach_money),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              _buildLabel('Start Date', required: true),
+              const SizedBox(height: 8),
+              _buildDateField('Select date', true),
+              const SizedBox(height: 20),
+              _buildLabel('End Date', required: true),
+              const SizedBox(height: 8),
+              _buildDateField('Select date', false),
+              const SizedBox(height: 20),
+              _buildLabel('Client Budget'),
+              const SizedBox(height: 8),
+              _buildTextField(_budgetController, 'Estimated budget', Icons.attach_money),
               const SizedBox(height: 20),
               _buildLabel('Event Location'),
               const SizedBox(height: 8),
