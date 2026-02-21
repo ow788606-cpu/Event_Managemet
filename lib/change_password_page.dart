@@ -18,6 +18,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
 
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one capital letter';
+    }
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Password must contain at least one special character';
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -116,14 +132,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                 ),
                 style: const TextStyle(fontFamily: 'Inter'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) return 'Please enter new password';
-                  if (value!.length < 6) return 'Minimum 6 characters';
-                  return null;
-                },
+                validator: _validatePassword,
               ),
               const SizedBox(height: 8),
-              Text('Minimum 6 characters', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
+              Text('Minimum 8 characters, 1 capital letter, 1 special character', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
               const SizedBox(height: 20),
               const Text('Confirm New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
@@ -143,7 +155,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: Colors.grey[300]!)),
                 ),
                 style: const TextStyle(fontFamily: 'Inter'),
-                validator: (value) => value?.isEmpty ?? true ? 'Please confirm password' : null,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) return 'Please confirm password';
+                  if (value != _newPasswordController.text) return 'Passwords do not match';
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
               ElevatedButton(
