@@ -67,13 +67,14 @@ class _AddEventPageState extends State<AddEventPage> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               _buildLabel('Client', required: true),
               const SizedBox(height: 8),
               _buildTextField(_clientController, 'Select or Add New', Icons.arrow_drop_down, required: true),
@@ -165,6 +166,7 @@ class _AddEventPageState extends State<AddEventPage> {
           ),
         ),
       ),
+    ),
     );
   }
 

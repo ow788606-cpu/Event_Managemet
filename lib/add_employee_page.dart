@@ -65,20 +65,21 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               RichText(
                 text: const TextSpan(
                   text: 'Full Name ',
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(text: '*', style: TextStyle(color: Colors.red)),
@@ -112,7 +113,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(
@@ -148,7 +149,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(
@@ -184,7 +185,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(
@@ -233,7 +234,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
@@ -262,7 +263,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(
@@ -309,7 +310,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
                   style: TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontFamily: 'Inter'),
                   children: [
                     TextSpan(
@@ -377,6 +378,7 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
           ),
         ),
       ),
+    ),
     );
   }
 

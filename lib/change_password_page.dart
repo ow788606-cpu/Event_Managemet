@@ -77,7 +77,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             children: [
               Text('Update your password securely.', style: TextStyle(fontSize: 14, color: Colors.grey[600], fontFamily: 'Inter')),
               const SizedBox(height: 30),
-              const Text('Current Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Current Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _currentPasswordController,
@@ -98,7 +98,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 validator: (value) => value?.isEmpty ?? true ? 'Please enter current password' : null,
               ),
               const SizedBox(height: 20),
-              const Text('New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _newPasswordController,
@@ -125,7 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               const SizedBox(height: 8),
               Text('Minimum 6 characters', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
               const SizedBox(height: 20),
-              const Text('Confirm New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Confirm New Password *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _confirmPasswordController,
@@ -146,32 +146,26 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 validator: (value) => value?.isEmpty ?? true ? 'Please confirm password' : null,
               ),
               const SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _changePassword,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF520350),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                        side: BorderSide(color: Colors.grey[400]!),
-                      ),
-                      child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: _changePassword,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF520350),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: const Text('Update Password', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
+              ),
+              const SizedBox(height: 16),
+              OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  side: BorderSide(color: Colors.grey[400]!),
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
               ),
             ],
           ),
