@@ -58,9 +58,8 @@ class HelpDeskPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFF520350), width: 1),
+        color: const Color(0xFFE7DFE7),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,16 +73,15 @@ class HelpDeskPage extends StatelessWidget {
                       fontFamily: 'Inter')),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.orange[50],
+                  color: const Color(0xFFF5E6F5),
                   borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: Colors.orange[300]!),
                 ),
                 child: Text(department,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 10,
-                        color: Colors.orange[700],
+                        color: Color(0xFF520350),
                         fontFamily: 'Inter')),
               ),
             ],
