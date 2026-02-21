@@ -87,7 +87,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('User Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('User Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _usernameController,
@@ -103,7 +103,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
                 validator: (value) => value?.isEmpty ?? true ? 'Please enter your name' : null,
               ),
               const SizedBox(height: 20),
-              const Text('Email Address', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Email Address', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _emailController,
@@ -119,7 +119,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
                 validator: (value) => value?.isEmpty ?? true ? 'Please enter your email' : null,
               ),
               const SizedBox(height: 20),
-              const Text('Phone Number', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Phone Number', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _phoneController,
@@ -135,7 +135,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
                 style: const TextStyle(fontFamily: 'Inter'),
               ),
               const SizedBox(height: 20),
-              const Text('Date of Birth', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Date of Birth', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               TextFormField(
                 controller: _dobController,
@@ -153,7 +153,7 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
                 style: const TextStyle(fontFamily: 'Inter'),
               ),
               const SizedBox(height: 20),
-              const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 initialValue: _selectedGender,
@@ -167,28 +167,26 @@ class _ManageProfilePageState extends State<ManageProfilePage> {
                 onChanged: (value) => setState(() => _selectedGender = value!),
               ),
               const SizedBox(height: 30),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: _saveProfile,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF520350),
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: const Text('Save Changes', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
-                  ),
-                  const SizedBox(width: 16),
-                  OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      side: BorderSide(color: Colors.grey[400]!),
-                    ),
-                    child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: _saveProfile,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF520350),
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: const Text('Save Changes', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Inter')),
+              ),
+              const SizedBox(height: 16),
+              OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  side: BorderSide(color: Colors.grey[400]!),
+                  minimumSize: const Size(double.infinity, 50),
+                ),
+                child: Text('Cancel', style: TextStyle(color: Colors.grey[700], fontSize: 16, fontFamily: 'Inter')),
               ),
             ],
           ),
