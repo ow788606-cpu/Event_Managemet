@@ -12,8 +12,25 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one capital letter';
+    }
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Password must contain at least one special character';
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -39,7 +56,9 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
+          child: Form(
+            key: _formKey,
+            child: Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.06),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,8 +87,17 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: width * 0.037,
                         fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
-                TextField(
+                TextFormField(
                   controller: _emailController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    }
+                    if (!value.contains('@')) {
+                      return 'Enter a valid email';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     hintText: 'Enter Email',
                     filled: true,
@@ -90,8 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: width * 0.037,
                         fontFamily: 'Inter')),
                 SizedBox(height: height * 0.01),
-                TextField(
+                TextFormField(
+                  controller: _passwordController,
                   obscureText: _obscurePassword,
+                  validator: _validatePassword,
                   decoration: InputDecoration(
                     hintText: 'Password',
                     filled: true,
@@ -133,6 +163,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: height * 0.07,
                   child: ElevatedButton(
                     onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
                       final email = _emailController.text.trim();
                       final password = _passwordController.text.trim();
                       final userName = email.split('@')[0];
@@ -214,6 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: height * 0.02),
               ],
             ),
+          ),
           ),
         ),
       ),

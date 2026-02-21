@@ -12,9 +12,26 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   bool _obscurePassword = true;
   bool _agreedToTerms = false;
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _usernameController;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    }
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return 'Password must contain at least one capital letter';
+    }
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return 'Password must contain at least one special character';
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -42,7 +59,9 @@ class _SignupPageState extends State<SignupPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
+          child: Form(
+            key: _formKey,
+            child: Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.06),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,8 +92,17 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Inter')),
               SizedBox(height: height * 0.01),
-              TextField(
+              TextFormField(
                 controller: _emailController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email is required';
+                  }
+                  if (!value.contains('@')) {
+                    return 'Enter a valid email';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[50],
@@ -96,8 +124,14 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Inter')),
               SizedBox(height: height * 0.01),
-              TextField(
+              TextFormField(
                 controller: _usernameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Username is required';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[50],
@@ -119,9 +153,10 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.w500,
                       fontFamily: 'Inter')),
               SizedBox(height: height * 0.01),
-              TextField(
+              TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
+                validator: _validatePassword,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey[50],
@@ -188,6 +223,15 @@ class _SignupPageState extends State<SignupPage> {
                 height: height * 0.065,
                 child: ElevatedButton(
                     onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+                      if (!_agreedToTerms) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Please agree to Terms of Service')),
+                        );
+                        return;
+                      }
                       final username = _usernameController.text.trim();
                       final email = _emailController.text.trim();
                       final password = _passwordController.text.trim();
@@ -267,6 +311,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               SizedBox(height: height * 0.02),
             ],
+          ),
           ),
         ),
       ),
