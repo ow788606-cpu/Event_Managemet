@@ -28,45 +28,44 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Add Employee',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF520350),
-                    fontFamily: 'Inter')),
-            Text('Create a new employee under your organization',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                    fontFamily: 'Inter')),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AllEmployeesPage()),
-                );
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xFF520350),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-              child: const Text('All Employees',
-                  style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+        title: const Text('Add Employee',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF520350),
+                fontFamily: 'Inter')),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Create a new employee under your organization', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AllEmployeesPage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF520350),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  ),
+                  child: const Text('All Employees', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+          Expanded(
+            child: SafeArea(
+              child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
@@ -377,8 +376,11 @@ class _AddEmployeePageState extends State<AddEmployeePage> {
             ],
           ),
         ),
+              ),
+            ),
+          ),
+        ],
       ),
-    ),
     );
   }
 
