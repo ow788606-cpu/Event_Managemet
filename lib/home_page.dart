@@ -206,7 +206,8 @@ class HomePage extends StatelessWidget {
     return ListTile(
       leading: Icon(icon, color: Colors.white70, size: 20),
       title: Text(title, style: const TextStyle(color: Colors.white70, fontSize: 14, fontFamily: 'Inter')),
-      contentPadding: const EdgeInsets.only(left: 72, right: 16),
+      contentPadding: const EdgeInsets.only(left: 32, right: 16),
+      dense: true,
       onTap: onTap,
     );
   }
