@@ -15,11 +15,12 @@ class EventDetailsPage extends StatelessWidget {
         elevation: 0,
         title: const Text('Event Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             Text(event['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 24),
             _buildDetailRow(Icons.calendar_today, 'Date', event['date']),
@@ -32,7 +33,8 @@ class EventDetailsPage extends StatelessWidget {
             _buildDetailRow(Icons.manage_accounts, 'Manager', event['manager']),
             if (event.containsKey('status')) _buildDetailRow(Icons.info, 'Status', event['status']),
             if (event.containsKey('tag') && event['tag'] != '-') _buildDetailRow(Icons.local_offer, 'Tag', event['tag']),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -52,13 +52,15 @@ class _UpcomingEventsPageState extends State<UpcomingEventsPage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _events.length,
-        itemBuilder: (context, index) {
-          final event = _events[index];
-          return _buildEventCard(event);
-        },
+      body: SafeArea(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: _events.length,
+          itemBuilder: (context, index) {
+            final event = _events[index];
+            return _buildEventCard(event);
+          },
+        ),
       ),
     );
   }

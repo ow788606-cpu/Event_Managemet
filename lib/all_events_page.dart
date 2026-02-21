@@ -11,11 +11,71 @@ class AllEventsPage extends StatefulWidget {
 
 class _AllEventsPageState extends State<AllEventsPage> {
   final List<Map<String, dynamic>> _events = [
-    {'id': 1, 'name': 'Harsh & Nidhi Wedding', 'date': '12 Jan 2024 - 15 Jan 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Wedding', 'budget': '₹ 16,00,000', 'location': 'External', 'guests': '300-400', 'manager': 'Neha Mehta', 'tag': 'Budget Sensitive'},
-    {'id': 2, 'name': 'Rohan & Neha Wedding', 'date': '10 Feb 2024 - 12 Feb 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Award Ceremony', 'budget': '₹ 54,00,000', 'location': 'External', 'guests': '100-200', 'manager': 'Jiya Suthar', 'tag': 'Flexible Dates'},
-    {'id': 3, 'name': 'Omkar Industries AGM', 'date': '18 Feb 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Corporate', 'budget': '₹ 98,00,000', 'location': 'Destination', 'guests': '180', 'manager': 'Rohan Patel', 'tag': 'High Budget'},
-    {'id': 4, 'name': 'Mehta Group Annual Meet', 'date': '05 Mar 2024 - 06 Mar 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Corporate', 'budget': '₹ 44,00,000', 'location': 'Mumbai', 'guests': '200', 'manager': 'Jiya Suthar', 'tag': '-'},
-    {'id': 5, 'name': 'Myra Shah Birthday', 'date': '22 Mar 2024', 'client': 'Rahul Patel', 'phone': '+91 99259 91462', 'type': 'Birthday', 'budget': '₹ 45,00,000', 'location': 'Ahmedabad', 'guests': '55', 'manager': 'Jiya Suthar', 'tag': '-'},
+    {
+      'id': 1,
+      'name': 'Harsh & Nidhi Wedding',
+      'date': '12 Jan 2024 - 15 Jan 2024',
+      'client': 'Rahul Patel',
+      'phone': '+91 99259 91462',
+      'type': 'Wedding',
+      'budget': '₹ 16,00,000',
+      'location': 'External',
+      'guests': '300-400',
+      'manager': 'Neha Mehta',
+      'tag': 'Budget Sensitive'
+    },
+    {
+      'id': 2,
+      'name': 'Rohan & Neha Wedding',
+      'date': '10 Feb 2024 - 12 Feb 2024',
+      'client': 'Rahul Patel',
+      'phone': '+91 99259 91462',
+      'type': 'Award Ceremony',
+      'budget': '₹ 54,00,000',
+      'location': 'External',
+      'guests': '100-200',
+      'manager': 'Jiya Suthar',
+      'tag': 'Flexible Dates'
+    },
+    {
+      'id': 3,
+      'name': 'Omkar Industries AGM',
+      'date': '18 Feb 2024',
+      'client': 'Rahul Patel',
+      'phone': '+91 99259 91462',
+      'type': 'Corporate',
+      'budget': '₹ 98,00,000',
+      'location': 'Destination',
+      'guests': '180',
+      'manager': 'Rohan Patel',
+      'tag': 'High Budget'
+    },
+    {
+      'id': 4,
+      'name': 'Mehta Group Annual Meet',
+      'date': '05 Mar 2024 - 06 Mar 2024',
+      'client': 'Rahul Patel',
+      'phone': '+91 99259 91462',
+      'type': 'Corporate',
+      'budget': '₹ 44,00,000',
+      'location': 'Mumbai',
+      'guests': '200',
+      'manager': 'Jiya Suthar',
+      'tag': '-'
+    },
+    {
+      'id': 5,
+      'name': 'Myra Shah Birthday',
+      'date': '22 Mar 2024',
+      'client': 'Rahul Patel',
+      'phone': '+91 99259 91462',
+      'type': 'Birthday',
+      'budget': '₹ 45,00,000',
+      'location': 'Ahmedabad',
+      'guests': '55',
+      'manager': 'Jiya Suthar',
+      'tag': '-'
+    },
   ];
 
   @override
@@ -29,8 +89,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('All Events', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-            Text('View and manage all events in one place.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
+            const Text('All Events',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF520350),
+                    fontFamily: 'Inter')),
+            Text('View and manage all events in one place.',
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontFamily: 'Inter')),
           ],
         ),
         actions: [
@@ -45,20 +114,24 @@ class _AllEventsPageState extends State<AllEventsPage> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF520350),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Add New Event', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              child: const Text('Add New Event',
+                  style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
             ),
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _events.length,
-        itemBuilder: (context, index) {
-          final event = _events[index];
-          return _buildEventCard(event);
-        },
+      body: SafeArea(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: _events.length,
+          itemBuilder: (context, index) {
+            final event = _events[index];
+            return _buildEventCard(event);
+          },
+        ),
       ),
     );
   }
@@ -96,7 +169,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFF520350),
                       borderRadius: BorderRadius.circular(12),
@@ -116,7 +190,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  const Icon(Icons.calendar_today, size: 16, color: Colors.black54),
+                  const Icon(Icons.calendar_today,
+                      size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
                     event['date'],
@@ -146,7 +221,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(Icons.location_on, size: 16, color: Colors.black54),
+                  const Icon(Icons.location_on,
+                      size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
                     event['location'],
@@ -164,7 +240,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.attach_money, size: 16, color: Colors.black54),
+                      const Icon(Icons.attach_money,
+                          size: 16, color: Colors.black54),
                       const SizedBox(width: 8),
                       Text(
                         event['budget'],
@@ -179,9 +256,10 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   ),
                   if (event['tag'] != '-')
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: Colors.teal.withOpacity(0.2),
+                        color: Colors.teal.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
