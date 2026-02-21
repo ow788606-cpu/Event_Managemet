@@ -46,21 +46,6 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
               Text('Update employee details.', style: TextStyle(fontSize: 12, color: Colors.grey[600], fontFamily: 'Inter')),
             ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFF520350),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text('All Employees', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
-              ),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -72,7 +57,7 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                 RichText(
                   text: const TextSpan(
                     text: 'Full Name ',
-                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
                     children: [
                       TextSpan(text: '*', style: TextStyle(color: Colors.red)),
                     ],
@@ -98,235 +83,181 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Email ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: TextStyle(color: Colors.grey[400]),
-                              prefixIcon: Icon(Icons.email_outlined, color: Colors.grey[400]),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                RichText(
+                  text: const TextSpan(
+                    text: 'Email ',
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    children: [
+                      TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.email_outlined, color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Phone ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              hintText: 'Phone',
-                              hintStyle: TextStyle(color: Colors.grey[400]),
-                              prefixIcon: Icon(Icons.phone_outlined, color: Colors.grey[400]),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Role ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          DropdownButtonFormField<String>(
-                            initialValue: _selectedRole,
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.work_outline, color: Colors.grey[400]),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                            items: ['Manager', 'Coordinator', 'Assistant', 'Admin', 'Supervisor', 'Accountant', 'Staff']
-                                .map((role) => DropdownMenuItem(value: role, child: Text(role, style: const TextStyle(fontFamily: 'Inter'))))
-                                .toList(),
-                            onChanged: (value) => setState(() => _selectedRole = value),
-                          ),
-                        ],
-                      ),
+                RichText(
+                  text: const TextSpan(
+                    text: 'Phone ',
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    children: [
+                      TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    hintText: 'Phone',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.phone_outlined, color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Department ',
-                              style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter'),
-                              children: [
-                                TextSpan(text: '*', style: TextStyle(color: Colors.red)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _departmentController,
-                            decoration: InputDecoration(
-                              hintText: 'Department',
-                              hintStyle: TextStyle(color: Colors.grey[400]),
-                              prefixIcon: Icon(Icons.business_center_outlined, color: Colors.grey[400]),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('New Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _newPasswordController,
-                            obscureText: _obscureNewPassword,
-                            decoration: InputDecoration(
-                              hintText: 'Leave blank to keep current',
-                              hintStyle: TextStyle(color: Colors.grey[400]),
-                              prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscureNewPassword ? Icons.visibility_off : Icons.visibility,
-                                  color: Colors.grey[400],
-                                ),
-                                onPressed: () => setState(() => _obscureNewPassword = !_obscureNewPassword),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                RichText(
+                  text: const TextSpan(
+                    text: 'Role ',
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    children: [
+                      TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                DropdownButtonFormField<String>(
+                  initialValue: _selectedRole,
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.work_outline, color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Confirm Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _confirmPasswordController,
-                            obscureText: _obscureConfirmPassword,
-                            decoration: InputDecoration(
-                              hintText: '',
-                              hintStyle: TextStyle(color: Colors.grey[400]),
-                              prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                                  color: Colors.grey[400],
-                                ),
-                                onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
-                              ),
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.grey[300]!),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                  ],
+                  ),
+                  items: ['Manager', 'Coordinator', 'Assistant', 'Admin', 'Supervisor', 'Accountant', 'Staff']
+                      .map((role) => DropdownMenuItem(value: role, child: Text(role, style: const TextStyle(fontFamily: 'Inter'))))
+                      .toList(),
+                  onChanged: (value) => setState(() => _selectedRole = value),
+                ),
+                const SizedBox(height: 20),
+                RichText(
+                  text: const TextSpan(
+                    text: 'Department ',
+                    style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    children: [
+                      TextSpan(text: '*', style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _departmentController,
+                  decoration: InputDecoration(
+                    hintText: 'Department',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.business_center_outlined, color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text('New Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _newPasswordController,
+                  obscureText: _obscureNewPassword,
+                  decoration: InputDecoration(
+                    hintText: 'Leave blank to keep current',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureNewPassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey[400],
+                      ),
+                      onPressed: () => setState(() => _obscureNewPassword = !_obscureNewPassword),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text('Confirm Password', style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: _confirmPasswordController,
+                  obscureText: _obscureConfirmPassword,
+                  decoration: InputDecoration(
+                    hintText: '',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[400]),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey[400],
+                      ),
+                      onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(

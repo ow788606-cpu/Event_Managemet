@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_employee_page.dart';
-import 'edit_employee_page.dart';
+import 'employee_details_page.dart';
 
 class AllEmployeesPage extends StatefulWidget {
   const AllEmployeesPage({super.key});
@@ -115,158 +115,95 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body: ListView.builder(
           padding: const EdgeInsets.all(24),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
+          itemCount: _employees.length,
+          itemBuilder: (context, index) {
+            final employee = _employees[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => EmployeeDetailsPage(
+                      employee: employee,
+                      onEmployeeUpdated: (updated) {
+                        setState(() {
+                          final idx = _employees.indexWhere((e) => e['id'] == updated['id']);
+                          if (idx != -1) {
+                            _employees[idx] = updated;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE7DFE7),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              ],
-            ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                headingRowColor: WidgetStateProperty.all(Colors.grey[50]),
-                columnSpacing: 60,
-                horizontalMargin: 24,
-                columns: const [
-                  DataColumn(
-                      label: Text('#',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Employee',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Contact',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Role',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Department',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Status',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Created',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                  DataColumn(
-                      label: Text('Action',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14))),
-                ],
-                rows: _employees.map((employee) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(employee['id'].toString(),
-                          style: const TextStyle(fontSize: 13))),
-                      DataCell(
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(employee['name'],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 14)),
-                            Text(employee['email'],
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[600])),
-                          ],
-                        ),
-                      ),
-                      DataCell(
-                        Row(
-                          children: [
-                            Icon(Icons.phone,
-                                size: 14, color: Colors.grey[600]),
-                            const SizedBox(width: 6),
-                            Text(employee['phone'],
-                                style: const TextStyle(fontSize: 13)),
-                          ],
-                        ),
-                      ),
-                      DataCell(
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: _getRoleColor(employee['role']),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            employee['role'],
-                            style: TextStyle(
-                              color: _getRoleTextColor(employee['role']),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(employee['name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                                const SizedBox(height: 4),
+                                Text(employee['email'], style: TextStyle(fontSize: 13, color: Colors.grey[700], fontFamily: 'Inter')),
+                              ],
                             ),
                           ),
-                        ),
-                      ),
-                      DataCell(Text(employee['department'],
-                          style: const TextStyle(fontSize: 13))),
-                      DataCell(
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.green[50],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            employee['status'],
-                            style: TextStyle(
-                                color: Colors.green[700],
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                      DataCell(Text(employee['created'],
-                          style: const TextStyle(fontSize: 13))),
-                      DataCell(
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  size: 18, color: Color(0xFF520350)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => EditEmployeePage(employee: employee),
-                                  ),
-                                );
-                              },
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: _getRoleColor(employee['role']),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  size: 18, color: Colors.red),
-                              onPressed: () {},
-                            ),
-                          ],
+                            child: Text(employee['role'], style: TextStyle(color: _getRoleTextColor(employee['role']), fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Icon(Icons.phone, size: 16, color: Colors.grey[700]),
+                          const SizedBox(width: 8),
+                          Text(employee['phone'], style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(Icons.business, size: 16, color: Colors.grey[700]),
+                          const SizedBox(width: 8),
+                          Text(employee['department'], style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.green[50],
+                          borderRadius: BorderRadius.circular(12),
                         ),
+                        child: Text(employee['status'], style: TextStyle(color: Colors.green[700], fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
                       ),
                     ],
-                  );
-                }).toList(),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       );
   }

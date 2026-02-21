@@ -97,7 +97,7 @@ class _UpcomingEventsPageState extends State<UpcomingEventsPage> {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           color: const Color(0xFFE7DFE7),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16),
