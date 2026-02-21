@@ -81,7 +81,19 @@ class _CompletedEventsPageState extends State<CompletedEventsPage> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => EventDetailsPage(event: event)),
+          MaterialPageRoute(
+            builder: (_) => EventDetailsPage(
+              event: event,
+              onEventUpdated: (updated) {
+                setState(() {
+                  final index = _events.indexWhere((e) => e['id'] == updated['id']);
+                  if (index != -1) {
+                    _events[index] = updated;
+                  }
+                });
+              },
+            ),
+          ),
         );
       },
       child: Container(
