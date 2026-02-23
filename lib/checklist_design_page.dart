@@ -210,7 +210,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -244,7 +244,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(child: _buildInfoRow(Icons.flag, 'Priority', item.priority)),
@@ -252,7 +252,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 Expanded(child: _buildInfoRow(Icons.person, 'Assigned', item.assignedTo ?? '-')),
               ],
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Expanded(child: _buildInfoRow(Icons.calendar_today, 'Added', item.addedDate)),
