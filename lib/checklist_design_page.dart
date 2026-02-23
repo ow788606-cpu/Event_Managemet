@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_task_page.dart';
+import 'edit_task_page.dart';
 
 class ChecklistDesignPage extends StatefulWidget {
   const ChecklistDesignPage({super.key});
@@ -72,7 +73,17 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 const Spacer(),
                 OutlinedButton.icon(onPressed: _exportToExcel, icon: const Icon(Icons.download, size: 18), label: const Text('Export', style: TextStyle(fontFamily: 'Inter', fontSize: 12)), style: OutlinedButton.styleFrom(foregroundColor: Colors.black)),
                 const SizedBox(width: 8),
-                ElevatedButton.icon(onPressed: _addTask, icon: const Icon(Icons.add, size: 18), label: const Text('Add Task', style: TextStyle(fontFamily: 'Inter', fontSize: 12)), style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350))),
+                ElevatedButton.icon(
+                  onPressed: _addTask,
+                  icon: const Icon(Icons.add, size: 18, color: Colors.white),
+                  label: const Text('Add Task', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF520350),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    elevation: 2,
+                  ),
+                ),
               ],
             ),
           ),
@@ -170,6 +181,27 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
     }
   }
 
+  void _editTask(ChecklistItem item) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditTaskPage(
+        assignees: _assignees,
+        initialTitle: item.title,
+        initialPriority: item.priority,
+        initialAssignedTo: item.assignedTo,
+        initialDueDate: item.dueDate,
+      )),
+    );
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        item.title = result['title'];
+        item.priority = result['priority'];
+        item.assignedTo = result['assignedTo'];
+        item.dueDate = result['dueDate'];
+      });
+    }
+  }
+
   Widget _buildChecklistCard(ChecklistItem item) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -184,7 +216,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 Expanded(child: Text(item.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'))),
                 IconButton(icon: Icon(item.isCompleted ? Icons.check_circle : Icons.check_circle_outline, color: item.isCompleted ? Colors.green : Colors.grey, size: 20), onPressed: () => setState(() => item.isCompleted = !item.isCompleted), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
                 const SizedBox(width: 4),
-                IconButton(icon: const Icon(Icons.more_vert, size: 20), onPressed: () {}, padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+                IconButton(icon: const Icon(Icons.more_vert, size: 20), onPressed: () => _editTask(item), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
               ],
             ),
             const SizedBox(height: 12),

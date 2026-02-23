@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
 
-class AddTaskPage extends StatefulWidget {
+class EditTaskPage extends StatefulWidget {
   final List<String> assignees;
+  final String initialTitle;
+  final String initialPriority;
+  final String? initialAssignedTo;
+  final String? initialDueDate;
   
-  const AddTaskPage({super.key, required this.assignees});
+  const EditTaskPage({
+    super.key,
+    required this.assignees,
+    required this.initialTitle,
+    required this.initialPriority,
+    this.initialAssignedTo,
+    this.initialDueDate,
+  });
 
   @override
-  State<AddTaskPage> createState() => _AddTaskPageState();
+  State<EditTaskPage> createState() => _EditTaskPageState();
 }
 
-class _AddTaskPageState extends State<AddTaskPage> {
-  String title = '', priority = 'Medium', addedDate = '20-Feb-2026';
-  String? assignedTo, dueDate;
+class _EditTaskPageState extends State<EditTaskPage> {
+  late String title;
+  late String priority;
+  String? assignedTo;
+  String? dueDate;
+  late TextEditingController titleController;
+
+  @override
+  void initState() {
+    super.initState();
+    title = widget.initialTitle;
+    priority = widget.initialPriority;
+    assignedTo = widget.initialAssignedTo;
+    dueDate = widget.initialDueDate;
+    titleController = TextEditingController(text: title);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +51,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
         leading: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white), onPressed: () => Navigator.pop(context)),
-        title: const Text('Add Task', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+        title: const Text('Edit Task', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -30,7 +60,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: [
             const Text('Title *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 8),
-            TextField(onChanged: (value) => title = value, decoration: InputDecoration(hintText: 'e.g. Confirm catering menu', border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
+            TextField(controller: titleController, onChanged: (value) => title = value, decoration: InputDecoration(hintText: 'e.g. Confirm catering menu', border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
             const SizedBox(height: 16),
             const Text('Description', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 8),
@@ -101,13 +131,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
             const SizedBox(height: 16),
             const Text('Due Date', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 8),
-            TextField(readOnly: true, onTap: () async { final date = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2100)); if (date != null) setState(() => dueDate = '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}'); }, decoration: InputDecoration(hintText: 'Select date', prefixIcon: const Icon(Icons.calendar_today, size: 18), border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
+            TextField(readOnly: true, controller: TextEditingController(text: dueDate ?? ''), onTap: () async { final date = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2100)); if (date != null) setState(() => dueDate = '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}'); }, decoration: InputDecoration(hintText: 'Select date', prefixIcon: const Icon(Icons.calendar_today, size: 18), border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
             const SizedBox(height: 32),
             Row(
               children: [
-                Expanded(child: OutlinedButton(onPressed: () => Navigator.pop(context), style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Close', style: TextStyle(fontFamily: 'Inter')))),
+                Expanded(child: OutlinedButton(onPressed: () => Navigator.pop(context), style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Cancel', style: TextStyle(fontFamily: 'Inter')))),
                 const SizedBox(width: 12),
-                Expanded(child: ElevatedButton(onPressed: () { if (title.isNotEmpty) Navigator.pop(context, {'title': title, 'priority': priority, 'assignedTo': assignedTo, 'addedDate': addedDate, 'dueDate': dueDate}); }, style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350), foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Add Task', style: TextStyle(fontFamily: 'Inter')))),
+                Expanded(child: ElevatedButton(onPressed: () { if (title.isNotEmpty) Navigator.pop(context, {'title': title, 'priority': priority, 'assignedTo': assignedTo, 'dueDate': dueDate}); }, style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350), foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Update Task', style: TextStyle(fontFamily: 'Inter')))),
               ],
             ),
           ],
