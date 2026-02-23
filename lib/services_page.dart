@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'services_manager.dart';
 import 'checklist_design_page.dart';
+import 'event_timeline_page.dart';
 
 class ServicesPage extends StatefulWidget {
   final int initialTab;
@@ -16,7 +17,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this, initialIndex: widget.initialTab);
+    _tabController = TabController(length: 7, vsync: this, initialIndex: widget.initialTab);
   }
 
   @override
@@ -47,9 +48,12 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           labelPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           tabs: [
             Tab(text: 'Event Overview (${pending.length})'),
-            Tab(text: 'Checklist (${inProgress.length})'),
-            Tab(text: 'Completed (${completed.length})'),
-            Tab(text: 'Cancelled (${cancelled.length})'),
+            const Tab(text: 'Checklist'),
+            const Tab(text: 'Event Timeline'),
+            const Tab(text: 'Vendors'),
+            const Tab(text: 'Guest List'),
+            const Tab(text: 'Accommodation'),
+            const Tab(text: 'Other'),
           ],
           labelStyle: const TextStyle(fontFamily: 'Inter'),
           unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
@@ -59,9 +63,12 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
         controller: _tabController,
         children: [
           _buildRequestsList(pending, width, height, ServiceStatus.pending),
-          _buildRequestsList(inProgress, width, height, ServiceStatus.inProgress),
-          _buildRequestsList(completed, width, height, ServiceStatus.completed),
-          _buildRequestsList(cancelled, width, height, ServiceStatus.cancelled),
+          _buildChecklistDesign(),
+          const EventTimelinePage(),
+          _buildPlaceholder('Vendors'),
+          _buildPlaceholder('Guest List'),
+          _buildPlaceholder('Accommodation'),
+          _buildPlaceholder('Other'),
         ],
       ),
     );
@@ -70,10 +77,6 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   Widget _buildRequestsList(List<ServiceRequest> requests, double width, double height, ServiceStatus status) {
     if (status == ServiceStatus.pending) {
       return _buildEventOverviewDesign(width, height);
-    }
-    
-    if (status == ServiceStatus.inProgress) {
-      return _buildChecklistDesign();
     }
     
     if (requests.isEmpty) {
@@ -315,6 +318,12 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
 
   Widget _buildChecklistDesign() {
     return const ChecklistDesignPage();
+  }
+
+  Widget _buildPlaceholder(String title) {
+    return Center(
+      child: Text('$title Page', style: const TextStyle(fontSize: 18, color: Colors.grey, fontFamily: 'Inter')),
+    );
   }
 
 
