@@ -57,7 +57,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Full Name *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Full Name *', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _fullNameController,
@@ -73,7 +73,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedGender,
@@ -95,7 +95,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Age', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Age', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _ageController,
@@ -116,7 +116,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _phoneController,
@@ -133,7 +133,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emailController,
@@ -154,7 +154,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _foodPreferenceController,
@@ -171,7 +171,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Allergies', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Allergies', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _allergiesController,
@@ -186,7 +186,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text('Medical Notes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Medical Notes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _medicalNotesController,
@@ -203,7 +203,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Language Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Language Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _languagePreferenceController,
@@ -220,7 +220,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Arrival Date & Time', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Arrival Date & Time', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _arrivalDateController,
@@ -237,7 +237,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text('Departure Date & Time', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Departure Date & Time', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _departureDateController,
@@ -300,7 +300,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Emergency Contact Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Emergency Contact Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emergencyContactNameController,
@@ -317,7 +317,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Emergency Contact Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Emergency Contact Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _emergencyContactPhoneController,
@@ -338,7 +338,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Photo ID Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Photo ID Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _photoIdTypeController,
@@ -355,7 +355,7 @@ class _AddGuestPageState extends State<AddGuestPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Photo ID Number', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                          const Text('Photo ID Number', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _photoIdNumberController,
@@ -370,14 +370,14 @@ class _AddGuestPageState extends State<AddGuestPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text('Upload Photo ID', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Upload Photo ID', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 OutlinedButton(
                   onPressed: () {},
                   child: const Text('Choose File - No file chosen', style: TextStyle(fontFamily: 'Inter')),
                 ),
                 const SizedBox(height: 20),
-                const Text('Additional Notes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Additional Notes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _additionalNotesController,

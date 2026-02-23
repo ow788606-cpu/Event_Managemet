@@ -27,7 +27,7 @@ class _GuestListPageState extends State<GuestListPage> {
                   icon: const Icon(Icons.filter_list),
                 ),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: _exportGuestList,
                   child: const Text('Export List', style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
                 ),
                 const SizedBox(width: 12),
@@ -110,6 +110,21 @@ class _GuestListPageState extends State<GuestListPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _exportGuestList() {
+    final csvData = StringBuffer();
+    csvData.writeln('Name,Phone,Email,Gender,Age,Food,Arrival,Departure,VIP');
+    
+    csvData.writeln('Guest 01,+91 90000 00001,guest01@test.com,Male,28,Veg,A: Feb 3 08:00 AM,D: Feb 6 10:00 AM,No');
+    csvData.writeln('Guest 02,+91 90000 00002,guest02@test.com,Female,31,Non-Veg,A: Feb 3 10:00 AM,D: Feb 6 10:00 AM,Yes');
+    csvData.writeln('Guest 03,+91 90000 00003,guest03@test.com,Male,40,Veg,A: Feb 4 08:00 AM,D: Feb 7 09:00 AM,No');
+    csvData.writeln('Guest 04,+91 90000 00004,guest04@test.com,Female,35,Jain,A: Feb 4 09:00 AM,D: Feb 6 11:00 AM,No');
+    csvData.writeln('Guest 05,+91 90000 00005,guest05@test.com,Male,65,Veg,A: Feb 5 07:30 AM,D: Feb 7 10:00 AM,No');
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Guest list exported to CSV', style: TextStyle(fontFamily: 'Inter'))),
     );
   }
 

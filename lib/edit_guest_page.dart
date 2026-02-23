@@ -71,7 +71,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Guest Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Guest Name', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _nameController,
@@ -81,7 +81,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Phone', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _phoneController,
@@ -91,7 +91,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Email', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _emailController,
@@ -101,7 +101,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedGender,
@@ -115,7 +115,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   onChanged: (value) => setState(() => _selectedGender = value!),
                 ),
                 const SizedBox(height: 20),
-                const Text('Age', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Age', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _ageController,
@@ -125,7 +125,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   initialValue: _selectedFood,
@@ -139,7 +139,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   onChanged: (value) => setState(() => _selectedFood = value!),
                 ),
                 const SizedBox(height: 20),
-                const Text('Arrival Info', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Arrival Info', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _arrivalController,
@@ -149,7 +149,7 @@ class _EditGuestPageState extends State<EditGuestPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text('Departure Info', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+                const Text('Departure Info', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _departureController,
