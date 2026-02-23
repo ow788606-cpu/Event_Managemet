@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'edit_vendor_page.dart';
+import 'add_new_vendor_page.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage({super.key});
@@ -58,12 +60,17 @@ class _VendorsPageState extends State<VendorsPage> {
                   icon: const Icon(Icons.filter_list),
                 ),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: _exportVendors,
                   child: const Text('Export Vendors', style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AddNewVendorPage()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF520350),
                   ),
@@ -87,6 +94,19 @@ class _VendorsPageState extends State<VendorsPage> {
           ),
         ],
       ),
+    );
+  }
+
+  void _exportVendors() {
+    final csvData = StringBuffer();
+    csvData.writeln('Vendor Name,Description,Contact,Category,Status,Quote');
+    
+    for (var vendor in _filteredVendors) {
+      csvData.writeln('${vendor['name']},${vendor['description']},${vendor['contact']},${vendor['category']},${vendor['status']},${vendor['quote']}');
+    }
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Exported ${_filteredVendors.length} vendors to CSV', style: const TextStyle(fontFamily: 'Inter'))),
     );
   }
 
@@ -262,7 +282,24 @@ class _VendorsPageState extends State<VendorsPage> {
                   ],
                 ),
               ),
-              IconButton(icon: const Icon(Icons.edit, size: 18, color: Colors.blue), onPressed: () {}),
+              IconButton(
+                icon: const Icon(Icons.edit, size: 18, color: Colors.blue),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditVendorPage(
+                        name: name,
+                        description: description,
+                        contact: contact,
+                        category: category,
+                        status: status,
+                        quote: quote,
+                      ),
+                    ),
+                  );
+                },
+              ),
               IconButton(icon: const Icon(Icons.delete, size: 18, color: Colors.red), onPressed: () {}),
             ],
           ),

@@ -37,7 +37,14 @@ class _VendorDetailsPageState extends State<VendorDetailsPage> {
               final messenger = ScaffoldMessenger.of(context);
               
               final updatedVendor = await navigator.push(
-                MaterialPageRoute(builder: (_) => EditVendorPage(vendor: _vendor)),
+                MaterialPageRoute(builder: (_) => EditVendorPage(
+                  name: _vendor['name'] ?? '',
+                  description: _vendor['description'] ?? '',
+                  contact: _vendor['contact'] ?? '',
+                  category: _vendor['category'] ?? '',
+                  status: _vendor['status'] ?? 'Hired',
+                  quote: _vendor['quote'] ?? '',
+                )),
               );
               
               if (updatedVendor != null && mounted) {
@@ -61,13 +68,13 @@ class _VendorDetailsPageState extends State<VendorDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_vendor['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+              Text(_vendor['name'] ?? '', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 24),
-              _buildDetailRow(Icons.category, 'Category', _vendor['category']),
-              _buildDetailRow(Icons.phone, 'Phone', _vendor['phone']),
-              _buildDetailRow(Icons.email, 'Email', _vendor['email']),
-              _buildDetailRow(Icons.location_on, 'Address', _vendor['address']),
-              _buildDetailRow(Icons.info, 'Status', _vendor['status']),
+              _buildDetailRow(Icons.category, 'Category', _vendor['category'] ?? ''),
+              _buildDetailRow(Icons.phone, 'Phone', _vendor['contact'] ?? ''),
+              _buildDetailRow(Icons.description, 'Description', _vendor['description'] ?? ''),
+              _buildDetailRow(Icons.info, 'Status', _vendor['status'] ?? ''),
+              _buildDetailRow(Icons.attach_money, 'Quote', _vendor['quote'] ?? ''),
             ],
           ),
         ),
