@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'services_page.dart'; // Import services page
+import 'add_task_page.dart';
 
 class ChecklistDesignPage extends StatefulWidget {
   const ChecklistDesignPage({super.key});
@@ -9,178 +9,222 @@ class ChecklistDesignPage extends StatefulWidget {
 }
 
 class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
+  String _statusFilter = 'All';
+  String? _assignedFilter;
+  final TextEditingController _searchController = TextEditingController();
+
   final List<ChecklistItem> _items = [
-    ChecklistItem('Venue Booking', false, 'High'),
-    ChecklistItem('Catering Service', false, 'High'),
-    ChecklistItem('Photography', false, 'Medium'),
-    ChecklistItem('Decoration', false, 'Medium'),
-    ChecklistItem('Invitations', false, 'Low'),
+    ChecklistItem('Finalize birthday budget', false, 'Medium', 'Neha Mehta',
+        '20-Feb-2026', '20-Feb-2026'),
+    ChecklistItem(
+        'Prepare guest list', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem('Book birthday party venue', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem(
+        'Confirm venue layout', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem('Finalize birthday theme decor', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem('Finalize balloons and floral decor', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem(
+        'Finalize lighting setup', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem(
+        'Arrange furniture setup', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem('Finalize food and snacks menu', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem(
+        'Confirm food quantity', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem(
+        'Order birthday cake', false, 'Medium', null, '20-Feb-2026', null),
+    ChecklistItem('Arrange games and entertainment', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem('Arrange DJ or music system', false, 'Medium', null,
+        '20-Feb-2026', null),
+    ChecklistItem('Arrange anchor or game host', false, 'Medium', null,
+        '20-Feb-2026', null),
   ];
+
+  List<String> get _assignees => ['All', 'Unassigned', 'My Self', 'Amit Shah', 'Jiya Suthar', 'Neha Mehta', 'Pooja Jain', 'Rohan Patel', 'Suresh Yadav'];
+
+  List<ChecklistItem> get _filteredItems {
+    return _items.where((item) {
+      if (_statusFilter == 'Pending' && item.isCompleted) return false;
+      if (_statusFilter == 'Completed' && !item.isCompleted) return false;
+      if (_assignedFilter != null && _assignedFilter != 'Unassigned' && item.assignedTo != _assignedFilter) return false;
+      if (_assignedFilter == 'Unassigned' && item.assignedTo != null) return false;
+      if (_searchController.text.isNotEmpty && !item.title.toLowerCase().contains(_searchController.text.toLowerCase())) return false;
+      return true;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF520350),
-        elevation: 0,
-        title: const Text('Event Checklist',
-            style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Inter')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.view_list, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ServicesPage(initialTab: 1),
-                ),
-              );
-            },
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 2, offset: const Offset(0, 1))]),
+            child: Row(
+              children: [
+                IconButton(icon: const Icon(Icons.filter_list), onPressed: _showFilters),
+                const Spacer(),
+                OutlinedButton.icon(onPressed: _exportToExcel, icon: const Icon(Icons.download, size: 18), label: const Text('Export', style: TextStyle(fontFamily: 'Inter', fontSize: 12)), style: OutlinedButton.styleFrom(foregroundColor: Colors.black)),
+                const SizedBox(width: 8),
+                ElevatedButton.icon(onPressed: _addTask, icon: const Icon(Icons.add, size: 18), label: const Text('Add Task', style: TextStyle(fontFamily: 'Inter', fontSize: 12)), style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350))),
+              ],
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: _addItem,
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: _filteredItems.length,
+              itemBuilder: (context, index) => _buildChecklistCard(_filteredItems[index]),
+            ),
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: _items.length,
-        itemBuilder: (context, index) => _buildChecklistCard(_items[index]),
+    );
+  }
+
+  void _showFilters() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => Container(
+          padding: const EdgeInsets.all(20),
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Filters', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  TextButton(onPressed: () { setModalState(() { _statusFilter = 'All'; _assignedFilter = null; _searchController.clear(); }); setState(() {}); }, child: const Text('Clear All', style: TextStyle(color: Color(0xFF520350), fontFamily: 'Inter'))),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _searchController,
+                decoration: InputDecoration(hintText: 'Search...', prefixIcon: const Icon(Icons.search, size: 20), border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.symmetric(vertical: 8)),
+                onChanged: (value) { setModalState(() {}); setState(() {}); },
+              ),
+              const SizedBox(height: 20),
+              const Text('STATUS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, fontFamily: 'Inter')),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                children: ['All', 'Pending', 'Completed'].map((status) => GestureDetector(
+                  onTap: () { setModalState(() => _statusFilter = status); setState(() {}); },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(color: _statusFilter == status ? const Color(0xFF520350) : Colors.transparent, borderRadius: BorderRadius.circular(20), border: Border.all(color: _statusFilter == status ? const Color(0xFF520350) : Colors.grey)),
+                    child: Text(status, style: TextStyle(color: _statusFilter == status ? Colors.white : Colors.black, fontFamily: 'Inter', fontSize: 12)),
+                  ),
+                )).toList(),
+              ),
+              const SizedBox(height: 20),
+              const Text('ASSIGNED TO', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey, fontFamily: 'Inter')),
+              const SizedBox(height: 8),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _assignees.length,
+                  itemBuilder: (context, index) {
+                    final assignee = _assignees[index];
+                    final count = assignee == 'All' ? 28 : assignee == 'Unassigned' ? 25 : assignee == 'Neha Mehta' ? 1 : 0;
+                    final isSelected = (_assignedFilter ?? 'All') == assignee;
+                    return ListTile(
+                      title: Text(assignee, style: TextStyle(fontSize: 14, color: isSelected ? const Color(0xFF520350) : Colors.black, fontFamily: 'Inter')),
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(color: isSelected ? const Color(0xFF520350) : Colors.grey[300], borderRadius: BorderRadius.circular(12)),
+                        child: Text('$count', style: TextStyle(fontSize: 12, color: isSelected ? Colors.white : Colors.black, fontFamily: 'Inter')),
+                      ),
+                      onTap: () { setModalState(() => _assignedFilter = assignee == 'All' ? null : assignee); setState(() {}); },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  void _exportToExcel() {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Exported ${_filteredItems.length} items to CSV'), duration: const Duration(seconds: 2)));
+  }
+
+  void _addTask() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AddTaskPage(assignees: _assignees)),
+    );
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() => _items.add(ChecklistItem(result['title'], false, result['priority'], result['assignedTo'], result['addedDate'], result['dueDate'])));
+    }
   }
 
   Widget _buildChecklistCard(ChecklistItem item) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade100,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Checkbox(
-            value: item.isCompleted,
-            onChanged: (value) {
-              setState(() {
-                item.isCompleted = value ?? false;
-              });
-            },
-            activeColor: const Color(0xFF520350),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      decoration: BoxDecoration(color: const Color(0xFFE7DFE7), borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                Text(
-                  item.title,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Inter',
-                    decoration: item.isCompleted
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: _getPriorityColor(item.priority),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    item.priority,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                ),
+                Expanded(child: Text(item.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'))),
+                IconButton(icon: Icon(item.isCompleted ? Icons.check_circle : Icons.check_circle_outline, color: item.isCompleted ? Colors.green : Colors.grey, size: 20), onPressed: () => setState(() => item.isCompleted = !item.isCompleted), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+                const SizedBox(width: 4),
+                IconButton(icon: const Icon(Icons.more_vert, size: 20), onPressed: () {}, padding: EdgeInsets.zero, constraints: const BoxConstraints()),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(child: _buildInfoRow(Icons.flag, 'Priority', item.priority)),
+                const SizedBox(width: 4),
+                Expanded(child: _buildInfoRow(Icons.person, 'Assigned', item.assignedTo ?? '-')),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(child: _buildInfoRow(Icons.calendar_today, 'Added', item.addedDate)),
+                const SizedBox(width: 4),
+                Expanded(child: _buildInfoRow(Icons.event, 'Due', item.dueDate ?? '-')),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Color _getPriorityColor(String priority) {
-    switch (priority) {
-      case 'High':
-        return Colors.red;
-      case 'Medium':
-        return Colors.orange;
-      case 'Low':
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  void _addItem() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        String title = '';
-        String priority = 'Medium';
-        return AlertDialog(
-          title: const Text('Add Checklist Item'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
+  Widget _buildInfoRow(IconData icon, String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 14, color: Colors.grey[700]),
+        const SizedBox(width: 4),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                onChanged: (value) => title = value,
-                decoration: const InputDecoration(labelText: 'Task Name'),
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                initialValue: priority,
-                items: ['High', 'Medium', 'Low']
-                    .map((p) => DropdownMenuItem(value: p, child: Text(p)))
-                    .toList(),
-                onChanged: (value) => priority = value ?? 'Medium',
-                decoration: const InputDecoration(labelText: 'Priority'),
-              ),
+              Text(label, style: TextStyle(fontSize: 9, color: Colors.grey[600], fontFamily: 'Inter')),
+              Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'Inter'), overflow: TextOverflow.ellipsis),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (title.isNotEmpty) {
-                  setState(() {
-                    _items.add(ChecklistItem(title, false, priority));
-                  });
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        );
-      },
+        ),
+      ],
     );
   }
 }
@@ -189,6 +233,10 @@ class ChecklistItem {
   String title;
   bool isCompleted;
   String priority;
+  String? assignedTo;
+  String addedDate;
+  String? dueDate;
 
-  ChecklistItem(this.title, this.isCompleted, this.priority);
+  ChecklistItem(this.title, this.isCompleted, this.priority, this.assignedTo,
+      this.addedDate, this.dueDate);
 }
