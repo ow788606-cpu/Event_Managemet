@@ -205,21 +205,46 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
   Widget _buildChecklistCard(ChecklistItem item) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(color: const Color(0xFFE7DFE7), borderRadius: BorderRadius.circular(16)),
+      decoration: BoxDecoration(
+        color: item.isCompleted ? const Color(0xFFD4EDDA) : const Color(0xFFE7DFE7),
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Expanded(child: Text(item.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'))),
-                IconButton(icon: Icon(item.isCompleted ? Icons.check_circle : Icons.check_circle_outline, color: item.isCompleted ? Colors.green : Colors.grey, size: 20), onPressed: () => setState(() => item.isCompleted = !item.isCompleted), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+                IconButton(
+                  icon: Icon(item.isCompleted ? Icons.check_circle : Icons.check_circle_outline, color: item.isCompleted ? Colors.green : Colors.grey, size: 20),
+                  onPressed: () => setState(() => item.isCompleted = !item.isCompleted),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
                 const SizedBox(width: 4),
-                IconButton(icon: const Icon(Icons.more_vert, size: 20), onPressed: () => _editTask(item), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.more_vert, size: 20),
+                  padding: EdgeInsets.zero,
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      _editTask(item);
+                    } else if (value == 'mark') {
+                      setState(() => item.isCompleted = true);
+                    } else if (value == 'delete') {
+                      setState(() => _items.remove(item));
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'edit', child: Text('Edit', style: TextStyle(fontFamily: 'Inter'))),
+                    const PopupMenuItem(value: 'mark', child: Text('Mark as Read', style: TextStyle(fontFamily: 'Inter'))),
+                    const PopupMenuItem(value: 'delete', child: Text('Delete', style: TextStyle(fontFamily: 'Inter', color: Colors.red))),
+                  ],
+                ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(child: _buildInfoRow(Icons.flag, 'Priority', item.priority)),
@@ -227,7 +252,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 Expanded(child: _buildInfoRow(Icons.person, 'Assigned', item.assignedTo ?? '-')),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(child: _buildInfoRow(Icons.calendar_today, 'Added', item.addedDate)),
