@@ -164,33 +164,33 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           const SizedBox(height: 16),
           Row(
             children: [
-              _buildStatCard(Icons.people, '0', 'Guest Invited', const Color(0xFF520350), width),
+              _buildStatCard(Icons.people, '121', 'Guest Invited', const Color(0xFF520350), width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.check, '0', 'Invitation Accepted', Colors.green, width),
+              _buildStatCard(Icons.check, '65', 'Invitation Accepted', Colors.green, width),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildStatCard(Icons.cancel, '0', 'Invitation Declined', Colors.red, width),
+              _buildStatCard(Icons.cancel, '21', 'Invitation Declined', Colors.red, width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.person, '0', 'Confirmation Pending', Colors.orange, width),
+              _buildStatCard(Icons.person, '35', 'Confirmation Pending', Colors.orange, width),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Guest Pickup', '0', 'Required', '0', 'Assigned')),
+              Expanded(child: _buildSummaryCard('Guest Pickup', '30', 'Required', '0', 'Assigned')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Vendors', '0', 'Hired', '0', 'Shortlisted')),
+              Expanded(child: _buildSummaryCard('Vendors', '12', 'Hired', '7', 'Shortlisted')),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Tasks', '0', 'Pending', '0', 'Completed')),
+              Expanded(child: _buildSummaryCard('Tasks', '24', 'Pending', '18', 'Completed')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Other', '0', 'VIP Guest', '0', 'Wheelchair')),
+              Expanded(child: _buildSummaryCard('Other', '25', 'VIP Guest', '12', 'Wheelchair')),
             ],
           ),
           const SizedBox(height: 12),
@@ -204,7 +204,9 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             ],
           ),
           const SizedBox(height: 12),
-          _buildSingleCard('Event Timeline'),
+          _buildEventTimelineCard(),
+          const SizedBox(height: 12),
+          _buildGuestAccommodationCard(),
         ],
       ),
     );
@@ -274,7 +276,10 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              const Icon(Icons.open_in_new, size: 14, color: Colors.grey),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: const Icon(Icons.open_in_new, size: 14, color: Colors.grey),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -359,7 +364,10 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Guest Age Ratio', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -437,7 +445,10 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Gender', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -505,7 +516,10 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -573,6 +587,185 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
         const SizedBox(width: 4),
         Text(label, style: const TextStyle(fontSize: 10, fontFamily: 'Inter')),
       ],
+    );
+  }
+
+  Widget _buildEventTimelineCard() {
+    final events = [
+      {'date': '03\nFeb', 'title': 'Guest Arrival & Check-In', 'time': '12:00 - 18:00', 'location': 'Resort Lobby'},
+      {'date': '03\nFeb', 'title': 'Welcome Lunch', 'time': '13:30 - 15:30', 'location': 'Dining Restaurant'},
+      {'date': '03\nFeb', 'title': 'Welcome Soirée', 'time': '18:00 - 20:30', 'location': 'Poolside / Beachfront'},
+      {'date': '03\nFeb', 'title': 'Night meet & gala', 'time': '20:00 - 21:30', 'location': 'party hall'},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade100,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Event Timeline', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ...events.map((event) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF520350),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      event['date']!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(event['title']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(Icons.access_time, size: 12, color: Colors.grey[600]),
+                          const SizedBox(width: 4),
+                          Text(event['time']!, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter')),
+                          const SizedBox(width: 12),
+                          Icon(Icons.location_on, size: 12, color: Colors.grey[600]),
+                          const SizedBox(width: 4),
+                          Expanded(child: Text(event['location']!, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter'))),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGuestAccommodationCard() {
+    final accommodations = [
+      {'day': 'Day\n1', 'title': 'Welcome', 'date': '03 Feb\n2026', 'guests': '48', 'rooms': '0'},
+      {'day': 'Day\n2', 'title': 'Colors &\nCulture', 'date': '04 Feb\n2026', 'guests': '89', 'rooms': '0'},
+      {'day': 'Day\n3', 'title': 'Music &\nCellus', 'date': '05 Feb\n2026', 'guests': '121', 'rooms': '0'},
+      {'day': 'Day\n4', 'title': 'The Grand\nUnion', 'date': '06 Feb\n2026', 'guests': '97', 'rooms': '0'},
+      {'day': 'Day\n5', 'title': 'Farewell\nwith Love', 'date': '07 Feb\n2026', 'guests': '57', 'rooms': '0'},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade100,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              GestureDetector(
+                onTap: () => _tabController.animateTo(2),
+                child: Icon(Icons.open_in_new, size: 14, color: Colors.grey[400]),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Table(
+            border: TableBorder.all(color: Colors.grey.shade300, width: 1),
+            columnWidths: const {
+              0: FlexColumnWidth(1.2),
+              1: FlexColumnWidth(2),
+              2: FlexColumnWidth(1.5),
+              3: FlexColumnWidth(1.3),
+              4: FlexColumnWidth(1.3),
+            },
+            children: [
+              TableRow(
+                decoration: BoxDecoration(color: Colors.grey.shade100),
+                children: [
+                  _buildTableHeader('Day'),
+                  _buildTableHeader('Title'),
+                  _buildTableHeader('Date'),
+                  _buildTableHeader('No of\nGuest'),
+                  _buildTableHeader('Room\nBooked'),
+                ],
+              ),
+              ...accommodations.map((acc) => TableRow(
+                children: [
+                  _buildTableCell(acc['day']!),
+                  _buildTableCell(acc['title']!),
+                  _buildTableCell(acc['date']!),
+                  _buildTableCell(acc['guests']!),
+                  _buildTableCell(acc['rooms']!),
+                ],
+              )),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTableHeader(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+      ),
+    );
+  }
+
+  Widget _buildTableCell(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 10, fontFamily: 'Inter'),
+      ),
     );
   }
 
