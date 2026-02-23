@@ -74,7 +74,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
+                  border: Border.all(color: Colors.black87),
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.white,
                 ),
