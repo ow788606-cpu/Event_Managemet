@@ -48,13 +48,14 @@ class _AddNewVendorPageState extends State<AddNewVendorPage> {
         ),
         title: const Text('Add Vendor', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
       ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               RichText(
                 text: const TextSpan(
                   text: 'Category',
@@ -105,46 +106,28 @@ class _AddNewVendorPageState extends State<AddNewVendorPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Status', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
-                        const SizedBox(height: 8),
-                        DropdownButtonFormField<String>(
-                          initialValue: _selectedStatus,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          ),
-                          items: ['Shortlisted', 'Hired'].map((status) {
-                            return DropdownMenuItem(value: status, child: Text(status, style: const TextStyle(fontFamily: 'Inter')));
-                          }).toList(),
-                          onChanged: (value) => setState(() => _selectedStatus = value!),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Quote Amount', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _quoteController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              const Text('Status', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const SizedBox(height: 8),
+              DropdownButtonFormField<String>(
+                initialValue: _selectedStatus,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                ),
+                items: ['Shortlisted', 'Hired'].map((status) {
+                  return DropdownMenuItem(value: status, child: Text(status, style: const TextStyle(fontFamily: 'Inter')));
+                }).toList(),
+                onChanged: (value) => setState(() => _selectedStatus = value!),
+              ),
+              const SizedBox(height: 20),
+              const Text('Quote Amount', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _quoteController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                ),
               ),
               const SizedBox(height: 20),
               const Text('Notes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'Inter')),
@@ -169,7 +152,8 @@ class _AddNewVendorPageState extends State<AddNewVendorPage> {
                   child: const Text('Add Vendor', style: TextStyle(color: Colors.white, fontFamily: 'Inter', fontSize: 16)),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
