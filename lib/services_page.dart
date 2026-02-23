@@ -3,6 +3,7 @@ import 'services_manager.dart';
 import 'checklist_design_page.dart';
 import 'event_timeline_page.dart';
 import 'vendors_page.dart';
+import 'guest_list_page.dart';
 
 class ServicesPage extends StatefulWidget {
   final int initialTab;
@@ -67,7 +68,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           _buildChecklistDesign(),
           const EventTimelinePage(),
           const VendorsPage(),
-          _buildPlaceholder('Guest List'),
+          const GuestListPage(),
           _buildPlaceholder('Accommodation'),
           _buildPlaceholder('Other'),
         ],
