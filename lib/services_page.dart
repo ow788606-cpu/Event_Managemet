@@ -4,6 +4,7 @@ import 'checklist_design_page.dart';
 import 'event_timeline_page.dart';
 import 'vendors_page.dart';
 import 'guest_list_page.dart';
+import 'services/database_service.dart';
 
 class ServicesPage extends StatefulWidget {
   final int initialTab;
@@ -15,11 +16,41 @@ class ServicesPage extends StatefulWidget {
 
 class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<Map<String, dynamic>> _eventFunctions = [];
+  List<Map<String, dynamic>> _eventDays = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 7, vsync: this, initialIndex: widget.initialTab);
+    _loadEventFunctions();
+    _loadEventDays();
+  }
+
+  Future<void> _loadEventFunctions() async {
+    try {
+      final functions = await DatabaseService.getEventFunctions();
+      if (mounted) {
+        setState(() {
+          _eventFunctions = functions;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
+
+  Future<void> _loadEventDays() async {
+    try {
+      final days = await DatabaseService.getEventDays();
+      if (mounted) {
+        setState(() {
+          _eventDays = days;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
   }
 
   @override
@@ -535,13 +566,6 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   }
 
   Widget _buildEventTimelineCard() {
-    final events = [
-      {'date': '03\nFeb', 'title': 'Guest Arrival & Check-In', 'time': '12:00 - 18:00', 'location': 'Resort Lobby'},
-      {'date': '03\nFeb', 'title': 'Welcome Lunch', 'time': '13:30 - 15:30', 'location': 'Dining Restaurant'},
-      {'date': '03\nFeb', 'title': 'Welcome Soirée', 'time': '18:00 - 20:30', 'location': 'Poolside / Beachfront'},
-      {'date': '03\nFeb', 'title': 'Night meet & gala', 'time': '20:00 - 21:30', 'location': 'party hall'},
-    ];
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -562,63 +586,67 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             ],
           ),
           const SizedBox(height: 16),
-          ...events.map((event) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Row(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF520350),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      event['date']!,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+          if (_eventFunctions.isEmpty)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('No events scheduled', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+              ),
+            )
+          else
+            ...(_eventFunctions.take(4).map((event) {
+              final title = event['function_name']?.toString() ?? '';
+              final startTime = event['start_time']?.toString().substring(0, 5) ?? '';
+              final endTime = event['end_time']?.toString().substring(0, 5) ?? '';
+              final time = '$startTime - $endTime';
+              final location = event['location']?.toString() ?? '';
+              
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF520350),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Center(
+                        child: Icon(Icons.event, color: Colors.white, size: 24),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(event['title']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
-                      const SizedBox(height: 4),
-                      Row(
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.access_time, size: 12, color: Colors.grey[600]),
-                          const SizedBox(width: 4),
-                          Text(event['time']!, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter')),
-                          const SizedBox(width: 12),
-                          Icon(Icons.location_on, size: 12, color: Colors.grey[600]),
-                          const SizedBox(width: 4),
-                          Expanded(child: Text(event['location']!, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter'))),
+                          Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(Icons.access_time, size: 12, color: Colors.grey[600]),
+                              const SizedBox(width: 4),
+                              Text(time, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter')),
+                              const SizedBox(width: 12),
+                              Icon(Icons.location_on, size: 12, color: Colors.grey[600]),
+                              const SizedBox(width: 4),
+                              Expanded(child: Text(location, style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter'))),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )),
+              );
+            })),
         ],
       ),
     );
   }
 
   Widget _buildGuestAccommodationCard() {
-    final accommodations = [
-      {'day': 'Day\n1', 'title': 'Welcome', 'date': '03 Feb\n2026', 'guests': '48', 'rooms': '0'},
-      {'day': 'Day\n2', 'title': 'Colors &\nCulture', 'date': '04 Feb\n2026', 'guests': '89', 'rooms': '0'},
-      {'day': 'Day\n3', 'title': 'Music &\nCellus', 'date': '05 Feb\n2026', 'guests': '121', 'rooms': '0'},
-      {'day': 'Day\n4', 'title': 'The Grand\nUnion', 'date': '06 Feb\n2026', 'guests': '97', 'rooms': '0'},
-      {'day': 'Day\n5', 'title': 'Farewell\nwith Love', 'date': '07 Feb\n2026', 'guests': '57', 'rooms': '0'},
-    ];
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -639,40 +667,63 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             ],
           ),
           const SizedBox(height: 16),
-          Table(
-            border: TableBorder.all(color: Colors.grey.shade300, width: 1),
-            columnWidths: const {
-              0: FlexColumnWidth(1.2),
-              1: FlexColumnWidth(2),
-              2: FlexColumnWidth(1.5),
-              3: FlexColumnWidth(1.3),
-              4: FlexColumnWidth(1.3),
-            },
-            children: [
-              TableRow(
-                decoration: BoxDecoration(color: Colors.grey.shade100),
-                children: [
-                  _buildTableHeader('Day'),
-                  _buildTableHeader('Title'),
-                  _buildTableHeader('Date'),
-                  _buildTableHeader('No of\nGuest'),
-                  _buildTableHeader('Room\nBooked'),
-                ],
+          if (_eventDays.isEmpty)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('No accommodation data', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
               ),
-              ...accommodations.map((acc) => TableRow(
-                children: [
-                  _buildTableCell(acc['day']!),
-                  _buildTableCell(acc['title']!),
-                  _buildTableCell(acc['date']!),
-                  _buildTableCell(acc['guests']!),
-                  _buildTableCell(acc['rooms']!),
-                ],
-              )),
-            ],
-          ),
+            )
+          else
+            Table(
+              border: TableBorder.all(color: Colors.grey.shade300, width: 1),
+              columnWidths: const {
+                0: FlexColumnWidth(1.2),
+                1: FlexColumnWidth(2),
+                2: FlexColumnWidth(1.5),
+                3: FlexColumnWidth(1.3),
+                4: FlexColumnWidth(1.3),
+              },
+              children: [
+                TableRow(
+                  decoration: BoxDecoration(color: Colors.grey.shade100),
+                  children: [
+                    _buildTableHeader('Day'),
+                    _buildTableHeader('Title'),
+                    _buildTableHeader('Date'),
+                    _buildTableHeader('No of\nGuest'),
+                    _buildTableHeader('Room\nBooked'),
+                  ],
+                ),
+                ..._eventDays.asMap().entries.map((entry) {
+                  final index = entry.key + 1;
+                  final day = entry.value;
+                  final title = day['day_title']?.toString() ?? '';
+                  final date = day['event_date']?.toString() ?? '';
+                  final guests = '0';
+                  final rooms = '0';
+                  
+                  return TableRow(
+                    children: [
+                      _buildTableCell('Day\n$index'),
+                      _buildTableCell(title),
+                      _buildTableCell(date.split('-').length >= 3 ? '${date.split('-')[2]} ${_getMonthName(date.split('-')[1])}\n${date.split('-')[0]}' : date),
+                      _buildTableCell(guests),
+                      _buildTableCell(rooms),
+                    ],
+                  );
+                }),
+              ],
+            ),
         ],
       ),
     );
+  }
+
+  String _getMonthName(String month) {
+    const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    final monthNum = int.tryParse(month) ?? 0;
+    return monthNum > 0 && monthNum <= 12 ? months[monthNum] : month;
   }
 
   Widget _buildTableHeader(String text) {

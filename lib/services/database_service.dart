@@ -82,4 +82,16 @@ class DatabaseService {
     }
     throw Exception('Failed to load events');
   }
+
+  // Event Days
+  static Future<List<Map<String, dynamic>>> getEventDays({int? eventId}) async {
+    final url = eventId != null 
+        ? '$baseUrl/event_days.php?event_id=$eventId'
+        : '$baseUrl/event_days.php';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load event days');
+  }
 }
