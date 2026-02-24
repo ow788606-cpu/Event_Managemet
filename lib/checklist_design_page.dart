@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_task_page.dart';
 import 'edit_task_page.dart';
@@ -15,11 +16,21 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
   String? _assignedFilter;
   final TextEditingController _searchController = TextEditingController();
   List<ChecklistItem> _items = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadChecklists();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadChecklists();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadChecklists() async {

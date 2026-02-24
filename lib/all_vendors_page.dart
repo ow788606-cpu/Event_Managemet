@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_vendor_page.dart';
 import 'vendor_details_page.dart';
@@ -12,11 +13,21 @@ class AllVendorsPage extends StatefulWidget {
 
 class _AllVendorsPageState extends State<AllVendorsPage> {
   List<Map<String, dynamic>> _vendors = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadVendors();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadVendors();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadVendors() async {
