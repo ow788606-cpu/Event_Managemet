@@ -22,6 +22,13 @@ class _EmployeeDetailsPageState extends State<EmployeeDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final name = _employee['full_name']?.toString() ?? _employee['name']?.toString() ?? '';
+    final email = _employee['email']?.toString() ?? '';
+    final phone = _employee['phone']?.toString() ?? '';
+    final role = _employee['role']?.toString() ?? '';
+    final department = _employee['department']?.toString() ?? '';
+    final created = _employee['created_at']?.toString() ?? _employee['created']?.toString() ?? '';
+    
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -61,14 +68,14 @@ class _EmployeeDetailsPageState extends State<EmployeeDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_employee['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+              Text(name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 24),
-              _buildDetailRow(Icons.email, 'Email', _employee['email']),
-              _buildDetailRow(Icons.phone, 'Phone', _employee['phone']),
-              _buildDetailRow(Icons.work, 'Role', _employee['role']),
-              _buildDetailRow(Icons.business, 'Department', _employee['department']),
-              _buildDetailRow(Icons.info, 'Status', _employee['status']),
-              _buildDetailRow(Icons.calendar_today, 'Created', _employee['created']),
+              _buildDetailRow(Icons.email, 'Email', email),
+              _buildDetailRow(Icons.phone, 'Phone', phone),
+              _buildDetailRow(Icons.work, 'Role', role),
+              _buildDetailRow(Icons.business, 'Department', department),
+              _buildDetailRow(Icons.info, 'Status', 'Active'),
+              if (created.isNotEmpty) _buildDetailRow(Icons.calendar_today, 'Created', created),
             ],
           ),
         ),

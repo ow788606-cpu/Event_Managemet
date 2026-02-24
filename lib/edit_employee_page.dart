@@ -27,7 +27,8 @@ class _EditEmployeePageState extends State<EditEmployeePage> {
     _emailController = TextEditingController(text: widget.employee['email']);
     _phoneController = TextEditingController(text: widget.employee['phone']);
     _departmentController = TextEditingController(text: widget.employee['department']);
-    _selectedRole = widget.employee['role'];
+    final role = widget.employee['role']?.toString() ?? '';
+    _selectedRole = role.isNotEmpty ? role[0].toUpperCase() + role.substring(1).toLowerCase() : null;
   }
 
   @override

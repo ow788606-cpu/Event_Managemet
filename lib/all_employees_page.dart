@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_employee_page.dart';
 import 'employee_details_page.dart';
+import 'services/database_service.dart';
 
 class AllEmployeesPage extends StatefulWidget {
   const AllEmployeesPage({super.key});
@@ -10,68 +11,26 @@ class AllEmployeesPage extends StatefulWidget {
 }
 
 class _AllEmployeesPageState extends State<AllEmployeesPage> {
-  final List<Map<String, dynamic>> _employees = [
-    {
-      'id': 1,
-      'name': 'Suresh Yadav',
-      'email': 'suresh.yadav@gmail.com',
-      'phone': '9825778899',
-      'role': 'Supervisor',
-      'department': 'Operations',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 2,
-      'name': 'Pooja Jain',
-      'email': 'pooja.jain@gmail.com',
-      'phone': '9909903344',
-      'role': 'Accountant',
-      'department': 'Client Relations',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 3,
-      'name': 'Amit Shah',
-      'email': 'amit.shah@gmail.com',
-      'phone': '9812346677',
-      'role': 'Staff',
-      'department': 'Logistics',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 4,
-      'name': 'Neha Mehta',
-      'email': 'neha.mehta@gmail.com',
-      'phone': '9898981122',
-      'role': 'Staff',
-      'department': 'Event',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 5,
-      'name': 'Rohan Patel',
-      'email': 'rohan.patel@gmail.com',
-      'phone': '9876543210',
-      'role': 'Manager',
-      'department': 'Operations',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-    {
-      'id': 6,
-      'name': 'Jiya Suthar',
-      'email': 'jiya@gmail.com',
-      'phone': '9998887779',
-      'role': 'Manager',
-      'department': 'Event',
-      'status': 'Active',
-      'created': '30 Jan 2026'
-    },
-  ];
+  List<Map<String, dynamic>> _employees = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEmployees();
+  }
+
+  Future<void> _loadEmployees() async {
+    try {
+      final employees = await DatabaseService.getEmployees();
+      if (mounted) {
+        setState(() {
+          _employees = employees;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +88,12 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
           itemCount: _employees.length,
           itemBuilder: (context, index) {
             final employee = _employees[index];
+            final name = employee['full_name']?.toString() ?? employee['name']?.toString() ?? '';
+            final email = employee['email']?.toString() ?? '';
+            final phone = employee['phone']?.toString() ?? '';
+            final role = employee['role']?.toString() ?? '';
+            final department = employee['department']?.toString() ?? '';
+            
             return GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -166,19 +131,19 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(employee['name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                                Text(name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
                                 const SizedBox(height: 4),
-                                Text(employee['email'], style: TextStyle(fontSize: 13, color: Colors.grey[700], fontFamily: 'Inter')),
+                                Text(email, style: TextStyle(fontSize: 13, color: Colors.grey[700], fontFamily: 'Inter')),
                               ],
                             ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: _getRoleColor(employee['role']),
+                              color: _getRoleColor(role),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(employee['role'], style: TextStyle(color: _getRoleTextColor(employee['role']), fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
+                            child: Text(role, style: TextStyle(color: _getRoleTextColor(role), fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
                           ),
                         ],
                       ),
@@ -187,7 +152,7 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                         children: [
                           Icon(Icons.phone, size: 16, color: Colors.grey[700]),
                           const SizedBox(width: 8),
-                          Text(employee['phone'], style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
+                          Text(phone, style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -195,7 +160,7 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                         children: [
                           Icon(Icons.business, size: 16, color: Colors.grey[700]),
                           const SizedBox(width: 8),
-                          Text(employee['department'], style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
+                          Text(department, style: TextStyle(fontSize: 14, color: Colors.grey[700], fontFamily: 'Inter')),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -205,7 +170,7 @@ class _AllEmployeesPageState extends State<AllEmployeesPage> {
                           color: Colors.green[50],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(employee['status'], style: TextStyle(color: Colors.green[700], fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
+                        child: Text('Active', style: TextStyle(color: Colors.green[700], fontSize: 12, fontWeight: FontWeight.w600, fontFamily: 'Inter')),
                       ),
                     ],
                   ),
