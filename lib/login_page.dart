@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
-import 'welcome_page.dart';
+import 'main_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/database_service.dart';
 
@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => WelcomePage(userName: userName),
+                              builder: (_) => MainNavigation(userName: userName),
                             ),
                           );
                         } else {

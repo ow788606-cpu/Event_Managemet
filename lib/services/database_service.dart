@@ -154,4 +154,13 @@ class DatabaseService {
     }
     throw Exception('Failed to register');
   }
+
+  // Organizations - Get All
+  static Future<List<Map<String, dynamic>>> getOrganizations() async {
+    final response = await http.get(Uri.parse('$baseUrl/organizations.php'));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load organizations');
+  }
 }
