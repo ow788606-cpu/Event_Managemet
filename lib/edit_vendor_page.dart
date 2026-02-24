@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class EditVendorPage extends StatefulWidget {
-  final String name;
-  final String description;
-  final String contact;
-  final String category;
-  final String status;
-  final String quote;
+  final String? name;
+  final String? description;
+  final String? contact;
+  final String? category;
+  final String? status;
+  final String? quote;
 
   const EditVendorPage({
     super.key,
-    required this.name,
-    required this.description,
-    required this.contact,
-    required this.category,
-    required this.status,
-    required this.quote,
+    this.name,
+    this.description,
+    this.contact,
+    this.category,
+    this.status,
+    this.quote,
   });
 
   @override
@@ -34,12 +34,12 @@ class _EditVendorPageState extends State<EditVendorPage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.name);
-    _descriptionController = TextEditingController(text: widget.description);
-    _contactController = TextEditingController(text: widget.contact);
-    _categoryController = TextEditingController(text: widget.category);
-    _quoteController = TextEditingController(text: widget.quote);
-    _selectedStatus = widget.status;
+    _nameController = TextEditingController(text: widget.name ?? '');
+    _descriptionController = TextEditingController(text: widget.description ?? '');
+    _contactController = TextEditingController(text: widget.contact ?? '');
+    _categoryController = TextEditingController(text: widget.category ?? '');
+    _quoteController = TextEditingController(text: widget.quote ?? '');
+    _selectedStatus = widget.status ?? 'Active';
   }
 
   @override

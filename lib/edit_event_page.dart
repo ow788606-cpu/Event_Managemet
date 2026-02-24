@@ -22,13 +22,13 @@ class _EditEventPageState extends State<EditEventPage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.event['name']);
-    _dateController = TextEditingController(text: widget.event['date']);
-    _clientController = TextEditingController(text: widget.event['client']);
-    _phoneController = TextEditingController(text: widget.event['phone']);
-    _typeController = TextEditingController(text: widget.event['type']);
-    _budgetController = TextEditingController(text: widget.event['budget']);
-    _managerController = TextEditingController(text: widget.event['manager']);
+    _nameController = TextEditingController(text: widget.event['name']?.toString() ?? '');
+    _dateController = TextEditingController(text: widget.event['date']?.toString() ?? '');
+    _clientController = TextEditingController(text: widget.event['client']?.toString() ?? '');
+    _phoneController = TextEditingController(text: widget.event['phone']?.toString() ?? '');
+    _typeController = TextEditingController(text: widget.event['type']?.toString() ?? '');
+    _budgetController = TextEditingController(text: widget.event['budget']?.toString() ?? '');
+    _managerController = TextEditingController(text: widget.event['manager']?.toString() ?? '');
   }
 
   @override

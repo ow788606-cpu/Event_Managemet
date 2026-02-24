@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_event_page.dart';
 import 'event_details_page.dart';
+import 'services/database_service.dart';
 
 class AllEventsPage extends StatefulWidget {
   const AllEventsPage({super.key});
@@ -10,73 +11,26 @@ class AllEventsPage extends StatefulWidget {
 }
 
 class _AllEventsPageState extends State<AllEventsPage> {
-  final List<Map<String, dynamic>> _events = [
-    {
-      'id': 1,
-      'name': 'Harsh & Nidhi Wedding',
-      'date': '12 Jan 2024 - 15 Jan 2024',
-      'client': 'Rahul Patel',
-      'phone': '+91 99259 91462',
-      'type': 'Wedding',
-      'budget': '₹ 16,00,000',
-      'location': 'External',
-      'guests': '300-400',
-      'manager': 'Neha Mehta',
-      'tag': 'Budget Sensitive'
-    },
-    {
-      'id': 2,
-      'name': 'Rohan & Neha Wedding',
-      'date': '10 Feb 2024 - 12 Feb 2024',
-      'client': 'Rahul Patel',
-      'phone': '+91 99259 91462',
-      'type': 'Award Ceremony',
-      'budget': '₹ 54,00,000',
-      'location': 'External',
-      'guests': '100-200',
-      'manager': 'Jiya Suthar',
-      'tag': 'Flexible Dates'
-    },
-    {
-      'id': 3,
-      'name': 'Omkar Industries AGM',
-      'date': '18 Feb 2024',
-      'client': 'Rahul Patel',
-      'phone': '+91 99259 91462',
-      'type': 'Corporate',
-      'budget': '₹ 98,00,000',
-      'location': 'Destination',
-      'guests': '180',
-      'manager': 'Rohan Patel',
-      'tag': 'High Budget'
-    },
-    {
-      'id': 4,
-      'name': 'Mehta Group Annual Meet',
-      'date': '05 Mar 2024 - 06 Mar 2024',
-      'client': 'Rahul Patel',
-      'phone': '+91 99259 91462',
-      'type': 'Corporate',
-      'budget': '₹ 44,00,000',
-      'location': 'Mumbai',
-      'guests': '200',
-      'manager': 'Jiya Suthar',
-      'tag': '-'
-    },
-    {
-      'id': 5,
-      'name': 'Myra Shah Birthday',
-      'date': '22 Mar 2024',
-      'client': 'Rahul Patel',
-      'phone': '+91 99259 91462',
-      'type': 'Birthday',
-      'budget': '₹ 45,00,000',
-      'location': 'Ahmedabad',
-      'guests': '55',
-      'manager': 'Jiya Suthar',
-      'tag': '-'
-    },
-  ];
+  List<Map<String, dynamic>> _events = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEvents();
+  }
+
+  Future<void> _loadEvents() async {
+    try {
+      final events = await DatabaseService.getEvents();
+      if (mounted) {
+        setState(() {
+          _events = events;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +88,27 @@ class _AllEventsPageState extends State<AllEventsPage> {
                 itemCount: _events.length,
                 itemBuilder: (context, index) {
                   final event = _events[index];
-                  return _buildEventCard(event);
+                  final name = event['title']?.toString() ?? '';
+                  final startDate = event['start_date']?.toString() ?? '';
+                  final endDate = event['end_date']?.toString() ?? '';
+                  final date = endDate.isNotEmpty && endDate != startDate ? '$startDate - $endDate' : startDate;
+                  final client = event['client_name']?.toString() ?? '';
+                  final type = event['event_type']?.toString() ?? '';
+                  final venue = event['venue']?.toString() ?? event['location']?.toString() ?? '';
+                  final budget = event['budget']?.toString() ?? '-';
+                  
+                  final mappedEvent = {
+                    'id': event['id'],
+                    'name': name,
+                    'date': date,
+                    'client': client,
+                    'type': type,
+                    'location': venue,
+                    'budget': budget,
+                    'tag': '-',
+                  };
+                  
+                  return _buildEventCard(mappedEvent);
                 },
               ),
             ),
@@ -145,6 +119,14 @@ class _AllEventsPageState extends State<AllEventsPage> {
   }
 
   Widget _buildEventCard(Map<String, dynamic> event) {
+    final name = event['name']?.toString() ?? '';
+    final date = event['date']?.toString() ?? '';
+    final client = event['client']?.toString() ?? '';
+    final type = event['type']?.toString() ?? '';
+    final location = event['location']?.toString() ?? '';
+    final budget = event['budget']?.toString() ?? '-';
+    final tag = event['tag']?.toString() ?? '-';
+    
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -180,7 +162,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      event['name'],
+                      name,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -188,22 +170,49 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF520350),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      event['type'],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Inter',
+                  Row(
+                    children: [
+                      if (type.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF520350),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            type,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                        ),
+                      const SizedBox(width: 8),
+                      PopupMenuButton(
+                        icon: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF520350),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.more_vert, color: Colors.white, size: 16),
+                        ),
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                          const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                        ],
+                        onSelected: (value) {
+                          if (value == 'edit') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => EventDetailsPage(event: event)),
+                            );
+                          }
+                        },
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -214,7 +223,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    event['date'],
+                    date,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
@@ -229,7 +238,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   const Icon(Icons.person, size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    event['client'],
+                    client,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
@@ -245,7 +254,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    event['location'],
+                    location,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
@@ -264,7 +273,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                           size: 16, color: Colors.black54),
                       const SizedBox(width: 8),
                       Text(
-                        event['budget'],
+                        budget,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -274,7 +283,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       ),
                     ],
                   ),
-                  if (event['tag'] != '-')
+                  if (tag != '-')
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 6),
@@ -283,7 +292,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        event['tag'],
+                        tag,
                         style: const TextStyle(
                           color: Colors.teal,
                           fontSize: 12,

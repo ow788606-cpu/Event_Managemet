@@ -73,4 +73,13 @@ class DatabaseService {
     }
     throw Exception('Failed to load employees');
   }
+
+  // Events
+  static Future<List<Map<String, dynamic>>> getEvents() async {
+    final response = await http.get(Uri.parse('$baseUrl/events.php'));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load events');
+  }
 }

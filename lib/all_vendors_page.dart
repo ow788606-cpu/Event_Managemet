@@ -137,23 +137,50 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                       ),
                     ),
                   ),
-                  if (category.isNotEmpty)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF520350),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        category,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Inter',
+                  Row(
+                    children: [
+                      if (category.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF520350),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            category,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
                         ),
+                      const SizedBox(width: 8),
+                      PopupMenuButton(
+                        icon: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF520350),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.more_vert, color: Colors.white, size: 16),
+                        ),
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                          const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                        ],
+                        onSelected: (value) {
+                          if (value == 'edit') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => VendorDetailsPage(vendor: vendor)),
+                            );
+                          }
+                        },
                       ),
-                    ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
