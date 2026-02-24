@@ -15,17 +15,20 @@ class _WelcomePageState extends State<WelcomePage>
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  late Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this);
+        duration: const Duration(milliseconds: 1800), vsync: this);
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
     _slideAnimation = Tween<Offset>(
-            begin: const Offset(0, 0.5), end: Offset.zero)
+            begin: const Offset(0, 0.3), end: Offset.zero)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
     _controller.forward();
   }
 
@@ -37,166 +40,207 @@ class _WelcomePageState extends State<WelcomePage>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome.png',
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF1A0B2E),
+              Color(0xFF2D1B4E),
+              Color(0xFF520350),
+              Color(0xFF7B2869),
+            ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Colors.black.withValues(alpha: 0.3),
-                  Colors.black.withValues(alpha: 0.65),
-                ],
-              ),
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.08),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FadeTransition(
-                    opacity: _fadeAnimation,
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
+                ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.amber.shade400,
+                          Colors.amber.shade600,
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.amber.withValues(alpha: 0.4),
+                          blurRadius: 30,
+                          spreadRadius: 5,
+                        ),
+                      ],
+                    ),
+                    child: const Icon(Icons.celebration, size: 60, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: const Text(
+                    'Welcome Back!',
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Inter',
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.amber.shade400.withValues(alpha: 0.3),
+                          Colors.amber.shade600.withValues(alpha: 0.3),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Colors.amber, width: 2),
+                    ),
                     child: Text(
-                      'Welcome Back!',
-                      style: TextStyle(
-                        fontSize: width * 0.11,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      widget.userName,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Colors.amber,
+                        fontWeight: FontWeight.w600,
                         fontFamily: 'Inter',
-                        shadows: [
-                          Shadow(
-                            color: Colors.black.withValues(alpha: 0.5),
-                            offset: const Offset(2, 2),
-                            blurRadius: 10,
-                          ),
-                        ],
                       ),
                     ),
                   ),
-                  SizedBox(height: height * 0.02),
-                  FadeTransition(
+                ),
+                const SizedBox(height: 50),
+                SlideTransition(
+                  position: _slideAnimation,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildFeatureCard(Icons.event, 'Events'),
+                      _buildFeatureCard(Icons.people, 'Guests'),
+                      _buildFeatureCard(Icons.task_alt, 'Tasks'),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                SlideTransition(
+                  position: _slideAnimation,
+                  child: FadeTransition(
                     opacity: _fadeAnimation,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.amber.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.amber, width: 2.5),
-                      ),
-                      child: Text(
-                        widget.userName,
-                        style: TextStyle(
-                          fontSize: width * 0.06,
-                          color: Colors.amber,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Inter',
-                        ),
+                    child: const Text(
+                      'Plan, Manage & Execute\nUnforgettable Events',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white70,
+                        fontFamily: 'Inter',
+                        height: 1.5,
                       ),
                     ),
                   ),
-                  SizedBox(height: height * 0.03),
-                  SlideTransition(
-                    position: _slideAnimation,
-                    child: FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: Text(
-                        'Discover amazing events\nand create unforgettable memories',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: width * 0.042,
-                          color: Colors.white,
-                          fontFamily: 'Inter',
-                          height: 1.5,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              offset: const Offset(1, 1),
-                              blurRadius: 5,
-                            ),
-                          ],
-                        ),
+                ),
+                const SizedBox(height: 40),
+                SlideTransition(
+                  position: _slideAnimation,
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                        colors: [Colors.amber.shade400, Colors.amber.shade600],
                       ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.06),
-                  SlideTransition(
-                    position: _slideAnimation,
-                    child: Container(
-                      width: double.infinity,
-                      height: height * 0.07,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        gradient: const LinearGradient(
-                          colors: [Colors.white, Color(0xFFF0F0F0)],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.amber.withValues(alpha: 0.5),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.4),
-                            blurRadius: 25,
-                            offset: const Offset(0, 10),
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => MainNavigation(userName: widget.userName),
                           ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Get Started',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(Icons.arrow_forward, color: Colors.white, size: 24),
                         ],
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  MainNavigation(userName: widget.userName),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Get Started',
-                              style: TextStyle(
-                                color: Colors.purple.shade700,
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Icon(Icons.arrow_forward,
-                                color: Colors.purple.shade700, size: 24),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
-                  SizedBox(height: height * 0.06),
-                ],
-              ),
+                ),
+                const SizedBox(height: 50),
+              ],
             ),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureCard(IconData icon, String label) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Container(
+        width: 100,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 40, color: Colors.amber),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Inter',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
