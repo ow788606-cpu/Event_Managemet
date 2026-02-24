@@ -81,7 +81,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: const Color(0xFFE7DFE7),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -167,7 +167,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFE7DFE7),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(

@@ -6,7 +6,7 @@ class HelpDeskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color(0xFFE7DFE7),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -58,7 +58,7 @@ class HelpDeskPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFE7DFE7),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
