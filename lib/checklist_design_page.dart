@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_task_page.dart';
 import 'edit_task_page.dart';
+import 'services/database_service.dart';
 
 class ChecklistDesignPage extends StatefulWidget {
   const ChecklistDesignPage({super.key});
@@ -13,37 +14,34 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
   String _statusFilter = 'All';
   String? _assignedFilter;
   final TextEditingController _searchController = TextEditingController();
+  List<ChecklistItem> _items = [];
 
-  final List<ChecklistItem> _items = [
-    ChecklistItem('Finalize birthday budget', false, 'Medium', 'Neha Mehta',
-        '20-Feb-2026', '20-Feb-2026'),
-    ChecklistItem(
-        'Prepare guest list', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem('Book birthday party venue', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem(
-        'Confirm venue layout', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem('Finalize birthday theme decor', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem('Finalize balloons and floral decor', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem(
-        'Finalize lighting setup', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem(
-        'Arrange furniture setup', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem('Finalize food and snacks menu', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem(
-        'Confirm food quantity', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem(
-        'Order birthday cake', false, 'Medium', null, '20-Feb-2026', null),
-    ChecklistItem('Arrange games and entertainment', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem('Arrange DJ or music system', false, 'Medium', null,
-        '20-Feb-2026', null),
-    ChecklistItem('Arrange anchor or game host', false, 'Medium', null,
-        '20-Feb-2026', null),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadChecklists();
+  }
+
+  Future<void> _loadChecklists() async {
+    try {
+      final checklists = await DatabaseService.getEventChecklists();
+      if (mounted) {
+        setState(() {
+          _items = checklists.map((c) => ChecklistItem(
+            c['task_title']?.toString() ?? '',
+            false,
+            'Medium',
+            null,
+            c['created_at']?.toString().split(' ')[0] ?? '',
+            null,
+            c['task_description']?.toString(),
+          )).toList();
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
 
   List<String> get _assignees => ['All', 'Unassigned', 'My Self', 'Amit Shah', 'Jiya Suthar', 'Neha Mehta', 'Pooja Jain', 'Rohan Patel', 'Suresh Yadav'];
 
@@ -190,6 +188,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
         initialPriority: item.priority,
         initialAssignedTo: item.assignedTo,
         initialDueDate: item.dueDate,
+        initialDescription: item.description,
       )),
     );
     if (result != null && result is Map<String, dynamic>) {
@@ -244,6 +243,10 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
                 ),
               ],
             ),
+            if (item.description != null && item.description!.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(item.description!, style: TextStyle(fontSize: 12, color: Colors.grey[700], fontFamily: 'Inter'), maxLines: 2, overflow: TextOverflow.ellipsis),
+            ],
             const SizedBox(height: 6),
             Row(
               children: [
@@ -293,7 +296,8 @@ class ChecklistItem {
   String? assignedTo;
   String addedDate;
   String? dueDate;
+  String? description;
 
   ChecklistItem(this.title, this.isCompleted, this.priority, this.assignedTo,
-      this.addedDate, this.dueDate);
+      this.addedDate, this.dueDate, [this.description]);
 }

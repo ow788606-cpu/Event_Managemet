@@ -6,6 +6,7 @@ class EditTaskPage extends StatefulWidget {
   final String initialPriority;
   final String? initialAssignedTo;
   final String? initialDueDate;
+  final String? initialDescription;
   
   const EditTaskPage({
     super.key,
@@ -14,6 +15,7 @@ class EditTaskPage extends StatefulWidget {
     required this.initialPriority,
     this.initialAssignedTo,
     this.initialDueDate,
+    this.initialDescription,
   });
 
   @override
@@ -25,7 +27,9 @@ class _EditTaskPageState extends State<EditTaskPage> {
   late String priority;
   String? assignedTo;
   String? dueDate;
+  String? description;
   late TextEditingController titleController;
+  late TextEditingController descriptionController;
 
   @override
   void initState() {
@@ -34,12 +38,15 @@ class _EditTaskPageState extends State<EditTaskPage> {
     priority = widget.initialPriority;
     assignedTo = widget.initialAssignedTo;
     dueDate = widget.initialDueDate;
+    description = widget.initialDescription;
     titleController = TextEditingController(text: title);
+    descriptionController = TextEditingController(text: description);
   }
 
   @override
   void dispose() {
     titleController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -64,7 +71,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
             const SizedBox(height: 16),
             const Text('Description', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 8),
-            TextField(onChanged: (value) {}, maxLines: 4, decoration: InputDecoration(hintText: 'Add task details, notes, or instructions...', border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
+            TextField(controller: descriptionController, onChanged: (value) => description = value, maxLines: 4, decoration: InputDecoration(hintText: 'Add task details, notes, or instructions...', border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)), contentPadding: const EdgeInsets.all(12))),
             const SizedBox(height: 16),
             const Text('Assigned To', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
             const SizedBox(height: 8),

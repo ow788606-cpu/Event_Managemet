@@ -39,7 +39,9 @@ class _EditVendorPageState extends State<EditVendorPage> {
     _contactController = TextEditingController(text: widget.contact ?? '');
     _categoryController = TextEditingController(text: widget.category ?? '');
     _quoteController = TextEditingController(text: widget.quote ?? '');
-    _selectedStatus = widget.status ?? 'Active';
+    
+    String status = widget.status ?? 'Active';
+    _selectedStatus = status[0].toUpperCase() + status.substring(1).toLowerCase();
   }
 
   @override

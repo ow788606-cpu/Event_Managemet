@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'edit_vendor_page.dart';
 import 'add_new_vendor_page.dart';
+import 'services/database_service.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage({super.key});
@@ -12,33 +13,36 @@ class VendorsPage extends StatefulWidget {
 class _VendorsPageState extends State<VendorsPage> {
   String _selectedStatus = 'All';
   String _selectedCategory = 'All';
+  List<Map<String, dynamic>> _allVendors = [];
+  bool _isLoading = true;
 
-  final List<Map<String, String>> _allVendors = [
-    {'name': 'Sanjay Desai', 'description': 'Destination wedding resort, suitable for multi-day events', 'contact': '9876543245', 'category': 'Venues', 'status': 'Hired', 'quote': '₹850000'},
-    {'name': 'Neha Kapoor', 'description': 'Luxury destination wedding planning', 'contact': '9811112233', 'category': 'Wedding Planners', 'status': 'Hired', 'quote': '₹300000'},
-    {'name': 'Neeraj Shah', 'description': 'On-ground coordination & logistics', 'contact': '9658585211', 'category': 'Event Management', 'status': 'Shortlisted', 'quote': '₹200000'},
-    {'name': 'Ramesh Patel', 'description': 'Pure veg & Jain food for all functions', 'contact': '9876543210', 'category': 'Caterers', 'status': 'Hired', 'quote': '₹1200000'},
-    {'name': 'Nitin Patel', 'description': 'Backup caterer option with Jain menu', 'contact': '9825777188', 'category': 'Caterers', 'status': 'Shortlisted', 'quote': '₹950000'},
-    {'name': 'Imran Shaikh', 'description': 'Royal palace theme decor', 'contact': '9898989898', 'category': 'Decorator', 'status': 'Hired', 'quote': '₹600000'},
-    {'name': 'Neha Kapoor', 'description': 'Modern pastel decor option', 'contact': '9909902344', 'category': 'Decorator', 'status': 'Shortlisted', 'quote': '₹450000'},
-    {'name': 'Mukesh Bhai', 'description': 'Premium tents and seating', 'contact': '9825502345', 'category': 'Tent & Furniture', 'status': 'Hired', 'quote': '₹250000'},
-    {'name': 'Aakash Jain', 'description': 'Premium architectural & stage lighting', 'contact': '9909905544', 'category': 'Lighting', 'status': 'Hired', 'quote': '₹180000'},
-    {'name': 'Nilesh Patel', 'description': 'Decorative lighting backup', 'contact': '9825508888', 'category': 'Lighting', 'status': 'Shortlisted', 'quote': '₹120000'},
-    {'name': 'Saurabh Patel', 'description': 'Wedding ceremony & sangeet sound setup', 'contact': '9909902211', 'category': 'Sound & Audio', 'status': 'Hired', 'quote': '₹80000'},
-    {'name': 'Rahul Verma', 'description': 'Bollywood DJ for sangeet & reception', 'contact': '9898072345', 'category': 'DJ', 'status': 'Hired', 'quote': '₹75000'},
-    {'name': 'Aakash Jain', 'description': 'Premium wedding photography', 'contact': '9909906677', 'category': 'Photography and Video', 'status': 'Hired', 'quote': '₹350000'},
-    {'name': 'Neha Mehta', 'description': 'Luxury cinematic wedding film', 'contact': '9909902344', 'category': 'Cinematography', 'status': 'Shortlisted', 'quote': '₹400000'},
-    {'name': 'Farah Khan', 'description': 'Luxury bridal makeup for multiple events', 'contact': '9898076566', 'category': 'Mehendi Artist', 'status': 'Hired', 'quote': '₹45000'},
-    {'name': '', 'description': '', 'contact': '9898884455', 'category': 'Makeup Artist', 'status': 'Hired', 'quote': '₹80000'},
-    {'name': 'Rahul Verma', 'description': 'Sangeet choreography for family', 'contact': '9898072345', 'category': 'Choreographers', 'status': 'Shortlisted', 'quote': '₹60000'},
-    {'name': 'Sanjay Yadav', 'description': 'Guest transportation for 5 days', 'contact': '9876558765', 'category': 'Transportation', 'status': 'Hired', 'quote': '₹150000'},
-    {'name': 'Aakash Desai', 'description': 'Cold pyros for entry & varmala', 'contact': '9876609988', 'category': 'Fireworks', 'status': 'Shortlisted', 'quote': '₹70000'},
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadVendors();
+  }
 
-  List<Map<String, String>> get _filteredVendors {
+  Future<void> _loadVendors() async {
+    try {
+      final vendors = await DatabaseService.getEventVendors();
+      setState(() {
+        _allVendors = vendors;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading vendors: $e')),
+        );
+      }
+    }
+  }
+
+  List<Map<String, dynamic>> get _filteredVendors {
     return _allVendors.where((vendor) {
-      final statusMatch = _selectedStatus == 'All' || vendor['status'] == _selectedStatus;
-      final categoryMatch = _selectedCategory == 'All' || vendor['category'] == _selectedCategory;
+      final statusMatch = _selectedStatus == 'All' || vendor['status']?.toString() == _selectedStatus;
+      final categoryMatch = _selectedCategory == 'All' || vendor['category']?.toString() == _selectedCategory;
       return statusMatch && categoryMatch;
     }).toList();
   }
@@ -47,7 +51,9 @@ class _VendorsPageState extends State<VendorsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE7DFE7),
-      body: Column(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
           Container(
             padding: const EdgeInsets.all(16),
@@ -80,17 +86,19 @@ class _VendorsPageState extends State<VendorsPage> {
             ),
           ),
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: _filteredVendors.map((vendor) => _buildVendorCard(
-                vendor['name']!,
-                vendor['description']!,
-                vendor['contact']!,
-                vendor['category']!,
-                vendor['status']!,
-                vendor['quote']!,
-              )).toList(),
-            ),
+            child: _allVendors.isEmpty
+                ? const Center(child: Text('No vendors found', style: TextStyle(fontFamily: 'Inter')))
+                : ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: _filteredVendors.map((vendor) => _buildVendorCard(
+                      vendor['vendor_name']?.toString() ?? vendor['business_name']?.toString() ?? '',
+                      vendor['notes']?.toString() ?? '',
+                      vendor['contact']?.toString() ?? vendor['phone']?.toString() ?? '',
+                      vendor['category']?.toString() ?? '',
+                      vendor['status']?.toString() ?? '',
+                      vendor['quote_amount']?.toString() ?? '',
+                    )).toList(),
+                  ),
           ),
         ],
       ),
