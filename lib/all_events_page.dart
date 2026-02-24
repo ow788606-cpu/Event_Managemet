@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_event_page.dart';
 import 'event_details_page.dart';
@@ -12,11 +13,21 @@ class AllEventsPage extends StatefulWidget {
 
 class _AllEventsPageState extends State<AllEventsPage> {
   List<Map<String, dynamic>> _events = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadEvents();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadEvents();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadEvents() async {

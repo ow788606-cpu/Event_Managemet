@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'edit_guest_page.dart';
 import 'add_guest_page.dart';
@@ -13,26 +14,35 @@ class GuestListPage extends StatefulWidget {
 class _GuestListPageState extends State<GuestListPage> {
   List<Map<String, dynamic>> _guests = [];
   bool _isLoading = true;
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadGuests();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadGuests();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadGuests() async {
     try {
       final guests = await DatabaseService.getEventAttendees();
-      setState(() {
-        _guests = guests;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading guests: $e')),
-        );
+        setState(() {
+          _guests = guests;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
       }
     }
   }

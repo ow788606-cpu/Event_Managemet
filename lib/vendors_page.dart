@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'edit_vendor_page.dart';
 import 'add_new_vendor_page.dart';
@@ -15,26 +16,35 @@ class _VendorsPageState extends State<VendorsPage> {
   String _selectedCategory = 'All';
   List<Map<String, dynamic>> _allVendors = [];
   bool _isLoading = true;
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadVendors();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadVendors();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadVendors() async {
     try {
       final vendors = await DatabaseService.getEventVendors();
-      setState(() {
-        _allVendors = vendors;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error loading vendors: $e')),
-        );
+        setState(() {
+          _allVendors = vendors;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
       }
     }
   }

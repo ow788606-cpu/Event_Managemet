@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_client_page.dart';
 import 'client_details_page.dart';
@@ -14,11 +15,21 @@ class _AllClientsPageState extends State<AllClientsPage> {
   List<Map<String, dynamic>> _clients = [];
   bool _isLoading = true;
   String? _errorMessage;
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadClients();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadClients();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadClients() async {

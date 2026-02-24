@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_tag_page.dart';
 import 'tag_details_page.dart';
@@ -12,11 +13,21 @@ class TagsPage extends StatefulWidget {
 
 class _TagsPageState extends State<TagsPage> {
   List<Map<String, dynamic>> _tags = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadTags();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadTags();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadTags() async {

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_employee_page.dart';
 import 'employee_details_page.dart';
@@ -12,11 +13,21 @@ class AllEmployeesPage extends StatefulWidget {
 
 class _AllEmployeesPageState extends State<AllEmployeesPage> {
   List<Map<String, dynamic>> _employees = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
     super.initState();
     _loadEmployees();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadEmployees();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadEmployees() async {
