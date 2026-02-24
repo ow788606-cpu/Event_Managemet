@@ -118,4 +118,16 @@ class DatabaseService {
     }
     throw Exception('Failed to load event vendors');
   }
+
+  // Event Attendees
+  static Future<List<Map<String, dynamic>>> getEventAttendees({int? eventId}) async {
+    final url = eventId != null 
+        ? '$baseUrl/event_attendees.php?event_id=$eventId'
+        : '$baseUrl/event_attendees.php';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load event attendees');
+  }
 }

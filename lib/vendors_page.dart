@@ -91,12 +91,12 @@ class _VendorsPageState extends State<VendorsPage> {
                 : ListView(
                     padding: const EdgeInsets.all(16),
                     children: _filteredVendors.map((vendor) => _buildVendorCard(
-                      vendor['vendor_name']?.toString() ?? vendor['business_name']?.toString() ?? '',
+                      vendor['vendor_name']?.toString() ?? '',
                       vendor['notes']?.toString() ?? '',
-                      vendor['contact']?.toString() ?? vendor['phone']?.toString() ?? '',
+                      vendor['contact']?.toString() ?? '',
                       vendor['category']?.toString() ?? '',
                       vendor['status']?.toString() ?? '',
-                      vendor['quote_amount']?.toString() ?? '',
+                      '₹${vendor['quote_amount']?.toString() ?? '0'}',
                     )).toList(),
                   ),
           ),
