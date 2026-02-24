@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'services/database_service.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -232,24 +233,38 @@ class _SignupPageState extends State<SignupPage> {
                         );
                         return;
                       }
+                      
                       final username = _usernameController.text.trim();
                       final email = _emailController.text.trim();
                       final password = _passwordController.text.trim();
-                      if (username.isNotEmpty &&
-                          email.isNotEmpty &&
-                          _agreedToTerms) {
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setBool('isLoggedIn', true);
-                        await prefs.setString('userName', username);
-                        await prefs.setString('userEmail', email);
-                        await prefs.setString('userPassword', password);
+                      
+                      try {
+                        final result = await DatabaseService.register(username, email, password);
                         
+                        if (result['success'] == true) {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('isLoggedIn', true);
+                          await prefs.setInt('userId', result['id']);
+                          await prefs.setString('userName', username);
+                          await prefs.setString('userEmail', email);
+                          
+                          if (!context.mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => WelcomePage(userName: username),
+                            ),
+                          );
+                        } else {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(result['message'] ?? 'Registration failed')),
+                          );
+                        }
+                      } catch (e) {
                         if (!context.mounted) return;
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => WelcomePage(userName: username),
-                          ),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: ${e.toString()}')),
                         );
                       }
                     },

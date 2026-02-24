@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'signup_page.dart';
 import 'welcome_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'services/database_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -168,20 +169,37 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       final email = _emailController.text.trim();
                       final password = _passwordController.text.trim();
-                      final userName = email.split('@')[0];
-                      if (email.isNotEmpty) {
-                        final prefs = await SharedPreferences.getInstance();
-                        await prefs.setBool('isLoggedIn', true);
-                        await prefs.setString('userName', userName);
-                        await prefs.setString('userEmail', email);
-                        await prefs.setString('userPassword', password);
+                      
+                      try {
+                        final result = await DatabaseService.login(email, password);
                         
+                        if (result['success'] == true) {
+                          final userData = result['data'];
+                          final userName = userData['name'];
+                          
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setBool('isLoggedIn', true);
+                          await prefs.setInt('userId', userData['id']);
+                          await prefs.setString('userName', userName);
+                          await prefs.setString('userEmail', email);
+                          
+                          if (!context.mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => WelcomePage(userName: userName),
+                            ),
+                          );
+                        } else {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(result['message'] ?? 'Login failed')),
+                          );
+                        }
+                      } catch (e) {
                         if (!context.mounted) return;
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => WelcomePage(userName: userName),
-                          ),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: ${e.toString()}')),
                         );
                       }
                     },

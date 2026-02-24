@@ -130,4 +130,28 @@ class DatabaseService {
     }
     throw Exception('Failed to load event attendees');
   }
+
+  // Organizations - Login
+  static Future<Map<String, dynamic>> login(String email, String password) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/organizations.php?action=login&email=$email&password=$password'),
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    }
+    throw Exception('Failed to login');
+  }
+
+  // Organizations - Register
+  static Future<Map<String, dynamic>> register(String name, String email, String password) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/organizations.php'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'name': name, 'email': email, 'password': password}),
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    }
+    throw Exception('Failed to register');
+  }
 }
