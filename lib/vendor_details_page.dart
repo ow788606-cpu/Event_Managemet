@@ -22,6 +22,15 @@ class _VendorDetailsPageState extends State<VendorDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final name = _vendor['vendor_name']?.toString() ?? _vendor['contact_person']?.toString() ?? _vendor['name']?.toString() ?? '';
+    final category = _vendor['category']?.toString() ?? '';
+    final phone = _vendor['phone']?.toString() ?? _vendor['contact']?.toString() ?? '';
+    final email = _vendor['email']?.toString() ?? '';
+    final address = _vendor['address']?.toString() ?? '';
+    final city = _vendor['city']?.toString() ?? '';
+    final notes = _vendor['notes']?.toString() ?? _vendor['description']?.toString() ?? '';
+    final status = _vendor['status']?.toString() ?? '';
+    
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -38,12 +47,12 @@ class _VendorDetailsPageState extends State<VendorDetailsPage> {
               
               final updatedVendor = await navigator.push(
                 MaterialPageRoute(builder: (_) => EditVendorPage(
-                  name: _vendor['name'] ?? '',
-                  description: _vendor['description'] ?? '',
-                  contact: _vendor['contact'] ?? '',
-                  category: _vendor['category'] ?? '',
-                  status: _vendor['status'] ?? 'Hired',
-                  quote: _vendor['quote'] ?? '',
+                  name: name,
+                  description: notes,
+                  contact: phone,
+                  category: category,
+                  status: status == '1' ? 'Active' : 'Inactive',
+                  quote: '',
                 )),
               );
               
@@ -68,13 +77,15 @@ class _VendorDetailsPageState extends State<VendorDetailsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_vendor['name'] ?? '', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+              Text(name, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 24),
-              _buildDetailRow(Icons.category, 'Category', _vendor['category'] ?? ''),
-              _buildDetailRow(Icons.phone, 'Phone', _vendor['contact'] ?? ''),
-              _buildDetailRow(Icons.description, 'Description', _vendor['description'] ?? ''),
-              _buildDetailRow(Icons.info, 'Status', _vendor['status'] ?? ''),
-              _buildDetailRow(Icons.attach_money, 'Quote', _vendor['quote'] ?? ''),
+              _buildDetailRow(Icons.category, 'Category', category),
+              _buildDetailRow(Icons.phone, 'Phone', phone),
+              if (email.isNotEmpty) _buildDetailRow(Icons.email, 'Email', email),
+              if (city.isNotEmpty) _buildDetailRow(Icons.location_on, 'City', city),
+              if (address.isNotEmpty) _buildDetailRow(Icons.location_on, 'Address', address),
+              if (notes.isNotEmpty) _buildDetailRow(Icons.description, 'Notes', notes),
+              _buildDetailRow(Icons.info, 'Status', status == '1' ? 'Active' : 'Inactive'),
             ],
           ),
         ),

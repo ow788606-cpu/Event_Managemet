@@ -34,4 +34,34 @@ class DatabaseService {
   static Future<void> deleteClient(int id) async {
     await http.delete(Uri.parse('$baseUrl/clients.php?id=$id'));
   }
+
+  // Event Functions
+  static Future<List<Map<String, dynamic>>> getEventFunctions({int? eventId}) async {
+    final url = eventId != null 
+        ? '$baseUrl/event_functions.php?event_id=$eventId'
+        : '$baseUrl/event_functions.php';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load event functions');
+  }
+
+  // Tags
+  static Future<List<Map<String, dynamic>>> getTags() async {
+    final response = await http.get(Uri.parse('$baseUrl/tags.php'));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load tags');
+  }
+
+  // Vendors
+  static Future<List<Map<String, dynamic>>> getVendors() async {
+    final response = await http.get(Uri.parse('$baseUrl/vendors.php'));
+    if (response.statusCode == 200) {
+      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    }
+    throw Exception('Failed to load vendors');
+  }
 }

@@ -66,3 +66,18 @@ CREATE TABLE IF NOT EXISTS events (
   status VARCHAR(50) DEFAULT 'pending',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Event Functions/Timeline table
+CREATE TABLE IF NOT EXISTS event_functions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id INT,
+  section_name VARCHAR(255) NOT NULL,
+  section_date DATE NOT NULL,
+  function_name VARCHAR(255) NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+);

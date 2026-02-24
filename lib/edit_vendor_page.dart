@@ -138,7 +138,7 @@ class _EditVendorPageState extends State<EditVendorPage> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                 ),
-                items: ['Hired', 'Shortlisted'].map((status) {
+                items: ['Hired', 'Shortlisted', 'Active', 'Inactive'].map((status) {
                   return DropdownMenuItem(value: status, child: Text(status, style: const TextStyle(fontFamily: 'Inter')));
                 }).toList(),
                 onChanged: (value) => setState(() => _selectedStatus = value!),

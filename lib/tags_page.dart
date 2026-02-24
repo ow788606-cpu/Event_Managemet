@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_tag_page.dart';
 import 'tag_details_page.dart';
+import 'services/database_service.dart';
 
 class TagsPage extends StatefulWidget {
   const TagsPage({super.key});
@@ -10,19 +11,41 @@ class TagsPage extends StatefulWidget {
 }
 
 class _TagsPageState extends State<TagsPage> {
-  final List<Map<String, dynamic>> _tags = [
-    {'id': 1, 'name': 'New Client', 'description': 'Recently added client', 'color': const Color(0xFF3498DB), 'colorHex': '#3498DB'},
-    {'id': 2, 'name': 'Returning Client', 'description': 'Client with past events', 'color': const Color(0xFF1ABC9C), 'colorHex': '#1ABC9C'},
-    {'id': 3, 'name': 'VIP Client', 'description': 'High value or priority client', 'color': const Color(0xFF8E44AD), 'colorHex': '#8E44AD'},
-    {'id': 4, 'name': 'Budget Sensitive', 'description': 'Prefers budget-friendly options', 'color': const Color(0xFF27AE60), 'colorHex': '#27AE60'},
-    {'id': 5, 'name': 'Premium Client', 'description': 'Prefers premium services', 'color': const Color(0xFF520350), 'colorHex': '#520350'},
-    {'id': 6, 'name': 'Wedding Client', 'description': 'Client planning a wedding', 'color': const Color(0xFFC0392B), 'colorHex': '#C0392B'},
-    {'id': 7, 'name': 'Corporate Client', 'description': 'Corporate or business client', 'color': const Color(0xFF2C3E50), 'colorHex': '#2C3E50'},
-    {'id': 8, 'name': 'Repeat Potential', 'description': 'Likely to book again', 'color': const Color(0xFF16A085), 'colorHex': '#16A085'},
-    {'id': 9, 'name': 'Decision Pending', 'description': 'Client yet to finalize', 'color': const Color(0xFFF39C12), 'colorHex': '#F39C12'},
-    {'id': 10, 'name': 'Confirmed Client', 'description': 'Booking confirmed', 'color': const Color(0xFF27AE60), 'colorHex': '#27AE60'},
-    {'id': 11, 'name': 'High Budget', 'description': 'Client with high budget expectations', 'color': const Color(0xFF9B59B6), 'colorHex': '#9B59B6'},
-  ];
+  List<Map<String, dynamic>> _tags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTags();
+  }
+
+  Future<void> _loadTags() async {
+    try {
+      final tags = await DatabaseService.getTags();
+      if (mounted) {
+        setState(() {
+          _tags = tags.map((tag) {
+            final colorHex = tag['tag_class'] ?? tag['color'] ?? '#520350';
+            return {
+              ...tag,
+              'color': Color(int.parse(colorHex.replaceFirst('#', '0xFF'))),
+              'colorHex': colorHex,
+            };
+          }).toList();
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _tags = [
+            {'id': 1, 'name': 'VIP Client', 'description': 'High value client', 'color': const Color(0xFF520350), 'colorHex': '#520350'},
+            {'id': 2, 'name': 'New Client', 'description': 'Recently added client', 'color': const Color(0xFF3498DB), 'colorHex': '#3498DB'},
+            {'id': 3, 'name': 'Wedding', 'description': 'Wedding events', 'color': const Color(0xFFC0392B), 'colorHex': '#C0392B'},
+          ];
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_vendor_page.dart';
 import 'vendor_details_page.dart';
+import 'services/database_service.dart';
 
 class AllVendorsPage extends StatefulWidget {
   const AllVendorsPage({super.key});
@@ -10,17 +11,26 @@ class AllVendorsPage extends StatefulWidget {
 }
 
 class _AllVendorsPageState extends State<AllVendorsPage> {
-  final List<Map<String, dynamic>> _vendors = [
-    {'id': 1, 'name': 'Dj Jay', 'initial': 'D', 'category': 'DJ', 'phone': '9988556622', 'email': 'jay@jay.com', 'address': '-', 'status': 'Active'},
-    {'id': 2, 'name': 'Custom Event Services', 'initial': 'C', 'category': 'Other', 'phone': '9999999999', 'email': 'custom@gmail.com', 'address': 'Surat', 'status': 'Active'},
-    {'id': 3, 'name': 'Honeymoon Planners', 'initial': 'H', 'category': 'Honeymoon', 'phone': '9811113344', 'email': 'honeymoon@gmail.com', 'address': 'Citylight', 'status': 'Active'},
-    {'id': 4, 'name': 'Event License Helpdesk', 'initial': 'E', 'category': 'License & Permission', 'phone': '9909904455', 'email': 'eventlicense@gmail.com', 'address': 'Nanpura', 'status': 'Active'},
-    {'id': 5, 'name': 'Shree Ved Pandit', 'initial': 'S', 'category': 'Pandit / Priest', 'phone': '9876512211', 'email': 'vedpandit@gmail.com', 'address': 'Athwa Lines', 'status': 'Active'},
-    {'id': 6, 'name': 'Fresh Leaf Florist', 'initial': 'F', 'category': 'Florist', 'phone': '9825776655', 'email': 'freshleaf@gmail.com', 'address': 'Katargam', 'status': 'Active'},
-    {'id': 7, 'name': 'Theme Craft Studio', 'initial': 'T', 'category': 'Theme Setup', 'phone': '9812347788', 'email': 'themecraft@gmail.com', 'address': 'Piplod', 'status': 'Active'},
-    {'id': 8, 'name': 'Spark FX Events', 'initial': 'S', 'category': 'Fireworks', 'phone': '9876609988', 'email': 'sparkfx@gmail.com', 'address': 'Vesu', 'status': 'Active'},
-    {'id': 9, 'name': 'Elite Bartenders', 'initial': 'E', 'category': 'Bartender', 'phone': '9898011199', 'email': 'elitebartenders@gmail.com', 'address': 'Citylight', 'status': 'Active'},
-  ];
+  List<Map<String, dynamic>> _vendors = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVendors();
+  }
+
+  Future<void> _loadVendors() async {
+    try {
+      final vendors = await DatabaseService.getVendors();
+      if (mounted) {
+        setState(() {
+          _vendors = vendors;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +88,12 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
   }
 
   Widget _buildVendorCard(Map<String, dynamic> vendor) {
+    final name = vendor['vendor_name']?.toString() ?? vendor['contact_person']?.toString() ?? '';
+    final phone = vendor['phone']?.toString() ?? '';
+    final email = vendor['email']?.toString() ?? '';
+    final address = vendor['city']?.toString() ?? vendor['address']?.toString() ?? '-';
+    final category = vendor['category']?.toString() ?? '';
+    
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -113,7 +129,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      vendor['name'],
+                      name,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -121,22 +137,23 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF520350),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      vendor['category'],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Inter',
+                  if (category.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF520350),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        category,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Inter',
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -145,7 +162,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                   const Icon(Icons.phone, size: 16, color: Colors.black54),
                   const SizedBox(width: 8),
                   Text(
-                    vendor['phone'],
+                    phone,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black87,
@@ -161,7 +178,7 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      vendor['email'],
+                      email,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.black87,
@@ -171,14 +188,14 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                   ),
                 ],
               ),
-              if (vendor['address'] != '-') ...[
+              if (address != '-') ...[
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     const Icon(Icons.location_on, size: 16, color: Colors.black54),
                     const SizedBox(width: 8),
                     Text(
-                      vendor['address'],
+                      address,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.black87,
@@ -198,9 +215,9 @@ class _AllVendorsPageState extends State<AllVendorsPage> {
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Text(
-                      vendor['status'],
-                      style: const TextStyle(
+                    child: const Text(
+                      'Active',
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
