@@ -14,12 +14,12 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE7DFE7),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 2, offset: const Offset(0, 1))]),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 OutlinedButton.icon(
@@ -47,83 +47,92 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            _buildSection('Timeline', '03 Feb 2026', [
-              _buildEvent(
-                  'Welcome',
-                  '12:00-16:00',
-                  'Resort Lobby',
-                  'Welcome drinks, room allocation, leisure time',
-                  Colors.purple),
-              _buildEvent('Welcome Lunch', '13:30-15:30', 'Dining Restaurant',
-                  'Casual lunch, relaxed dress code', Colors.purple),
-              _buildEvent(
-                  'Welcome Soiree',
-                  '18:00-20:30',
-                  'Poolside / Beachfront',
-                  'Light music, cocktails, sunset gathering',
-                  Colors.purple),
-              _buildEvent('night meet & gala', '20:00-21:30',
-                  'party hall noters', '', Colors.purple),
-            ]),
-            const SizedBox(height: 16),
-            _buildSection('Colors & Culture', '04 Feb 2026', [
-              _buildEvent('Haldi Ceremony', '09:00-11:00', 'Garden Lawn',
-                  'Yellow theme, floral decor, organic colors', Colors.purple),
-              _buildEvent(
-                  'Mehndi by the Pool',
-                  '13:00-17:00',
-                  'Poolside Cabana',
-                  'Henna artists, live music, relaxed daytime event',
-                  Colors.purple),
-              _buildEvent(
-                  'Sundowner Chaat Party',
-                  '18:30-20:30',
-                  'Terrace Lounge',
-                  'Street food counters, casual gathering',
-                  Colors.purple),
-            ]),
-            const SizedBox(height: 16),
-            _buildSection('Music & Magic', '05 Feb 2026', [
-              _buildEvent('Family Brunch', '10:30-12:30', 'Resort Cafe',
-                  'Close family brunch', Colors.purple),
-              _buildEvent(
-                  'Sangeet Rehearsals & Sound Check',
-                  '15:00-17:00',
-                  'Ballroom',
-                  'Performers and family coordination',
-                  Colors.purple),
-              _buildEvent('Sangeet Night', '19:00-23:00', 'Grand Ballroom',
-                  'Dance performances, DJ, cocktail night', Colors.purple),
-            ]),
-            const SizedBox(height: 16),
-            _buildSection('The Grand Union', '06 Feb 2026', [
-              _buildEvent(
-                  'Wedding Rituals & Preparations',
-                  '09:00-11:00',
-                  'Bride & Groom Suites',
-                  'Hair, makeup, traditional rituals',
-                  Colors.purple),
-              _buildEvent('Wedding Ceremony', '16:30-18:30', 'Beach Mandap',
-                  'Main wedding ceremony', Colors.purple),
-              _buildEvent('Reception Gala', '20:00-23:59', 'Banquet Hall',
-                  'Formal reception, dinner & celebrations', Colors.purple),
-            ]),
-            const SizedBox(height: 16),
-            _buildSection('Farewell with Love', '07 Feb 2026', [
-              _buildEvent(
-                  'Post-Wedding Brunch',
-                  '10:00-12:00',
-                  'Beachside Cafe',
-                  'Relaxed brunch with family and friends',
-                  Colors.purple),
-              _buildEvent('Vidaai Ceremony', '12:30-13:30', 'Resort Entrance',
-                  'Emotional farewell ceremony', Colors.purple),
-              _buildEvent('Guest Departures', '14:00-18:00', 'Resort Lobby',
-                  'Check-out and transport assistance', Colors.purple),
-            ]),
-          ],
-        ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSection('Timeline', '03 Feb 2026', [
+                    _buildEvent(
+                        'Welcome',
+                        '12:00-16:00',
+                        'Resort Lobby',
+                        'Welcome drinks, room allocation, leisure time',
+                        Colors.purple),
+                    _buildEvent('Welcome Lunch', '13:30-15:30', 'Dining Restaurant',
+                        'Casual lunch, relaxed dress code', Colors.purple),
+                    _buildEvent(
+                        'Welcome Soiree',
+                        '18:00-20:30',
+                        'Poolside / Beachfront',
+                        'Light music, cocktails, sunset gathering',
+                        Colors.purple),
+                    _buildEvent('night meet & gala', '20:00-21:30',
+                        'party hall noters', '', Colors.purple),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Colors & Culture', '04 Feb 2026', [
+                    _buildEvent('Haldi Ceremony', '09:00-11:00', 'Garden Lawn',
+                        'Yellow theme, floral decor, organic colors', Colors.purple),
+                    _buildEvent(
+                        'Mehndi by the Pool',
+                        '13:00-17:00',
+                        'Poolside Cabana',
+                        'Henna artists, live music, relaxed daytime event',
+                        Colors.purple),
+                    _buildEvent(
+                        'Sundowner Chaat Party',
+                        '18:30-20:30',
+                        'Terrace Lounge',
+                        'Street food counters, casual gathering',
+                        Colors.purple),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Music & Magic', '05 Feb 2026', [
+                    _buildEvent('Family Brunch', '10:30-12:30', 'Resort Cafe',
+                        'Close family brunch', Colors.purple),
+                    _buildEvent(
+                        'Sangeet Rehearsals & Sound Check',
+                        '15:00-17:00',
+                        'Ballroom',
+                        'Performers and family coordination',
+                        Colors.purple),
+                    _buildEvent('Sangeet Night', '19:00-23:00', 'Grand Ballroom',
+                        'Dance performances, DJ, cocktail night', Colors.purple),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('The Grand Union', '06 Feb 2026', [
+                    _buildEvent(
+                        'Wedding Rituals & Preparations',
+                        '09:00-11:00',
+                        'Bride & Groom Suites',
+                        'Hair, makeup, traditional rituals',
+                        Colors.purple),
+                    _buildEvent('Wedding Ceremony', '16:30-18:30', 'Beach Mandap',
+                        'Main wedding ceremony', Colors.purple),
+                    _buildEvent('Reception Gala', '20:00-23:59', 'Banquet Hall',
+                        'Formal reception, dinner & celebrations', Colors.purple),
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildSection('Farewell with Love', '07 Feb 2026', [
+                    _buildEvent(
+                        'Post-Wedding Brunch',
+                        '10:00-12:00',
+                        'Beachside Cafe',
+                        'Relaxed brunch with family and friends',
+                        Colors.purple),
+                    _buildEvent('Vidaai Ceremony', '12:30-13:30', 'Resort Entrance',
+                        'Emotional farewell ceremony', Colors.purple),
+                    _buildEvent('Guest Departures', '14:00-18:00', 'Resort Lobby',
+                        'Check-out and transport assistance', Colors.purple),
+                  ]),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
