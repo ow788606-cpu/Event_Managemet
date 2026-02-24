@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'services_manager.dart';
 import 'checklist_design_page.dart';
@@ -18,6 +19,9 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   late TabController _tabController;
   List<Map<String, dynamic>> _eventFunctions = [];
   List<Map<String, dynamic>> _eventDays = [];
+  List<Map<String, dynamic>> _eventAttendees = [];
+  List<Map<String, dynamic>> _eventVendors = [];
+  Timer? _refreshTimer;
 
   @override
   void initState() {
@@ -25,6 +29,21 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
     _tabController = TabController(length: 7, vsync: this, initialIndex: widget.initialTab);
     _loadEventFunctions();
     _loadEventDays();
+    _loadEventAttendees();
+    _loadEventVendors();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadEventFunctions();
+      _loadEventDays();
+      _loadEventAttendees();
+      _loadEventVendors();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadEventFunctions() async {
@@ -46,6 +65,32 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
       if (mounted) {
         setState(() {
           _eventDays = days;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
+
+  Future<void> _loadEventAttendees() async {
+    try {
+      final attendees = await DatabaseService.getEventAttendees();
+      if (mounted) {
+        setState(() {
+          _eventAttendees = attendees;
+        });
+      }
+    } catch (e) {
+      // Keep empty list on error
+    }
+  }
+
+  Future<void> _loadEventVendors() async {
+    try {
+      final vendors = await DatabaseService.getEventVendors();
+      if (mounted) {
+        setState(() {
+          _eventVendors = vendors;
         });
       }
     } catch (e) {
@@ -133,6 +178,19 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   }
 
   Widget _buildEventOverviewDesign(double width, double height) {
+    final totalGuests = _eventAttendees.length;
+    final acceptedGuests = _eventAttendees.where((g) => g['invitation_status'] == 'accepted').length;
+    final declinedGuests = _eventAttendees.where((g) => g['invitation_status'] == 'declined').length;
+    final pendingGuests = _eventAttendees.where((g) => g['invitation_status'] == 'pending').length;
+    
+    final travelRequired = _eventAttendees.where((g) => g['travel_required'].toString() == '1').length;
+    final travelAssigned = 0;
+    
+    final hiredVendors = _eventVendors.where((v) => v['status']?.toString().toLowerCase() == 'hired').length;
+    final shortlistedVendors = _eventVendors.where((v) => v['status']?.toString().toLowerCase() == 'shortlisted').length;
+    
+    final vipGuests = _eventAttendees.where((g) => g['is_vip'].toString() == '1').length;
+    final wheelchairGuests = _eventAttendees.where((g) => g['needs_wheelchair'].toString() == '1').length;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -187,25 +245,25 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
           const SizedBox(height: 16),
           Row(
             children: [
-              _buildStatCard(Icons.people, '121', 'Guest Invited', const Color(0xFF520350), width),
+              _buildStatCard(Icons.people, '$totalGuests', 'Guest Invited', const Color(0xFF520350), width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.check, '65', 'Invitation Accepted', Colors.green, width),
+              _buildStatCard(Icons.check, '$acceptedGuests', 'Invitation Accepted', Colors.green, width),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildStatCard(Icons.cancel, '21', 'Invitation Declined', Colors.red, width),
+              _buildStatCard(Icons.cancel, '$declinedGuests', 'Invitation Declined', Colors.red, width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.person, '35', 'Confirmation Pending', Colors.orange, width),
+              _buildStatCard(Icons.person, '$pendingGuests', 'Confirmation Pending', Colors.orange, width),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Guest Pickup', '30', 'Required', '0', 'Assigned')),
+              Expanded(child: _buildSummaryCard('Guest Pickup', '$travelRequired', 'Required', '$travelAssigned', 'Assigned')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Vendors', '12', 'Hired', '7', 'Shortlisted')),
+              Expanded(child: _buildSummaryCard('Vendors', '$hiredVendors', 'Hired', '$shortlistedVendors', 'Shortlisted')),
             ],
           ),
           const SizedBox(height: 12),
@@ -213,7 +271,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
             children: [
               Expanded(child: _buildSummaryCard('Tasks', '24', 'Pending', '18', 'Completed')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Other', '25', 'VIP Guest', '12', 'Wheelchair')),
+              Expanded(child: _buildSummaryCard('Other', '$vipGuests', 'VIP Guest', '$wheelchairGuests', 'Wheelchair')),
             ],
           ),
           const SizedBox(height: 12),
@@ -333,14 +391,26 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   }
 
   Widget _buildGuestAgeRatioChart() {
-    const ageData = [
-      {'range': '1-15', 'count': 6},
-      {'range': '16-30', 'count': 31},
-      {'range': '30-45', 'count': 68},
-      {'range': '45-60', 'count': 17},
-      {'range': '60+', 'count': 11},
-    ];
-    const maxCount = 68;
+    final ageGroups = {
+      '1-15': 0,
+      '16-30': 0,
+      '30-45': 0,
+      '45-60': 0,
+      '60+': 0,
+    };
+    
+    for (var guest in _eventAttendees) {
+      final age = int.tryParse(guest['age']?.toString() ?? '0') ?? 0;
+      if (age >= 1 && age <= 15) ageGroups['1-15'] = (ageGroups['1-15'] ?? 0) + 1;
+      else if (age >= 16 && age <= 30) ageGroups['16-30'] = (ageGroups['16-30'] ?? 0) + 1;
+      else if (age >= 31 && age <= 45) ageGroups['30-45'] = (ageGroups['30-45'] ?? 0) + 1;
+      else if (age >= 46 && age <= 60) ageGroups['45-60'] = (ageGroups['45-60'] ?? 0) + 1;
+      else if (age > 60) ageGroups['60+'] = (ageGroups['60+'] ?? 0) + 1;
+    }
+    
+    final ageData = ageGroups.entries.map((e) => {'range': e.key, 'count': e.value}).toList();
+    final maxCount = ageGroups.values.isEmpty ? 1 : ageGroups.values.reduce((a, b) => a > b ? a : b).toDouble();
+    final safeMaxCount = maxCount > 0 ? maxCount : 1.0;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -379,7 +449,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: ageData.map((data) {
-                      final height = (data['count'] as int) / maxCount * 150;
+                      final height = (data['count'] as int) / safeMaxCount * 150;
                       return Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -415,6 +485,11 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   }
 
   Widget _buildGenderChart() {
+    final maleCount = _eventAttendees.where((g) => g['gender']?.toString().toLowerCase() == 'male').length;
+    final femaleCount = _eventAttendees.where((g) => g['gender']?.toString().toLowerCase() == 'female').length;
+    final total = maleCount + femaleCount;
+    final malePercent = total > 0 ? (maleCount / total * 100).round() : 0;
+    final femalePercent = total > 0 ? (femaleCount / total * 100).round() : 0;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -441,7 +516,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
               height: 120,
               child: CustomPaint(
                 size: const Size(120, 120),
-                painter: DonutChartPainter([54, 46], [const Color(0xFF520350), Colors.grey[300]!]),
+                painter: DonutChartPainter([malePercent.toDouble(), femalePercent.toDouble()], [const Color(0xFF520350), Colors.grey[300]!]),
               ),
             ),
           ),
@@ -461,13 +536,13 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
               Column(
                 children: [
                   Text('Male', style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter')),
-                  const Text('54%', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+                  Text('$malePercent%', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
                 ],
               ),
               Column(
                 children: [
                   Text('Female', style: TextStyle(fontSize: 11, color: Colors.grey[600], fontFamily: 'Inter')),
-                  Text('46%', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600], fontFamily: 'Inter')),
+                  Text('$femalePercent%', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600], fontFamily: 'Inter')),
                 ],
               ),
             ],
@@ -478,6 +553,13 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
   }
 
   Widget _buildFoodPreferenceChart() {
+    final jainCount = _eventAttendees.where((g) => g['food_preference']?.toString().toLowerCase() == 'jain').length;
+    final nonVegCount = _eventAttendees.where((g) => g['food_preference']?.toString().toLowerCase() == 'non-veg').length;
+    final vegCount = _eventAttendees.where((g) => g['food_preference']?.toString().toLowerCase() == 'veg').length;
+    final total = jainCount + nonVegCount + vegCount;
+    final jainPercent = total > 0 ? (jainCount / total * 100).round() : 0;
+    final nonVegPercent = total > 0 ? (nonVegCount / total * 100).round() : 0;
+    final vegPercent = total > 0 ? (vegCount / total * 100).round() : 0;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -504,7 +586,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
               height: 120,
               child: CustomPaint(
                 size: const Size(120, 120),
-                painter: DonutChartPainter([20, 30, 50], [const Color(0xFF520350), const Color(0xFF8B4789), Colors.grey[300]!]),
+                painter: DonutChartPainter([jainPercent.toDouble(), nonVegPercent.toDouble(), vegPercent.toDouble()], [const Color(0xFF520350), const Color(0xFF8B4789), Colors.grey[300]!]),
               ),
             ),
           ),
@@ -525,19 +607,19 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
               Column(
                 children: [
                   Text('Jain', style: TextStyle(fontSize: 10, color: Colors.grey[600], fontFamily: 'Inter')),
-                  const Text('24', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+                  Text('$jainCount', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
                 ],
               ),
               Column(
                 children: [
                   Text('Non-Veg', style: TextStyle(fontSize: 10, color: Colors.grey[600], fontFamily: 'Inter')),
-                  const Text('36', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF8B4789), fontFamily: 'Inter')),
+                  Text('$nonVegCount', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF8B4789), fontFamily: 'Inter')),
                 ],
               ),
               Column(
                 children: [
                   Text('Veg', style: TextStyle(fontSize: 10, color: Colors.grey[600], fontFamily: 'Inter')),
-                  Text('61', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[600], fontFamily: 'Inter')),
+                  Text('$vegCount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey[600], fontFamily: 'Inter')),
                 ],
               ),
             ],
@@ -908,9 +990,25 @@ class DonutChartPainter extends CustomPainter {
     const innerRadius = radius * 0.6;
     final total = values.reduce((a, b) => a + b);
     
+    if (total == 0) {
+      final paint = Paint()
+        ..color = Colors.grey[300]!
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = radius - innerRadius;
+      canvas.drawArc(
+        Rect.fromCircle(center: center, radius: (radius + innerRadius) / 2),
+        0,
+        2 * 3.14159,
+        false,
+        paint,
+      );
+      return;
+    }
+    
     double startAngle = -90 * 3.14159 / 180;
     
     for (int i = 0; i < values.length; i++) {
+      if (values[i] == 0) continue;
       final sweepAngle = (values[i] / total) * 2 * 3.14159;
       final paint = Paint()
         ..color = colors[i]
