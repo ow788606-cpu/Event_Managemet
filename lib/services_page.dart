@@ -35,7 +35,7 @@ class _ServicesPageState extends State<ServicesPage> with SingleTickerProviderSt
     final cancelled = requests.where((r) => r.status == ServiceStatus.cancelled).toList();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFE7DFE7),
       appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,

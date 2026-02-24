@@ -21,7 +21,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> with SingleTicker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color(0xFFE7DFE7),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,

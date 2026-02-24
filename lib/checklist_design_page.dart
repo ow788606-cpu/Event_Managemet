@@ -61,7 +61,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFE7DFE7),
       body: Column(
         children: [
           Container(
@@ -206,7 +206,7 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: item.isCompleted ? const Color(0xFFD4EDDA) : const Color(0xFFE7DFE7),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(

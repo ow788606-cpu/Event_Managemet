@@ -13,7 +13,7 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: const Color(0xFFE7DFE7),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

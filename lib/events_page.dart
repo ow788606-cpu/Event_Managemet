@@ -115,7 +115,7 @@ class _EventsPageState extends State<EventsPage> {
     final width = size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFE7DFE7),
       appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
@@ -231,7 +231,7 @@ class _EventsPageState extends State<EventsPage> {
     return Container(
       margin: EdgeInsets.only(bottom: height * 0.02),
       decoration: BoxDecoration(
-        color: const Color(0xFFE7DFE7),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
