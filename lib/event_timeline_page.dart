@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_function_page.dart';
 import 'services/database_service.dart';
 
 class EventTimelinePage extends StatefulWidget {
-  const EventTimelinePage({super.key});
+  final int eventId;
+  
+  const EventTimelinePage({super.key, required this.eventId});
 
   @override
   State<EventTimelinePage> createState() => _EventTimelinePageState();
@@ -34,10 +35,7 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
 
   Future<void> _loadFunctions() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final eventId = prefs.getInt('selectedEventId');
-      
-      final functions = await DatabaseService.getEventFunctions(eventId: eventId);
+      final functions = await DatabaseService.getEventFunctions(eventId: widget.eventId);
       if (mounted) {
         setState(() {
           _functions = functions;

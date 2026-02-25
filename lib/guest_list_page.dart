@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_guest_page.dart';
 import 'add_guest_page.dart';
 import 'services/database_service.dart';
 
 class GuestListPage extends StatefulWidget {
-  const GuestListPage({super.key});
+  final int eventId;
+  
+  const GuestListPage({super.key, required this.eventId});
 
   @override
   State<GuestListPage> createState() => _GuestListPageState();
@@ -34,10 +35,7 @@ class _GuestListPageState extends State<GuestListPage> {
 
   Future<void> _loadGuests() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final eventId = prefs.getInt('selectedEventId');
-      
-      final guests = await DatabaseService.getEventAttendees(eventId: eventId);
+      final guests = await DatabaseService.getEventAttendees(eventId: widget.eventId);
       if (mounted) {
         setState(() {
           _guests = guests;

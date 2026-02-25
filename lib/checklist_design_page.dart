@@ -5,7 +5,10 @@ import 'edit_task_page.dart';
 import 'services/database_service.dart';
 
 class ChecklistDesignPage extends StatefulWidget {
-  const ChecklistDesignPage({super.key});
+  final int eventId;
+  final int eventTypeId;
+  
+  const ChecklistDesignPage({super.key, required this.eventId, required this.eventTypeId});
 
   @override
   State<ChecklistDesignPage> createState() => _ChecklistDesignPageState();
@@ -35,10 +38,8 @@ class _ChecklistDesignPageState extends State<ChecklistDesignPage> {
 
   Future<void> _loadChecklists() async {
     try {
-      const eventTypeId = 1;
-
       final checklists =
-          await DatabaseService.getEventChecklists(eventId: eventTypeId);
+          await DatabaseService.getEventChecklists(eventId: widget.eventTypeId);
       if (mounted) {
         setState(() {
           _items = checklists

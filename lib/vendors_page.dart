@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_vendor_page.dart';
 import 'add_new_vendor_page.dart';
 import 'services/database_service.dart';
 
 class VendorsPage extends StatefulWidget {
-  const VendorsPage({super.key});
+  final int eventId;
+  
+  const VendorsPage({super.key, required this.eventId});
 
   @override
   State<VendorsPage> createState() => _VendorsPageState();
@@ -36,10 +37,7 @@ class _VendorsPageState extends State<VendorsPage> {
 
   Future<void> _loadVendors() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final eventId = prefs.getInt('selectedEventId');
-      
-      final vendors = await DatabaseService.getEventVendors(eventId: eventId);
+      final vendors = await DatabaseService.getEventVendors(eventId: widget.eventId);
       if (mounted) {
         setState(() {
           _allVendors = vendors;
