@@ -133,26 +133,50 @@ class DatabaseService {
 
   // Organizations - Login
   static Future<Map<String, dynamic>> login(String email, String password) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/organizations.php?action=login&email=$email&password=$password'),
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/organizations.php?action=login&email=$email&password=$password'),
+      );
+      if (response.statusCode == 200) {
+        final body = response.body.trim();
+        if (body.isEmpty) {
+          return {'success': false, 'message': 'Empty response from server'};
+        }
+        try {
+          return json.decode(body);
+        } catch (e) {
+          return {'success': false, 'message': 'Invalid server response'};
+        }
+      }
+      return {'success': false, 'message': 'Server error: ${response.statusCode}'};
+    } catch (e) {
+      return {'success': false, 'message': 'Connection error: ${e.toString()}'};
     }
-    throw Exception('Failed to login');
   }
 
   // Organizations - Register
   static Future<Map<String, dynamic>> register(String name, String email, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/organizations.php'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'name': name, 'email': email, 'password': password}),
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/organizations.php'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'name': name, 'email': email, 'password': password}),
+      );
+      if (response.statusCode == 200) {
+        final body = response.body.trim();
+        if (body.isEmpty) {
+          return {'success': false, 'message': 'Empty response from server'};
+        }
+        try {
+          return json.decode(body);
+        } catch (e) {
+          return {'success': false, 'message': 'Invalid server response'};
+        }
+      }
+      return {'success': false, 'message': 'Server error: ${response.statusCode}'};
+    } catch (e) {
+      return {'success': false, 'message': 'Connection error: ${e.toString()}'};
     }
-    throw Exception('Failed to register');
   }
 
   // Organizations - Get All
