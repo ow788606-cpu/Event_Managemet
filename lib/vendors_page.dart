@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_vendor_page.dart';
 import 'add_new_vendor_page.dart';
 import 'services/database_service.dart';
@@ -35,7 +36,10 @@ class _VendorsPageState extends State<VendorsPage> {
 
   Future<void> _loadVendors() async {
     try {
-      final vendors = await DatabaseService.getEventVendors();
+      final prefs = await SharedPreferences.getInstance();
+      final eventId = prefs.getInt('selectedEventId');
+      
+      final vendors = await DatabaseService.getEventVendors(eventId: eventId);
       if (mounted) {
         setState(() {
           _allVendors = vendors;

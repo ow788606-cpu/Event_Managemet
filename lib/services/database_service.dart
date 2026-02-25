@@ -98,7 +98,7 @@ class DatabaseService {
   // Event Checklists
   static Future<List<Map<String, dynamic>>> getEventChecklists({int? eventId}) async {
     final url = eventId != null 
-        ? '$baseUrl/event_checklists.php?event_id=$eventId'
+        ? '$baseUrl/event_checklists.php?event_type_id=$eventId'
         : '$baseUrl/event_checklists.php';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {

@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'add_function_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'edit_function_page.dart';
+import 'services/database_service.dart';
 
 class EventTimelinePage extends StatefulWidget {
   const EventTimelinePage({super.key});
@@ -10,11 +12,64 @@ class EventTimelinePage extends StatefulWidget {
 }
 
 class _EventTimelinePageState extends State<EventTimelinePage> {
+  List<Map<String, dynamic>> _functions = [];
+  Map<String, List<Map<String, dynamic>>> _groupedFunctions = {};
+  bool _isLoading = true;
+  Timer? _refreshTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFunctions();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _loadFunctions();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refreshTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _loadFunctions() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final eventId = prefs.getInt('selectedEventId');
+      
+      final functions = await DatabaseService.getEventFunctions(eventId: eventId);
+      if (mounted) {
+        setState(() {
+          _functions = functions;
+          _groupedFunctions = _groupByDate(functions);
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Map<String, List<Map<String, dynamic>>> _groupByDate(List<Map<String, dynamic>> functions) {
+    final grouped = <String, List<Map<String, dynamic>>>{};
+    for (var func in functions) {
+      final date = func['function_date']?.toString() ?? '';
+      if (!grouped.containsKey(date)) {
+        grouped[date] = [];
+      }
+      grouped[date]!.add(func);
+    }
+    return grouped;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFE7DFE7),
-      body: Column(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -25,112 +80,28 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
                 OutlinedButton.icon(
                   onPressed: _showFilterDialog,
                   icon: const Icon(Icons.filter_list, size: 18),
-                  label: const Text('Filter',
-                      style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                  ),
+                  label: const Text('Filter', style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
+                  style: OutlinedButton.styleFrom(foregroundColor: Colors.black, padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
                 ),
                 const SizedBox(width: 12),
                 OutlinedButton.icon(
                   onPressed: _downloadCSV,
                   icon: const Icon(Icons.download, size: 18),
-                  label: const Text('Download',
-                      style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                  ),
+                  label: const Text('Download', style: TextStyle(fontFamily: 'Inter', fontSize: 14)),
+                  style: OutlinedButton.styleFrom(foregroundColor: Colors.black, padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSection('Timeline', '03 Feb 2026', [
-                    _buildEvent(
-                        'Welcome',
-                        '12:00-16:00',
-                        'Resort Lobby',
-                        'Welcome drinks, room allocation, leisure time',
-                        Colors.purple),
-                    _buildEvent('Welcome Lunch', '13:30-15:30', 'Dining Restaurant',
-                        'Casual lunch, relaxed dress code', Colors.purple),
-                    _buildEvent(
-                        'Welcome Soiree',
-                        '18:00-20:30',
-                        'Poolside / Beachfront',
-                        'Light music, cocktails, sunset gathering',
-                        Colors.purple),
-                    _buildEvent('night meet & gala', '20:00-21:30',
-                        'party hall noters', '', Colors.purple),
-                  ]),
-                  const SizedBox(height: 16),
-                  _buildSection('Colors & Culture', '04 Feb 2026', [
-                    _buildEvent('Haldi Ceremony', '09:00-11:00', 'Garden Lawn',
-                        'Yellow theme, floral decor, organic colors', Colors.purple),
-                    _buildEvent(
-                        'Mehndi by the Pool',
-                        '13:00-17:00',
-                        'Poolside Cabana',
-                        'Henna artists, live music, relaxed daytime event',
-                        Colors.purple),
-                    _buildEvent(
-                        'Sundowner Chaat Party',
-                        '18:30-20:30',
-                        'Terrace Lounge',
-                        'Street food counters, casual gathering',
-                        Colors.purple),
-                  ]),
-                  const SizedBox(height: 16),
-                  _buildSection('Music & Magic', '05 Feb 2026', [
-                    _buildEvent('Family Brunch', '10:30-12:30', 'Resort Cafe',
-                        'Close family brunch', Colors.purple),
-                    _buildEvent(
-                        'Sangeet Rehearsals & Sound Check',
-                        '15:00-17:00',
-                        'Ballroom',
-                        'Performers and family coordination',
-                        Colors.purple),
-                    _buildEvent('Sangeet Night', '19:00-23:00', 'Grand Ballroom',
-                        'Dance performances, DJ, cocktail night', Colors.purple),
-                  ]),
-                  const SizedBox(height: 16),
-                  _buildSection('The Grand Union', '06 Feb 2026', [
-                    _buildEvent(
-                        'Wedding Rituals & Preparations',
-                        '09:00-11:00',
-                        'Bride & Groom Suites',
-                        'Hair, makeup, traditional rituals',
-                        Colors.purple),
-                    _buildEvent('Wedding Ceremony', '16:30-18:30', 'Beach Mandap',
-                        'Main wedding ceremony', Colors.purple),
-                    _buildEvent('Reception Gala', '20:00-23:59', 'Banquet Hall',
-                        'Formal reception, dinner & celebrations', Colors.purple),
-                  ]),
-                  const SizedBox(height: 16),
-                  _buildSection('Farewell with Love', '07 Feb 2026', [
-                    _buildEvent(
-                        'Post-Wedding Brunch',
-                        '10:00-12:00',
-                        'Beachside Cafe',
-                        'Relaxed brunch with family and friends',
-                        Colors.purple),
-                    _buildEvent('Vidaai Ceremony', '12:30-13:30', 'Resort Entrance',
-                        'Emotional farewell ceremony', Colors.purple),
-                    _buildEvent('Guest Departures', '14:00-18:00', 'Resort Lobby',
-                        'Check-out and transport assistance', Colors.purple),
-                  ]),
-                ],
-              ),
-            ),
+            child: _groupedFunctions.isEmpty
+                ? const Center(child: Text('No timeline data', style: TextStyle(fontFamily: 'Inter')))
+                : ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: _groupedFunctions.entries.map((entry) {
+                      return _buildSection(entry.key, entry.value);
+                    }).toList(),
+                  ),
           ),
         ],
       ),
@@ -139,26 +110,12 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
 
   void _downloadCSV() {
     final csvData = StringBuffer();
-    csvData.writeln('Event Day,Function Name,Start Time,End Time,Location,Notes');
-    csvData.writeln('Timeline (03 Feb 2026),Welcome,12:00,16:00,Resort Lobby,Welcome drinks room allocation leisure time');
-    csvData.writeln('Timeline (03 Feb 2026),Welcome Lunch,13:30,15:30,Dining Restaurant,Casual lunch relaxed dress code');
-    csvData.writeln('Timeline (03 Feb 2026),Welcome Soiree,18:00,20:30,Poolside / Beachfront,Light music cocktails sunset gathering');
-    csvData.writeln('Timeline (03 Feb 2026),night meet & gala,20:00,21:30,party hall noters,');
-    csvData.writeln('Colors & Culture (04 Feb 2026),Haldi Ceremony,09:00,11:00,Garden Lawn,Yellow theme floral decor organic colors');
-    csvData.writeln('Colors & Culture (04 Feb 2026),Mehndi by the Pool,13:00,17:00,Poolside Cabana,Henna artists live music relaxed daytime event');
-    csvData.writeln('Colors & Culture (04 Feb 2026),Sundowner Chaat Party,18:30,20:30,Terrace Lounge,Street food counters casual gathering');
-    csvData.writeln('Music & Magic (05 Feb 2026),Family Brunch,10:30,12:30,Resort Cafe,Close family brunch');
-    csvData.writeln('Music & Magic (05 Feb 2026),Sangeet Rehearsals & Sound Check,15:00,17:00,Ballroom,Performers and family coordination');
-    csvData.writeln('Music & Magic (05 Feb 2026),Sangeet Night,19:00,23:00,Grand Ballroom,Dance performances DJ cocktail night');
-    csvData.writeln('The Grand Union (06 Feb 2026),Wedding Rituals & Preparations,09:00,11:00,Bride & Groom Suites,Hair makeup traditional rituals');
-    csvData.writeln('The Grand Union (06 Feb 2026),Wedding Ceremony,16:30,18:30,Beach Mandap,Main wedding ceremony');
-    csvData.writeln('The Grand Union (06 Feb 2026),Reception Gala,20:00,23:59,Banquet Hall,Formal reception dinner & celebrations');
-    csvData.writeln('Farewell with Love (07 Feb 2026),Post-Wedding Brunch,10:00,12:00,Beachside Cafe,Relaxed brunch with family and friends');
-    csvData.writeln('Farewell with Love (07 Feb 2026),Vidaai Ceremony,12:30,13:30,Resort Entrance,Emotional farewell ceremony');
-    csvData.writeln('Farewell with Love (07 Feb 2026),Guest Departures,14:00,18:00,Resort Lobby,Check-out and transport assistance');
-    
+    csvData.writeln('Date,Function Name,Start Time,End Time,Location,Notes');
+    for (var func in _functions) {
+      csvData.writeln('${func['function_date']},${func['function_name']},${func['start_time']},${func['end_time']},${func['location']},${func['notes'] ?? ''}');
+    }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Downloaded: ${csvData.toString().split('\n').length - 2} events', style: const TextStyle(fontFamily: 'Inter'))),
+      SnackBar(content: Text('Exported ${_functions.length} functions', style: const TextStyle(fontFamily: 'Inter'))),
     );
   }
 
@@ -250,56 +207,28 @@ class _EventTimelinePageState extends State<EventTimelinePage> {
     );
   }
 
-  Widget _buildSection(String title, String date, List<Widget> events) {
+  Widget _buildSection(String date, List<Map<String, dynamic>> functions) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 4,
-              offset: const Offset(0, 2))
-        ],
+        boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 4, offset: const Offset(0, 2))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text('$title ($date)',
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Inter')),
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              AddFunctionPage(sectionTitle: title)),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: const Text('+ Add Function',
-                      style: TextStyle(fontSize: 12, fontFamily: 'Inter')),
-                ),
-              ],
-            ),
+            child: Text(date, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
           ),
-          ...events,
+          ...functions.map((func) => _buildEvent(
+            func['function_name']?.toString() ?? '',
+            '${func['start_time']}-${func['end_time']}',
+            func['location']?.toString() ?? '',
+            func['notes']?.toString() ?? '',
+            Colors.purple,
+          )).toList(),
         ],
       ),
     );

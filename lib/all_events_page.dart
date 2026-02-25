@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'add_event_page.dart';
 import 'event_details_page.dart';
 import 'services/database_service.dart';
@@ -85,10 +86,12 @@ class _AllEventsPageState extends State<AllEventsPage> {
                       backgroundColor: const Color(0xFF520350),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                     ),
                     child: const Text('Add Event',
-                        style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+                        style: TextStyle(
+                            color: Colors.white, fontFamily: 'Inter')),
                   ),
                 ],
               ),
@@ -102,12 +105,16 @@ class _AllEventsPageState extends State<AllEventsPage> {
                   final name = event['title']?.toString() ?? '';
                   final startDate = event['start_date']?.toString() ?? '';
                   final endDate = event['end_date']?.toString() ?? '';
-                  final date = endDate.isNotEmpty && endDate != startDate ? '$startDate - $endDate' : startDate;
+                  final date = endDate.isNotEmpty && endDate != startDate
+                      ? '$startDate - $endDate'
+                      : startDate;
                   final client = event['client_name']?.toString() ?? '';
                   final type = event['event_type']?.toString() ?? '';
-                  final venue = event['venue']?.toString() ?? event['location']?.toString() ?? '';
+                  final venue = event['venue']?.toString() ??
+                      event['location']?.toString() ??
+                      '';
                   final budget = event['budget']?.toString() ?? '-';
-                  
+
                   final mappedEvent = {
                     'id': event['id'],
                     'name': name,
@@ -118,7 +125,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     'budget': budget,
                     'tag': '-',
                   };
-                  
+
                   return _buildEventCard(mappedEvent);
                 },
               ),
@@ -137,7 +144,7 @@ class _AllEventsPageState extends State<AllEventsPage> {
     final location = event['location']?.toString() ?? '';
     final budget = event['budget']?.toString() ?? '-';
     final tag = event['tag']?.toString() ?? '-';
-    
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -147,7 +154,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
               event: event,
               onEventUpdated: (updated) {
                 setState(() {
-                  final index = _events.indexWhere((e) => e['id'] == updated['id']);
+                  final index =
+                      _events.indexWhere((e) => e['id'] == updated['id']);
                   if (index != -1) {
                     _events[index] = updated;
                   }
@@ -185,7 +193,8 @@ class _AllEventsPageState extends State<AllEventsPage> {
                     children: [
                       if (type.isNotEmpty)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
                             color: const Color(0xFF520350),
                             borderRadius: BorderRadius.circular(12),
@@ -208,17 +217,34 @@ class _AllEventsPageState extends State<AllEventsPage> {
                             color: Color(0xFF520350),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.more_vert, color: Colors.white, size: 16),
+                          child: const Icon(Icons.more_vert,
+                              color: Colors.white, size: 16),
                         ),
                         itemBuilder: (context) => [
-                          const PopupMenuItem(value: 'edit', child: Text('Edit')),
-                          const PopupMenuItem(value: 'delete', child: Text('Delete')),
+                          const PopupMenuItem(
+                              value: 'select', child: Text('Select Event')),
+                          const PopupMenuItem(
+                              value: 'edit', child: Text('Edit')),
+                          const PopupMenuItem(
+                              value: 'delete', child: Text('Delete')),
                         ],
-                        onSelected: (value) {
-                          if (value == 'edit') {
+                        onSelected: (value) async {
+                          if (value == 'select') {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setInt('selectedEventId', event['id']);
+                            await prefs.setString('selectedEventName', name);
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('$name selected')),
+                            );
+                          } else if (value == 'edit') {
+                            if (!mounted) return;
+
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => EventDetailsPage(event: event)),
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      EventDetailsPage(event: event)),
                             );
                           }
                         },
