@@ -145,12 +145,12 @@ class DatabaseService {
         try {
           return json.decode(body);
         } catch (e) {
-          return {'success': false, 'message': 'Invalid server response'};
+          return {'success': false, 'message': 'Server returned invalid JSON. Check if Apache/MySQL is running.'};
         }
       }
       return {'success': false, 'message': 'Server error: ${response.statusCode}'};
     } catch (e) {
-      return {'success': false, 'message': 'Connection error: ${e.toString()}'};
+      return {'success': false, 'message': 'Cannot connect to server. Check if XAMPP is running.'};
     }
   }
 

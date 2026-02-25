@@ -17,21 +17,21 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    }
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one capital letter';
-    }
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at least one special character';
-    }
-    return null;
-  }
+  // String? _validatePassword(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Password is required';
+  //   }
+  //   if (value.length < 8) {
+  //     return 'Password must be at least 8 characters';
+  //   }
+  //   if (!value.contains(RegExp(r'[A-Z]'))) {
+  //     return 'Password must contain at least one capital letter';
+  //   }
+  //   if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+  //     return 'Password must contain at least one special character';
+  //   }
+  //   return null;
+  // }
 
   @override
   void initState() {
@@ -122,7 +122,21 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  validator: _validatePassword,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    }
+                    // if (value.length < 8) {
+                    //   return 'Password must be at least 8 characters';
+                    // }
+                    // if (!value.contains(RegExp(r'[A-Z]'))) {
+                    //   return 'Password must contain at least one capital letter';
+                    // }
+                    // if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                    //   return 'Password must contain at least one special character';
+                    // }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     hintText: 'Password',
                     filled: true,
