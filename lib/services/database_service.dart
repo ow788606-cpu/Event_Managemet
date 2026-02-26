@@ -76,11 +76,18 @@ class DatabaseService {
 
   // Events
   static Future<List<Map<String, dynamic>>> getEvents() async {
-    final response = await http.get(Uri.parse('$baseUrl/events.php'));
-    if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(json.decode(response.body));
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/events.php'));
+      print('Events API response status: ${response.statusCode}');
+      print('Events API response body: ${response.body}');
+      if (response.statusCode == 200) {
+        return List<Map<String, dynamic>>.from(json.decode(response.body));
+      }
+      throw Exception('Failed to load events: ${response.statusCode}');
+    } catch (e) {
+      print('Events API error: $e');
+      throw Exception('Failed to load events');
     }
-    throw Exception('Failed to load events');
   }
 
   // Event Days

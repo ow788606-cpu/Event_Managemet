@@ -21,7 +21,6 @@ class _ServicesPageState extends State<ServicesPage>
   List<dynamic> guests = [];
   List<dynamic> vendors = [];
   List<dynamic> checklist = [];
-  List<dynamic> accommodation = [];
   List<dynamic> eventDays = [];
   int selectedEventId = 36;
   Map<String, dynamic>? selectedEvent;
@@ -48,11 +47,6 @@ class _ServicesPageState extends State<ServicesPage>
       guests = await DatabaseService.getEventAttendees(eventId: selectedEventId);
       vendors = await DatabaseService.getEventVendors(eventId: selectedEventId);
       checklist = await DatabaseService.getEventChecklists(eventId: 1);
-      try {
-        accommodation = await DatabaseService.getEventAccommodation(eventId: selectedEventId);
-      } catch (e) {
-        accommodation = [];
-      }
       setState(() {});
     } catch (e) {
       setState(() {});

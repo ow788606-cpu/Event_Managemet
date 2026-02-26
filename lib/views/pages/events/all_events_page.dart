@@ -34,12 +34,17 @@ class _AllEventsPageState extends State<AllEventsPage> {
   Future<void> _loadEvents() async {
     try {
       final events = await DatabaseService.getEvents();
+      print('Events loaded: ${events.length}');
+      if (events.isNotEmpty) {
+        print('First event: ${events[0]}');
+      }
       if (mounted) {
         setState(() {
           _events = events;
         });
       }
     } catch (e) {
+      print('Error loading events: $e');
       // Keep empty list on error
     }
   }
