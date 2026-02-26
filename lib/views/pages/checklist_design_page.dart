@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'add_task_page.dart';
-import 'edit_task_page.dart';
-import 'services/database_service.dart';
+import 'tasks/add_task_page.dart';
+import 'tasks/edit_task_page.dart';
+import '../../services/database_service.dart';
 
 class ChecklistDesignPage extends StatefulWidget {
   final int eventId;

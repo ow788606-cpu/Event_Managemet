@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'all_clients_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class AddClientPage extends StatefulWidget {
   const AddClientPage({super.key});

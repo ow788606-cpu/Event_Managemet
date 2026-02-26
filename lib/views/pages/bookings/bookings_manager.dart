@@ -1,4 +1,4 @@
-import '../models/event_model.dart';
+import '../../../models/event_model.dart';
 
 enum BookingStatus { upcoming, completed, cancelled }
 

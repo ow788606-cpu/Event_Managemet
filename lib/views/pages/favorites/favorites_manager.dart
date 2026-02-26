@@ -1,4 +1,4 @@
-import '../models/event_model.dart';
+import '../../../models/event_model.dart';
 
 class FavoritesManager {
   static final List<Event> _favorites = [];

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_client_page.dart';
 import 'client_details_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class AllClientsPage extends StatefulWidget {
   const AllClientsPage({super.key});

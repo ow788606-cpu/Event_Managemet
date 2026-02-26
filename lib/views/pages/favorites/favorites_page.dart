@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/event_model.dart';
+import '../../../models/event_model.dart';
 import 'favorites_manager.dart';
 
 class FavoritesPage extends StatefulWidget {

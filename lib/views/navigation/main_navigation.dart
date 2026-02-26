@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'favorites_page.dart';
-import 'services_page.dart';
+import '../pages/home_page.dart';
+import '../pages/favorites/favorites_page.dart';
+import '../pages/services/services_page.dart';
 
 class MainNavigation extends StatefulWidget {
   final String userName;

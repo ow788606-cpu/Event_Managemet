@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'events_page.dart';
-import 'login_page.dart';
-import 'add_event_page.dart';
-import 'add_client_page.dart';
-import 'add_vendor_page.dart';
-import 'add_employee_page.dart';
-import 'all_clients_page.dart';
-import 'all_vendors_page.dart';
-import 'all_employees_page.dart';
-import 'tags_page.dart';
-import 'upcoming_events_page.dart';
-import 'all_events_page.dart';
-import 'completed_events_page.dart';
-import 'manage_profile_page.dart';
-import 'change_password_page.dart';
-import 'help_desk_page.dart';
+import 'events/events_page.dart';
+import 'auth/login_page.dart';
+import 'events/add_event_page.dart';
+import 'clients/add_client_page.dart';
+import 'vendors/add_vendor_page.dart';
+import 'employees/add_employee_page.dart';
+import 'clients/all_clients_page.dart';
+import 'vendors/all_vendors_page.dart';
+import 'employees/all_employees_page.dart';
+import 'tags/tags_page.dart';
+import 'events/upcoming_events_page.dart';
+import 'events/all_events_page.dart';
+import 'events/completed_events_page.dart';
+import 'profile/manage_profile_page.dart';
+import 'auth/change_password_page.dart';
+import 'help/help_desk_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {

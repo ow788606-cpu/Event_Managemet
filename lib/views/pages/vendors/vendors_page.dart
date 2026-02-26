@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'edit_vendor_page.dart';
 import 'add_new_vendor_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class VendorsPage extends StatefulWidget {
   final int eventId;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'main_navigation.dart';
+import '../../navigation/main_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

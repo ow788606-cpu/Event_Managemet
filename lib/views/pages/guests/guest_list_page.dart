@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'edit_guest_page.dart';
 import 'add_guest_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class GuestListPage extends StatefulWidget {
   final int eventId;

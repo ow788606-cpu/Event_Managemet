@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main_navigation.dart';
+import '../../navigation/main_navigation.dart';
 
 class WelcomePage extends StatefulWidget {
   final String userName;

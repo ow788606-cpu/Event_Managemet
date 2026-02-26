@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
-import 'main_navigation.dart';
+import 'views/pages/auth/login_page.dart';
+import 'views/navigation/main_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

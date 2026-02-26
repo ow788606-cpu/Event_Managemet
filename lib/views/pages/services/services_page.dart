@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'services/database_service.dart';
-import 'checklist_design_page.dart';
-import 'event_timeline_page.dart';
-import 'vendors_page.dart';
-import 'guest_list_page.dart';
-import 'guest_accommodation_page.dart';
+import '../../../services/database_service.dart';
+import '../checklist_design_page.dart';
+import '../events/event_timeline_page.dart';
+import '../vendors/vendors_page.dart';
+import '../guests/guest_list_page.dart';
+import '../guests/guest_accommodation_page.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({super.key, required int initialTab});

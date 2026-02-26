@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'add_event_page.dart';
 import 'event_details_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class AllEventsPage extends StatefulWidget {
   const AllEventsPage({super.key});

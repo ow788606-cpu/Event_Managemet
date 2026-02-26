@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_employee_page.dart';
 import 'employee_details_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class AllEmployeesPage extends StatefulWidget {
   const AllEmployeesPage({super.key});

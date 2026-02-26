@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../models/event_model.dart';
-import 'favorites_manager.dart';
-import 'services_manager.dart';
+import '../../../models/event_model.dart';
+import '../favorites/favorites_manager.dart';
+import '../services/services_manager.dart';
 
 class EventsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState>? scaffoldKey;

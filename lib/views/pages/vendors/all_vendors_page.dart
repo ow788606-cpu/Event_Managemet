@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_vendor_page.dart';
 import 'vendor_details_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class AllVendorsPage extends StatefulWidget {
   const AllVendorsPage({super.key});

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'add_tag_page.dart';
 import 'tag_details_page.dart';
-import 'services/database_service.dart';
+import '../../../services/database_service.dart';
 
 class TagsPage extends StatefulWidget {
   const TagsPage({super.key});
