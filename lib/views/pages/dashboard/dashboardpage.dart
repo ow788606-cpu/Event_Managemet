@@ -41,10 +41,13 @@ class _ServicesPageState extends State<ServicesPage>
   Future<void> _loadDynamicData() async {
     try {
       final events = await DatabaseService.getEvents();
-      selectedEvent = events.firstWhere((e) => e['id'] == selectedEventId, orElse: () => {});
+      selectedEvent = events.firstWhere((e) => e['id'] == selectedEventId,
+          orElse: () => {});
       eventDays = await DatabaseService.getEventDays(eventId: selectedEventId);
-      timeline = await DatabaseService.getEventFunctions(eventId: selectedEventId);
-      guests = await DatabaseService.getEventAttendees(eventId: selectedEventId);
+      timeline =
+          await DatabaseService.getEventFunctions(eventId: selectedEventId);
+      guests =
+          await DatabaseService.getEventAttendees(eventId: selectedEventId);
       vendors = await DatabaseService.getEventVendors(eventId: selectedEventId);
       checklist = await DatabaseService.getEventChecklists(eventId: 1);
       setState(() {});
@@ -64,7 +67,7 @@ class _ServicesPageState extends State<ServicesPage>
       appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
-        title: const Text('My Services',
+        title: const Text('Event Dashboard',
             style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -100,7 +103,8 @@ class _ServicesPageState extends State<ServicesPage>
           VendorsPage(eventId: selectedEventId),
           GuestListPage(eventId: selectedEventId),
           GuestAccommodationPage(eventId: selectedEventId),
-          const Center(child: Text('Other', style: TextStyle(fontFamily: 'Inter'))),
+          const Center(
+              child: Text('Other', style: TextStyle(fontFamily: 'Inter'))),
         ],
       ),
     );
@@ -130,7 +134,8 @@ class _ServicesPageState extends State<ServicesPage>
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.pink.shade50,
-                  child: const Icon(Icons.favorite, color: Colors.pink, size: 30),
+                  child:
+                      const Icon(Icons.favorite, color: Colors.pink, size: 30),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -151,27 +156,38 @@ class _ServicesPageState extends State<ServicesPage>
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const Icon(Icons.check_circle, color: Colors.green, size: 18),
+                          const Icon(Icons.check_circle,
+                              color: Colors.green, size: 18),
                         ],
                       ),
                       const SizedBox(height: 6),
                       Row(
                         children: [
-                          Icon(Icons.calendar_today, size: 12, color: Colors.grey.shade600),
+                          Icon(Icons.calendar_today,
+                              size: 12, color: Colors.grey.shade600),
                           const SizedBox(width: 4),
                           Text(
-                            '${selectedEvent?['start_date'] ?? ''} - ${selectedEvent?['end_date'] ?? ''}',
-                            style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
+                              '${selectedEvent?['start_date'] ?? ''} - ${selectedEvent?['end_date'] ?? ''}',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey.shade600,
+                                  fontFamily: 'Inter')),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(Icons.location_on, size: 12, color: Colors.grey.shade600),
+                          Icon(Icons.location_on,
+                              size: 12, color: Colors.grey.shade600),
                           const SizedBox(width: 4),
                           Text(
-                            selectedEvent?['venue']?.toString() ?? selectedEvent?['location']?.toString() ?? '',
-                            style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
+                              selectedEvent?['venue']?.toString() ??
+                                  selectedEvent?['location']?.toString() ??
+                                  '',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey.shade600,
+                                  fontFamily: 'Inter')),
                         ],
                       ),
                     ],
@@ -183,43 +199,120 @@ class _ServicesPageState extends State<ServicesPage>
           const SizedBox(height: 16),
           Row(
             children: [
-              _buildStatCard(Icons.people, guests.length.toString(), 'Guest Invited', const Color(0xFF520350), width),
+              _buildStatCard(Icons.people, guests.length.toString(),
+                  'Guest Invited', const Color(0xFF520350), width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.check, guests.where((g) => g['invitation_status'] == 'accepted').length.toString(), 'Invitation Accepted', Colors.green, width),
+              _buildStatCard(
+                  Icons.check,
+                  guests
+                      .where((g) => g['invitation_status'] == 'accepted')
+                      .length
+                      .toString(),
+                  'Invitation Accepted',
+                  Colors.green,
+                  width),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildStatCard(Icons.cancel, guests.where((g) => g['invitation_status'] == 'declined').length.toString(), 'Invitation Declined', Colors.red, width),
+              _buildStatCard(
+                  Icons.cancel,
+                  guests
+                      .where((g) => g['invitation_status'] == 'declined')
+                      .length
+                      .toString(),
+                  'Invitation Declined',
+                  Colors.red,
+                  width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.person, guests.where((g) => g['invitation_status'] == 'pending').length.toString(), 'Confirmation Pending', Colors.orange, width),
+              _buildStatCard(
+                  Icons.person,
+                  guests
+                      .where((g) => g['invitation_status'] == 'pending')
+                      .length
+                      .toString(),
+                  'Confirmation Pending',
+                  Colors.orange,
+                  width),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Guest Pickup', guests.where((g) => g['travel_required'] == '1' || g['travel_required'] == 1).length.toString(), 'Required', '0', 'Assigned')),
+              Expanded(
+                  child: _buildSummaryCard(
+                      'Guest Pickup',
+                      guests
+                          .where((g) =>
+                              g['travel_required'] == '1' ||
+                              g['travel_required'] == 1)
+                          .length
+                          .toString(),
+                      'Required',
+                      '0',
+                      'Assigned')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Vendors', vendors.where((v) => v['status']?.toString().toLowerCase() == 'hired').length.toString(), 'Hired', vendors.where((v) => v['status']?.toString().toLowerCase() == 'shortlisted').length.toString(), 'Shortlisted')),
+              Expanded(
+                  child: _buildSummaryCard(
+                      'Vendors',
+                      vendors
+                          .where((v) =>
+                              v['status']?.toString().toLowerCase() == 'hired')
+                          .length
+                          .toString(),
+                      'Hired',
+                      vendors
+                          .where((v) =>
+                              v['status']?.toString().toLowerCase() ==
+                              'shortlisted')
+                          .length
+                          .toString(),
+                      'Shortlisted')),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Tasks', 
-                checklist.isEmpty ? '0' : checklist.where((c) {
-                  final status = c['status'];
-                  return status == 0 || status == '0';
-                }).length.toString(), 
-                'Pending', 
-                checklist.isEmpty ? '0' : checklist.where((c) {
-                  final status = c['status'];
-                  return status == 1 || status == '1';
-                }).length.toString(), 
-                'Completed')),
+              Expanded(
+                  child: _buildSummaryCard(
+                      'Tasks',
+                      checklist.isEmpty
+                          ? '0'
+                          : checklist
+                              .where((c) {
+                                final status = c['status'];
+                                return status == 0 || status == '0';
+                              })
+                              .length
+                              .toString(),
+                      'Pending',
+                      checklist.isEmpty
+                          ? '0'
+                          : checklist
+                              .where((c) {
+                                final status = c['status'];
+                                return status == 1 || status == '1';
+                              })
+                              .length
+                              .toString(),
+                      'Completed')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Other', guests.where((g) => g['is_vip'] == '1' || g['is_vip'] == 1).length.toString(), 'VIP Guest', guests.where((g) => g['needs_wheelchair'] == '1' || g['needs_wheelchair'] == 1).length.toString(), 'Wheelchair')),
+              Expanded(
+                  child: _buildSummaryCard(
+                      'Other',
+                      guests
+                          .where((g) => g['is_vip'] == '1' || g['is_vip'] == 1)
+                          .length
+                          .toString(),
+                      'VIP Guest',
+                      guests
+                          .where((g) =>
+                              g['needs_wheelchair'] == '1' ||
+                              g['needs_wheelchair'] == 1)
+                          .length
+                          .toString(),
+                      'Wheelchair')),
             ],
           ),
           const SizedBox(height: 12),
@@ -247,7 +340,8 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
-  Widget _buildStatCard(IconData icon, String count, String label, Color color, double width) {
+  Widget _buildStatCard(
+      IconData icon, String count, String label, Color color, double width) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -278,8 +372,17 @@ class _ServicesPageState extends State<ServicesPage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(count, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
-                  Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'Inter'), maxLines: 2),
+                  Text(count,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Inter')),
+                  Text(label,
+                      style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.grey,
+                          fontFamily: 'Inter'),
+                      maxLines: 2),
                 ],
               ),
             ),
@@ -289,7 +392,8 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
-  Widget _buildSummaryCard(String title, String value1, String label1, String value2, String label2) {
+  Widget _buildSummaryCard(String title, String value1, String label1,
+      String value2, String label2) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -310,7 +414,12 @@ class _ServicesPageState extends State<ServicesPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text(title,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               const Icon(Icons.open_in_new, size: 14, color: Colors.grey),
             ],
           ),
@@ -320,16 +429,32 @@ class _ServicesPageState extends State<ServicesPage>
             children: [
               Column(
                 children: [
-                  Text(value1, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  Text(value1,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Inter')),
                   const SizedBox(height: 4),
-                  Text(label1, style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                  Text(label1,
+                      style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                          fontFamily: 'Inter')),
                 ],
               ),
               Column(
                 children: [
-                  Text(value2, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  Text(value2,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Inter')),
                   const SizedBox(height: 4),
-                  Text(label2, style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                  Text(label2,
+                      style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                          fontFamily: 'Inter')),
                 ],
               ),
             ],
@@ -361,9 +486,15 @@ class _ServicesPageState extends State<ServicesPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Event Timeline', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              const Text('Event Timeline',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               IconButton(
-                icon: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                icon: const Icon(Icons.arrow_forward_ios,
+                    size: 14, color: Colors.grey),
                 onPressed: () => _tabController.animateTo(2),
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
@@ -372,87 +503,126 @@ class _ServicesPageState extends State<ServicesPage>
           ),
           const SizedBox(height: 12),
           if (timeline.isEmpty)
-            const Center(child: Padding(
+            const Center(
+                child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: Text('No timeline events', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+              child: Text('No timeline events',
+                  style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
             ))
           else
             ...timeline.take(4).map((t) => Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF520350),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          t['day_number']?.toString() ?? '01',
-                          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
-                        ),
-                        Text(
-                          t['day_name']?.toString().substring(0, 3) ?? 'Day',
-                          style: const TextStyle(color: Colors.white, fontSize: 10, fontFamily: 'Inter'),
-                        ),
-                      ],
-                    ),
+                  margin: const EdgeInsets.only(bottom: 12),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          t['function_name']?.toString() ?? 'Event',
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF520350),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        const SizedBox(height: 4),
-                        Row(
+                        child: Column(
                           children: [
-                            const Icon(Icons.access_time, size: 12, color: Colors.grey),
-                            const SizedBox(width: 4),
                             Text(
-                              '${t['start_time']} - ${t['end_time']}',
-                              style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
+                              t['day_number']?.toString() ?? '01',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'),
+                            ),
+                            Text(
+                              t['day_name']?.toString().substring(0, 3) ??
+                                  'Day',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontFamily: 'Inter'),
                             ),
                           ],
                         ),
-                        if (t['location'] != null)
-                          const SizedBox(height: 2),
-                        if (t['location'] != null)
-                          Row(
-                            children: [
-                              const Icon(Icons.location_on, size: 12, color: Colors.grey),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: Text(
-                                  t['location'].toString(),
-                                  style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              t['function_name']?.toString() ?? 'Event',
+                              style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_time,
+                                    size: 12, color: Colors.grey),
+                                const SizedBox(width: 4),
+                                Text(
+                                  '${t['start_time']} - ${t['end_time']}',
+                                  style: const TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.grey,
+                                      fontFamily: 'Inter'),
                                 ),
+                              ],
+                            ),
+                            if (t['location'] != null)
+                              const SizedBox(height: 2),
+                            if (t['location'] != null)
+                              Row(
+                                children: [
+                                  const Icon(Icons.location_on,
+                                      size: 12, color: Colors.grey),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: Text(
+                                      t['location'].toString(),
+                                      style: const TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
+                                          fontFamily: 'Inter'),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                      ],
-                    ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
         ],
       ),
     );
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return months[month - 1];
   }
 
   Widget _buildAccommodationCard() {
@@ -477,9 +647,15 @@ class _ServicesPageState extends State<ServicesPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              const Text('Guest Accommodation',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               IconButton(
-                icon: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                icon: const Icon(Icons.arrow_forward_ios,
+                    size: 14, color: Colors.grey),
                 onPressed: () => _tabController.animateTo(5),
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
@@ -488,25 +664,54 @@ class _ServicesPageState extends State<ServicesPage>
           ),
           const SizedBox(height: 12),
           if (eventDays.isEmpty)
-            const Center(child: Padding(
+            const Center(
+                child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: Text('No event days data', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+              child: Text('No event days data',
+                  style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
             ))
           else
             Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF5F5F5),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Row(
                     children: [
-                      Expanded(flex: 1, child: Text('Day', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
-                      Expanded(flex: 2, child: Text('Title', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
-                      Expanded(flex: 2, child: Text('Date', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
-                      Expanded(flex: 1, child: Text('No of Guest', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
+                      Expanded(
+                          flex: 1,
+                          child: Text('Day',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'),
+                              textAlign: TextAlign.center)),
+                      Expanded(
+                          flex: 2,
+                          child: Text('Title',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'))),
+                      Expanded(
+                          flex: 2,
+                          child: Text('Date',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'))),
+                      Expanded(
+                          flex: 1,
+                          child: Text('No of Guest',
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Inter'),
+                              textAlign: TextAlign.center)),
                     ],
                   ),
                 ),
@@ -518,24 +723,28 @@ class _ServicesPageState extends State<ServicesPage>
                   if (day['event_date'] != null) {
                     try {
                       final d = DateTime.parse(day['event_date'].toString());
-                      date = '${d.day.toString().padLeft(2, '0')} ${_getMonthName(d.month)} ${d.year}';
+                      date =
+                          '${d.day.toString().padLeft(2, '0')} ${_getMonthName(d.month)} ${d.year}';
                     } catch (e) {
                       date = day['event_date'].toString();
                     }
                   }
                   String guestCount = day['guest_count']?.toString() ?? '0';
-                  
+
                   return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                     decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade200)),
                     ),
                     child: Row(
                       children: [
                         Expanded(
                           flex: 1,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 4),
                             decoration: BoxDecoration(
                               color: const Color(0xFF520350).withAlpha(25),
                               borderRadius: BorderRadius.circular(4),
@@ -544,11 +753,18 @@ class _ServicesPageState extends State<ServicesPage>
                               children: [
                                 const Text(
                                   'Day',
-                                  style: TextStyle(fontSize: 9, color: Colors.grey, fontFamily: 'Inter'),
+                                  style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.grey,
+                                      fontFamily: 'Inter'),
                                 ),
                                 Text(
                                   dayNum,
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF520350),
+                                      fontFamily: 'Inter'),
                                 ),
                               ],
                             ),
@@ -559,7 +775,8 @@ class _ServicesPageState extends State<ServicesPage>
                           flex: 2,
                           child: Text(
                             title,
-                            style: const TextStyle(fontSize: 11, fontFamily: 'Inter'),
+                            style: const TextStyle(
+                                fontSize: 11, fontFamily: 'Inter'),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -568,7 +785,10 @@ class _ServicesPageState extends State<ServicesPage>
                           flex: 2,
                           child: Text(
                             date,
-                            style: const TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'Inter'),
+                            style: const TextStyle(
+                                fontSize: 10,
+                                color: Colors.grey,
+                                fontFamily: 'Inter'),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -577,7 +797,10 @@ class _ServicesPageState extends State<ServicesPage>
                           flex: 1,
                           child: Text(
                             guestCount,
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Inter'),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -592,15 +815,10 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
-  String _getMonthName(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[month - 1];
-  }
-
   Widget _buildGuestAgeRatioChart() {
     // Calculate age groups from guests data
     int age1_15 = 0, age16_30 = 0, age30_45 = 0, age45_60 = 0, age60plus = 0;
-    
+
     for (var guest in guests) {
       if (guest['age'] != null) {
         int age = int.tryParse(guest['age'].toString()) ?? 0;
@@ -617,9 +835,10 @@ class _ServicesPageState extends State<ServicesPage>
         }
       }
     }
-    
-    final maxCount = [age1_15, age16_30, age30_45, age45_60, age60plus].reduce((a, b) => a > b ? a : b);
-    
+
+    final maxCount = [age1_15, age16_30, age30_45, age45_60, age60plus]
+        .reduce((a, b) => a > b ? a : b);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -640,7 +859,12 @@ class _ServicesPageState extends State<ServicesPage>
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Guest Age Ratio', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Guest Age Ratio',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
@@ -658,7 +882,9 @@ class _ServicesPageState extends State<ServicesPage>
           ),
           const SizedBox(height: 8),
           const Center(
-            child: Text('Age Group', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+            child: Text('Age Group',
+                style: TextStyle(
+                    fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
           ),
         ],
       ),
@@ -666,11 +892,16 @@ class _ServicesPageState extends State<ServicesPage>
   }
 
   Widget _buildAgeBar(String label, int count, int maxCount) {
-    final height = maxCount > 0 ? (count / maxCount * 100).clamp(20.0, 100.0) : 20.0;
+    final height =
+        maxCount > 0 ? (count / maxCount * 100).clamp(20.0, 100.0) : 20.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('$count', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+        Text('$count',
+            style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Inter')),
         const SizedBox(height: 4),
         Container(
           width: 40,
@@ -681,18 +912,24 @@ class _ServicesPageState extends State<ServicesPage>
           ),
         ),
         const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 9, color: Colors.grey, fontFamily: 'Inter')),
+        Text(label,
+            style: const TextStyle(
+                fontSize: 9, color: Colors.grey, fontFamily: 'Inter')),
       ],
     );
   }
 
   Widget _buildGenderChart() {
-    final male = guests.where((g) => g['gender']?.toString().toLowerCase() == 'male').length;
-    final female = guests.where((g) => g['gender']?.toString().toLowerCase() == 'female').length;
+    final male = guests
+        .where((g) => g['gender']?.toString().toLowerCase() == 'male')
+        .length;
+    final female = guests
+        .where((g) => g['gender']?.toString().toLowerCase() == 'female')
+        .length;
     final total = guests.length;
     final malePercent = total > 0 ? (male / total * 100).round() : 0;
     final femalePercent = total > 0 ? (female / total * 100).round() : 0;
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -713,7 +950,12 @@ class _ServicesPageState extends State<ServicesPage>
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Gender', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Gender',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
@@ -771,11 +1013,17 @@ class _ServicesPageState extends State<ServicesPage>
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Text('Male', style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
+                      const Text('Male',
+                          style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text('$malePercent%', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+                  Text('$malePercent%',
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF520350),
+                          fontFamily: 'Inter')),
                 ],
               ),
               Column(
@@ -791,11 +1039,17 @@ class _ServicesPageState extends State<ServicesPage>
                         ),
                       ),
                       const SizedBox(width: 4),
-                      const Text('Female', style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
+                      const Text('Female',
+                          style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
                     ],
                   ),
                   const SizedBox(height: 4),
-                  Text('$femalePercent%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.pink.shade100, fontFamily: 'Inter')),
+                  Text('$femalePercent%',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink.shade100,
+                          fontFamily: 'Inter')),
                 ],
               ),
             ],
@@ -806,16 +1060,26 @@ class _ServicesPageState extends State<ServicesPage>
   }
 
   Widget _buildFoodPreferenceChart() {
-    final veg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'veg' || g['food_preference']?.toString().toLowerCase() == 'vegetarian').length;
-    final nonVeg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'non-veg' || g['food_preference']?.toString().toLowerCase() == 'non vegetarian').length;
-    final jain = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'jain').length;
+    final veg = guests
+        .where((g) =>
+            g['food_preference']?.toString().toLowerCase() == 'veg' ||
+            g['food_preference']?.toString().toLowerCase() == 'vegetarian')
+        .length;
+    final nonVeg = guests
+        .where((g) =>
+            g['food_preference']?.toString().toLowerCase() == 'non-veg' ||
+            g['food_preference']?.toString().toLowerCase() == 'non vegetarian')
+        .length;
+    final jain = guests
+        .where((g) => g['food_preference']?.toString().toLowerCase() == 'jain')
+        .length;
     final total = guests.length;
-    
+
     // Calculate percentages
     final jainPercent = total > 0 ? jain / total : 0.0;
     final nonVegPercent = total > 0 ? nonVeg / total : 0.0;
     final vegPercent = total > 0 ? veg / total : 0.0;
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -836,7 +1100,12 @@ class _ServicesPageState extends State<ServicesPage>
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Food Preference',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF520350),
+                      fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
@@ -872,7 +1141,8 @@ class _ServicesPageState extends State<ServicesPage>
                     CustomPaint(
                       size: const Size(100, 100),
                       painter: _PieSegmentPainter(
-                        startAngle: -90 + (jainPercent * 360) + (nonVegPercent * 360),
+                        startAngle:
+                            -90 + (jainPercent * 360) + (nonVegPercent * 360),
                         sweepAngle: vegPercent * 360,
                         color: Colors.grey.shade300,
                       ),
@@ -917,11 +1187,16 @@ class _ServicesPageState extends State<ServicesPage>
               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             ),
             const SizedBox(width: 4),
-            Text(label, style: const TextStyle(fontSize: 10, fontFamily: 'Inter')),
+            Text(label,
+                style: const TextStyle(fontSize: 10, fontFamily: 'Inter')),
           ],
         ),
         const SizedBox(height: 4),
-        Text('$count', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+        Text('$count',
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Inter')),
       ],
     );
   }
@@ -937,7 +1212,7 @@ class _PieClipper extends CustomClipper<Path> {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
     final sweepAngle = 2 * 3.14159 * percentage;
-    
+
     path.moveTo(center.dx, center.dy);
     path.arcTo(
       Rect.fromCircle(center: center, radius: radius),
@@ -950,7 +1225,8 @@ class _PieClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(_PieClipper oldClipper) => oldClipper.percentage != percentage;
+  bool shouldReclip(_PieClipper oldClipper) =>
+      oldClipper.percentage != percentage;
 }
 
 class _PieSegmentPainter extends CustomPainter {
@@ -984,4 +1260,3 @@ class _PieSegmentPainter extends CustomPainter {
         oldDelegate.color != color;
   }
 }
-

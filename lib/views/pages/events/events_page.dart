@@ -30,8 +30,10 @@ class _EventsPageState extends State<EventsPage> {
       time: '6 PM to 11 PM',
       location: 'Central Park',
       price: 151.00,
-      imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400',
-      description: 'Join us for an amazing night of live music featuring top artists.',
+      imageUrl:
+          'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400',
+      description:
+          'Join us for an amazing night of live music featuring top artists.',
     ),
     Event(
       id: '2',
@@ -40,7 +42,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '9 AM to 5 PM',
       location: 'Convention Center',
       price: 121.00,
-      imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
       description: 'Explore the latest in technology and innovation.',
     ),
     Event(
@@ -50,8 +53,10 @@ class _EventsPageState extends State<EventsPage> {
       time: '12 PM to 8 PM',
       location: 'Grand Hotel',
       price: 125.00,
-      imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400',
-      description: 'Taste exquisite dishes and premium wines from around the world.',
+      imageUrl:
+          'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400',
+      description:
+          'Taste exquisite dishes and premium wines from around the world.',
     ),
     Event(
       id: '4',
@@ -60,7 +65,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '10 AM to 6 PM',
       location: 'City Gallery',
       price: 130.00,
-      imageUrl: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400',
       description: 'Discover contemporary art from emerging artists.',
     ),
   ];
@@ -73,7 +79,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '7 AM to 9 AM',
       location: 'Local Park',
       price: 25.00,
-      imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400',
       description: 'Start your day with a refreshing yoga session.',
     ),
     Event(
@@ -83,7 +90,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '8 AM to 2 PM',
       location: 'Town Square',
       price: 0.00,
-      imageUrl: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400',
       description: 'Fresh produce and local crafts from community vendors.',
     ),
     Event(
@@ -93,7 +101,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '5 PM to 7 PM',
       location: 'Local Library',
       price: 10.00,
-      imageUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400',
       description: 'Discuss this month\'s featured book with fellow readers.',
     ),
     Event(
@@ -103,7 +112,8 @@ class _EventsPageState extends State<EventsPage> {
       time: '4 PM to 10 PM',
       location: 'Main Street',
       price: 15.00,
-      imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400',
+      imageUrl:
+          'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400',
       description: 'Enjoy delicious street food from local vendors.',
     ),
   ];
@@ -119,7 +129,9 @@ class _EventsPageState extends State<EventsPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Color(0xFF520350), statusBarIconBrightness: Brightness.light),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF520350),
+            statusBarIconBrightness: Brightness.light),
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () => widget.scaffoldKey?.currentState?.openDrawer(),
@@ -137,15 +149,18 @@ class _EventsPageState extends State<EventsPage> {
           PopupMenuButton(
             icon: const Icon(Icons.more_vert, color: Colors.white),
             itemBuilder: (BuildContext context) => [
-              const PopupMenuItem(child: Text('Filter', style: TextStyle(fontFamily: 'Inter'))),
-              const PopupMenuItem(child: Text('Sort', style: TextStyle(fontFamily: 'Inter'))),
+              const PopupMenuItem(
+                  child: Text('Filter', style: TextStyle(fontFamily: 'Inter'))),
+              const PopupMenuItem(
+                  child: Text('Sort', style: TextStyle(fontFamily: 'Inter'))),
             ],
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height * 0.02),
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.04, vertical: height * 0.02),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -160,7 +175,9 @@ class _EventsPageState extends State<EventsPage> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: _selectedTab == 0 ? const Color(0xFF520350) : Colors.grey[300]!,
+                              color: _selectedTab == 0
+                                  ? const Color(0xFF520350)
+                                  : Colors.grey[300]!,
                               width: _selectedTab == 0 ? 2 : 1,
                             ),
                           ),
@@ -170,8 +187,11 @@ class _EventsPageState extends State<EventsPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: width * 0.035,
-                            fontWeight: _selectedTab == 0 ? FontWeight.bold : FontWeight.normal,
-                            color: _selectedTab == 0 ? Colors.black : Colors.grey,
+                            fontWeight: _selectedTab == 0
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color:
+                                _selectedTab == 0 ? Colors.black : Colors.grey,
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -187,7 +207,9 @@ class _EventsPageState extends State<EventsPage> {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: _selectedTab == 1 ? const Color(0xFF520350) : Colors.grey[300]!,
+                              color: _selectedTab == 1
+                                  ? const Color(0xFF520350)
+                                  : Colors.grey[300]!,
                               width: _selectedTab == 1 ? 2 : 1,
                             ),
                           ),
@@ -197,8 +219,11 @@ class _EventsPageState extends State<EventsPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: width * 0.035,
-                            fontWeight: _selectedTab == 1 ? FontWeight.bold : FontWeight.normal,
-                            color: _selectedTab == 1 ? Colors.black : Colors.grey,
+                            fontWeight: _selectedTab == 1
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color:
+                                _selectedTab == 1 ? Colors.black : Colors.grey,
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -219,7 +244,9 @@ class _EventsPageState extends State<EventsPage> {
                 ],
               ),
               SizedBox(height: height * 0.03),
-              ...(_selectedTab == 0 ? clubEvents : localEvents).map((event) => _buildEventCard(event, width, height)).toList(),
+              ...(_selectedTab == 0 ? clubEvents : localEvents)
+                  .map((event) => _buildEventCard(event, width, height))
+                  .toList(),
             ],
           ),
         ),
@@ -237,7 +264,8 @@ class _EventsPageState extends State<EventsPage> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(width * 0.04, width * 0.03, width * 0.04, 0),
+            padding: EdgeInsets.fromLTRB(
+                width * 0.04, width * 0.03, width * 0.04, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -246,16 +274,21 @@ class _EventsPageState extends State<EventsPage> {
                     setState(() => FavoritesManager.toggleFavorite(event));
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(FavoritesManager.isFavorite(event.id) ? 'Added to favorites' : 'Removed from favorites'),
+                        content: Text(FavoritesManager.isFavorite(event.id)
+                            ? 'Added to favorites'
+                            : 'Removed from favorites'),
                         duration: const Duration(seconds: 1),
                       ),
                     );
                   },
                   child: Container(
                     padding: EdgeInsets.all(width * 0.025),
-                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                    decoration: const BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle),
                     child: Icon(
-                      FavoritesManager.isFavorite(event.id) ? Icons.bookmark : Icons.bookmark_border,
+                      FavoritesManager.isFavorite(event.id)
+                          ? Icons.bookmark
+                          : Icons.bookmark_border,
                       size: 22,
                       color: const Color(0xFF520350),
                     ),
@@ -265,7 +298,8 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(width * 0.04, width * 0.02, width * 0.04, width * 0.04),
+            padding: EdgeInsets.fromLTRB(
+                width * 0.04, width * 0.02, width * 0.04, width * 0.04),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -283,7 +317,8 @@ class _EventsPageState extends State<EventsPage> {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: Colors.grey[300],
-                        child: const Icon(Icons.image, color: Colors.grey, size: 40),
+                        child: const Icon(Icons.image,
+                            color: Colors.grey, size: 40),
                       ),
                     ),
                   ),
@@ -307,7 +342,8 @@ class _EventsPageState extends State<EventsPage> {
                       SizedBox(height: height * 0.012),
                       Row(
                         children: [
-                          Icon(Icons.calendar_today, size: width * 0.04, color: Colors.grey[700]),
+                          Icon(Icons.calendar_today,
+                              size: width * 0.04, color: Colors.grey[700]),
                           SizedBox(width: width * 0.02),
                           Expanded(
                             child: Text(
@@ -325,7 +361,8 @@ class _EventsPageState extends State<EventsPage> {
                       SizedBox(height: height * 0.008),
                       Row(
                         children: [
-                          Icon(Icons.access_time, size: width * 0.04, color: Colors.grey[700]),
+                          Icon(Icons.access_time,
+                              size: width * 0.04, color: Colors.grey[700]),
                           SizedBox(width: width * 0.02),
                           Expanded(
                             child: Text(
@@ -343,7 +380,8 @@ class _EventsPageState extends State<EventsPage> {
                       SizedBox(height: height * 0.008),
                       Row(
                         children: [
-                          Icon(Icons.location_on, size: width * 0.04, color: Colors.grey[700]),
+                          Icon(Icons.location_on,
+                              size: width * 0.04, color: Colors.grey[700]),
                           SizedBox(width: width * 0.02),
                           Expanded(
                             child: Text(
@@ -365,12 +403,15 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(width * 0.04, 0, width * 0.04, width * 0.04),
+            padding: EdgeInsets.fromLTRB(
+                width * 0.04, 0, width * 0.04, width * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  event.price == 0 ? 'FREE' : '\$${event.price.toStringAsFixed(2)}',
+                  event.price == 0
+                      ? 'FREE'
+                      : '\$${event.price.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontSize: width * 0.055,
                     fontWeight: FontWeight.bold,
@@ -382,8 +423,10 @@ class _EventsPageState extends State<EventsPage> {
                   onPressed: () => _showServiceDialog(event),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF520350),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.08, vertical: height * 0.015),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.08, vertical: height * 0.015),
                     elevation: 0,
                   ),
                   child: Text(
@@ -407,44 +450,62 @@ class _EventsPageState extends State<EventsPage> {
   void _showServiceDialog(Event event) {
     String selectedType = 'Standard';
     final notesController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Request Service', style: TextStyle(fontFamily: 'Inter')),
+          title: const Text('Request Service',
+              style: TextStyle(fontFamily: 'Inter')),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(event.title, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+              Text(event.title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontFamily: 'Inter')),
               const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 initialValue: selectedType,
-                decoration: const InputDecoration(labelText: 'Service Type', border: OutlineInputBorder()),
-                items: ['Standard', 'Premium', 'VIP'].map((type) => DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(fontFamily: 'Inter')))).toList(),
-                onChanged: (value) => setDialogState(() => selectedType = value!),
+                decoration: const InputDecoration(
+                    labelText: 'Service Type', border: OutlineInputBorder()),
+                items: ['Standard', 'Premium', 'VIP']
+                    .map((type) => DropdownMenuItem(
+                        value: type,
+                        child: Text(type,
+                            style: const TextStyle(fontFamily: 'Inter'))))
+                    .toList(),
+                onChanged: (value) =>
+                    setDialogState(() => selectedType = value!),
               ),
               const SizedBox(height: 15),
               TextField(
                 controller: notesController,
-                decoration: const InputDecoration(labelText: 'Additional Notes', border: OutlineInputBorder()),
+                decoration: const InputDecoration(
+                    labelText: 'Additional Notes',
+                    border: OutlineInputBorder()),
                 style: const TextStyle(fontFamily: 'Inter'),
                 maxLines: 3,
               ),
             ],
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel', style: TextStyle(fontFamily: 'Inter'))),
+            TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel',
+                    style: TextStyle(fontFamily: 'Inter'))),
             ElevatedButton(
               onPressed: () {
-                final requestId = ServicesManager.addRequest(event, selectedType, notesController.text);
+                final requestId = ServicesManager.addRequest(
+                    event, selectedType, notesController.text);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Service requested! ID: $requestId')),
                 );
               },
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF520350)),
-              child: const Text('Submit Request', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF520350)),
+              child: const Text('Submit Request',
+                  style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
             ),
           ],
         ),

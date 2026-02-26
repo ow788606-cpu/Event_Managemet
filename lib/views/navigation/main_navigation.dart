@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/home_page.dart';
 import '../pages/favorites/favorites_page.dart';
-import '../pages/services/services_page.dart';
+import '../pages/dashboard/dashboardpage.dart';
 
 class MainNavigation extends StatefulWidget {
   final String userName;
@@ -43,7 +43,7 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.design_services), label: 'Services'),
+              icon: Icon(Icons.dashboard), label: 'Dashboard'),
         ],
         selectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
         unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
