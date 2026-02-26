@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/database_service.dart';
 import '../checklist_design_page.dart';
 import '../events/event_timeline_page.dart';
@@ -8,7 +7,8 @@ import '../guests/guest_list_page.dart';
 import '../guests/guest_accommodation_page.dart';
 
 class ServicesPage extends StatefulWidget {
-  const ServicesPage({super.key, required int initialTab});
+  final int? eventId;
+  const ServicesPage({super.key, required int initialTab, this.eventId});
 
   @override
   State<ServicesPage> createState() => _ServicesPageState();
@@ -22,19 +22,18 @@ class _ServicesPageState extends State<ServicesPage>
   List<dynamic> vendors = [];
   List<dynamic> checklist = [];
   List<dynamic> eventDays = [];
-  int selectedEventId = 36;
+  late int selectedEventId;
   Map<String, dynamic>? selectedEvent;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 7, vsync: this);
+    selectedEventId = widget.eventId ?? 36;
     _loadSelectedEvent();
   }
 
   Future<void> _loadSelectedEvent() async {
-    final prefs = await SharedPreferences.getInstance();
-    selectedEventId = prefs.getInt('selectedEventId') ?? 36;
     _loadDynamicData();
   }
 
@@ -67,6 +66,7 @@ class _ServicesPageState extends State<ServicesPage>
       appBar: AppBar(
         backgroundColor: const Color(0xFF520350),
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text('Event Dashboard',
             style: TextStyle(
                 fontSize: 16,
@@ -94,18 +94,20 @@ class _ServicesPageState extends State<ServicesPage>
           unselectedLabelStyle: const TextStyle(fontFamily: 'Inter'),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildEventOverviewDesign(width, height),
-          const ChecklistDesignPage(eventId: 1, eventTypeId: 1),
-          EventTimelinePage(eventId: selectedEventId),
-          VendorsPage(eventId: selectedEventId),
-          GuestListPage(eventId: selectedEventId),
-          GuestAccommodationPage(eventId: selectedEventId),
-          const Center(
-              child: Text('Other', style: TextStyle(fontFamily: 'Inter'))),
-        ],
+      body: SafeArea(
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildEventOverviewDesign(width, height),
+            const ChecklistDesignPage(eventId: 1, eventTypeId: 1),
+            EventTimelinePage(eventId: selectedEventId),
+            VendorsPage(eventId: selectedEventId),
+            GuestListPage(eventId: selectedEventId),
+            GuestAccommodationPage(eventId: selectedEventId),
+            const Center(
+                child: Text('Other', style: TextStyle(fontFamily: 'Inter'))),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'events/events_page.dart';
+import 'events/home_screen.dart';
 import 'auth/login_page.dart';
 import 'events/add_event_page.dart';
 import 'clients/add_client_page.dart';
@@ -29,7 +29,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       drawer: _buildDrawer(context),
-      body: EventsPage(scaffoldKey: scaffoldKey, initialTab: initialTab),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF520350),
+        title: const Text('Eventam', style: TextStyle(color: Colors.white, fontFamily: 'Inter')),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: const HomeScreen(),
     );
   }
 
