@@ -482,58 +482,71 @@ class _ServicesPageState extends State<ServicesPage>
                   ),
                 ),
                 const SizedBox(height: 8),
-                ...accommodation.take(5).map((a) => Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                  decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF520350).withAlpha(25),
-                            borderRadius: BorderRadius.circular(4),
+                ...accommodation.take(5).map((a) {
+                  // Extract day from check_in_date
+                  String dayText = 'Day';
+                  if (a['check_in_date'] != null) {
+                    try {
+                      final date = DateTime.parse(a['check_in_date'].toString());
+                      dayText = date.day.toString().padLeft(2, '0');
+                    } catch (e) {
+                      dayText = '-';
+                    }
+                  }
+                  
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF520350).withAlpha(25),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              dayText,
+                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          flex: 2,
                           child: Text(
-                            a['check_in_date']?.toString().split('-').last ?? '-',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
+                            a['guest_name']?.toString() ?? 'Guest',
+                            style: const TextStyle(fontSize: 11, fontFamily: 'Inter'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            a['hotel_name']?.toString() ?? '-',
+                            style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            a['room_number']?.toString() ?? '-',
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          a['guest_name']?.toString() ?? 'Guest',
-                          style: const TextStyle(fontSize: 11, fontFamily: 'Inter'),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          a['hotel_name']?.toString() ?? '-',
-                          style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          a['room_number']?.toString() ?? '-',
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
+                      ],
+                    ),
+                  );
+                }),
               ],
             ),
         ],
