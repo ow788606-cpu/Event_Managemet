@@ -310,33 +310,7 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
-  Widget _buildSingleCard(String title) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade100,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-          const Icon(Icons.open_in_new, size: 14, color: Colors.grey),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimelineCard() {
+Widget _buildTimelineCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -454,11 +428,17 @@ class _ServicesPageState extends State<ServicesPage>
     for (var guest in guests) {
       if (guest['age'] != null) {
         int age = int.tryParse(guest['age'].toString()) ?? 0;
-        if (age >= 1 && age <= 15) age1_15++;
-        else if (age >= 16 && age <= 30) age16_30++;
-        else if (age >= 31 && age <= 45) age30_45++;
-        else if (age >= 46 && age <= 60) age45_60++;
-        else if (age > 60) age60plus++;
+        if (age >= 1 && age <= 15) {
+          age1_15++;
+        } else if (age >= 16 && age <= 30) {
+          age16_30++;
+        } else if (age >= 31 && age <= 45) {
+          age30_45++;
+        } else if (age >= 46 && age <= 60) {
+          age45_60++;
+        } else if (age > 60) {
+          age60plus++;
+        }
       }
     }
     
@@ -653,7 +633,6 @@ class _ServicesPageState extends State<ServicesPage>
     final veg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'veg' || g['food_preference']?.toString().toLowerCase() == 'vegetarian').length;
     final nonVeg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'non-veg' || g['food_preference']?.toString().toLowerCase() == 'non vegetarian').length;
     final jain = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'jain').length;
-    final total = guests.length;
     
     return Container(
       padding: const EdgeInsets.all(16),
@@ -765,3 +744,5 @@ class _PieClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(_PieClipper oldClipper) => oldClipper.percentage != percentage;
+}
+
