@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/database_service.dart';
 import '../checklist_design_page.dart';
 import '../events/event_timeline_page.dart';
@@ -21,21 +22,37 @@ class _ServicesPageState extends State<ServicesPage>
   List<dynamic> vendors = [];
   List<dynamic> checklist = [];
   List<dynamic> accommodation = [];
+  List<dynamic> eventDays = [];
+  int selectedEventId = 36;
+  Map<String, dynamic>? selectedEvent;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 7, vsync: this);
+    _loadSelectedEvent();
+  }
+
+  Future<void> _loadSelectedEvent() async {
+    final prefs = await SharedPreferences.getInstance();
+    selectedEventId = prefs.getInt('selectedEventId') ?? 36;
     _loadDynamicData();
   }
 
   Future<void> _loadDynamicData() async {
     try {
-      timeline = await DatabaseService.getEventFunctions(eventId: 1);
-      guests = await DatabaseService.getEventAttendees(eventId: 1);
-      vendors = await DatabaseService.getEventVendors(eventId: 1);
+      final events = await DatabaseService.getEvents();
+      selectedEvent = events.firstWhere((e) => e['id'] == selectedEventId, orElse: () => {});
+      eventDays = await DatabaseService.getEventDays(eventId: selectedEventId);
+      timeline = await DatabaseService.getEventFunctions(eventId: selectedEventId);
+      guests = await DatabaseService.getEventAttendees(eventId: selectedEventId);
+      vendors = await DatabaseService.getEventVendors(eventId: selectedEventId);
       checklist = await DatabaseService.getEventChecklists(eventId: 1);
-      accommodation = await DatabaseService.getEventAccommodation(eventId: 1);
+      try {
+        accommodation = await DatabaseService.getEventAccommodation(eventId: selectedEventId);
+      } catch (e) {
+        accommodation = [];
+      }
       setState(() {});
     } catch (e) {
       setState(() {});
@@ -85,10 +102,10 @@ class _ServicesPageState extends State<ServicesPage>
         children: [
           _buildEventOverviewDesign(width, height),
           const ChecklistDesignPage(eventId: 1, eventTypeId: 1),
-          const EventTimelinePage(eventId: 1),
-          const VendorsPage(eventId: 1),
-          const GuestListPage(eventId: 1),
-          const GuestAccommodationPage(eventId: 1),
+          EventTimelinePage(eventId: selectedEventId),
+          VendorsPage(eventId: selectedEventId),
+          GuestListPage(eventId: selectedEventId),
+          GuestAccommodationPage(eventId: selectedEventId),
           const Center(child: Text('Other', style: TextStyle(fontFamily: 'Inter'))),
         ],
       ),
@@ -126,15 +143,21 @@ class _ServicesPageState extends State<ServicesPage>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Text('Harsh & Nidhi Wedding',
-                              style: TextStyle(
+                          Expanded(
+                            child: Text(
+                              selectedEvent?['title']?.toString() ?? 'Event',
+                              style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Inter')),
-                          SizedBox(width: 6),
-                          Icon(Icons.check_circle, color: Colors.green, size: 18),
+                                  fontFamily: 'Inter'),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Icon(Icons.check_circle, color: Colors.green, size: 18),
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -142,8 +165,9 @@ class _ServicesPageState extends State<ServicesPage>
                         children: [
                           Icon(Icons.calendar_today, size: 12, color: Colors.grey.shade600),
                           const SizedBox(width: 4),
-                          Text('12 Jan 2024 - 15 Jan 2024',
-                              style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
+                          Text(
+                            '${selectedEvent?['start_date'] ?? ''} - ${selectedEvent?['end_date'] ?? ''}',
+                            style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -151,8 +175,9 @@ class _ServicesPageState extends State<ServicesPage>
                         children: [
                           Icon(Icons.location_on, size: 12, color: Colors.grey.shade600),
                           const SizedBox(width: 4),
-                          Text('Raj Palace',
-                              style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
+                          Text(
+                            selectedEvent?['venue']?.toString() ?? selectedEvent?['location']?.toString() ?? '',
+                            style: TextStyle(fontSize: 11, color: Colors.grey.shade600, fontFamily: 'Inter')),
                         ],
                       ),
                     ],
@@ -166,31 +191,41 @@ class _ServicesPageState extends State<ServicesPage>
             children: [
               _buildStatCard(Icons.people, guests.length.toString(), 'Guest Invited', const Color(0xFF520350), width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.check, guests.where((g) => g['rsvp_status'] == 'Confirmed').length.toString(), 'Invitation Accepted', Colors.green, width),
+              _buildStatCard(Icons.check, guests.where((g) => g['invitation_status'] == 'accepted').length.toString(), 'Invitation Accepted', Colors.green, width),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildStatCard(Icons.cancel, guests.where((g) => g['rsvp_status'] == 'Declined').length.toString(), 'Invitation Declined', Colors.red, width),
+              _buildStatCard(Icons.cancel, guests.where((g) => g['invitation_status'] == 'declined').length.toString(), 'Invitation Declined', Colors.red, width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.person, guests.where((g) => g['rsvp_status'] == 'Pending').length.toString(), 'Confirmation Pending', Colors.orange, width),
+              _buildStatCard(Icons.person, guests.where((g) => g['invitation_status'] == 'pending').length.toString(), 'Confirmation Pending', Colors.orange, width),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Guest Pickup', accommodation.where((a) => a['pickup_required'] == '1' || a['pickup_required'] == 1).length.toString(), 'Required', accommodation.where((a) => (a['pickup_required'] == '1' || a['pickup_required'] == 1) && a['pickup_assigned'] != null && a['pickup_assigned'].toString().isNotEmpty).length.toString(), 'Assigned')),
+              Expanded(child: _buildSummaryCard('Guest Pickup', guests.where((g) => g['travel_required'] == '1' || g['travel_required'] == 1).length.toString(), 'Required', '0', 'Assigned')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Vendors', vendors.where((v) => v['status'] == 'Hired').length.toString(), 'Hired', vendors.where((v) => v['status'] == 'Shortlisted').length.toString(), 'Shortlisted')),
+              Expanded(child: _buildSummaryCard('Vendors', vendors.where((v) => v['status']?.toString().toLowerCase() == 'hired').length.toString(), 'Hired', vendors.where((v) => v['status']?.toString().toLowerCase() == 'shortlisted').length.toString(), 'Shortlisted')),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Tasks', checklist.where((c) => c['is_completed'] == '0' || c['is_completed'] == 0).length.toString(), 'Pending', checklist.where((c) => c['is_completed'] == '1' || c['is_completed'] == 1).length.toString(), 'Completed')),
+              Expanded(child: _buildSummaryCard('Tasks', 
+                checklist.isEmpty ? '0' : checklist.where((c) {
+                  final status = c['status'];
+                  return status == 0 || status == '0';
+                }).length.toString(), 
+                'Pending', 
+                checklist.isEmpty ? '0' : checklist.where((c) {
+                  final status = c['status'];
+                  return status == 1 || status == '1';
+                }).length.toString(), 
+                'Completed')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Other', guests.where((g) => g['is_vip'] == '1' || g['is_vip'] == 1).length.toString(), 'VIP Guest', guests.where((g) => g['wheelchair_required'] == '1' || g['wheelchair_required'] == 1).length.toString(), 'Wheelchair')),
+              Expanded(child: _buildSummaryCard('Other', guests.where((g) => g['is_vip'] == '1' || g['is_vip'] == 1).length.toString(), 'VIP Guest', guests.where((g) => g['needs_wheelchair'] == '1' || g['needs_wheelchair'] == 1).length.toString(), 'Wheelchair')),
             ],
           ),
           const SizedBox(height: 12),
@@ -458,10 +493,10 @@ class _ServicesPageState extends State<ServicesPage>
             ],
           ),
           const SizedBox(height: 12),
-          if (accommodation.isEmpty)
+          if (eventDays.isEmpty)
             const Center(child: Padding(
               padding: EdgeInsets.all(16.0),
-              child: Text('No accommodation data', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+              child: Text('No event days data', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
             ))
           else
             Column(
@@ -475,24 +510,26 @@ class _ServicesPageState extends State<ServicesPage>
                   child: const Row(
                     children: [
                       Expanded(flex: 1, child: Text('Day', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
-                      Expanded(flex: 2, child: Text('Guest', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
-                      Expanded(flex: 2, child: Text('Hotel', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
-                      Expanded(flex: 1, child: Text('Room', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
+                      Expanded(flex: 2, child: Text('Title', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
+                      Expanded(flex: 2, child: Text('Date', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
+                      Expanded(flex: 1, child: Text('No of Guest', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
                     ],
                   ),
                 ),
                 const SizedBox(height: 8),
-                ...accommodation.take(5).map((a) {
-                  // Extract day from check_in_date
-                  String dayText = 'Day';
-                  if (a['check_in_date'] != null) {
+                ...eventDays.map((day) {
+                  String dayNum = day['day_number']?.toString() ?? '-';
+                  String title = day['day_title']?.toString() ?? 'Day Event';
+                  String date = '';
+                  if (day['event_date'] != null) {
                     try {
-                      final date = DateTime.parse(a['check_in_date'].toString());
-                      dayText = date.day.toString().padLeft(2, '0');
+                      final d = DateTime.parse(day['event_date'].toString());
+                      date = '${d.day.toString().padLeft(2, '0')} ${_getMonthName(d.month)} ${d.year}';
                     } catch (e) {
-                      dayText = '-';
+                      date = day['event_date'].toString();
                     }
                   }
+                  String guestCount = day['guest_count']?.toString() ?? '0';
                   
                   return Container(
                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
@@ -504,15 +541,22 @@ class _ServicesPageState extends State<ServicesPage>
                         Expanded(
                           flex: 1,
                           child: Container(
-                            padding: const EdgeInsets.all(6),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                             decoration: BoxDecoration(
                               color: const Color(0xFF520350).withAlpha(25),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: Text(
-                              dayText,
-                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
-                              textAlign: TextAlign.center,
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Day',
+                                  style: TextStyle(fontSize: 9, color: Colors.grey, fontFamily: 'Inter'),
+                                ),
+                                Text(
+                                  dayNum,
+                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -520,26 +564,26 @@ class _ServicesPageState extends State<ServicesPage>
                         Expanded(
                           flex: 2,
                           child: Text(
-                            a['guest_name']?.toString() ?? 'Guest',
+                            title,
                             style: const TextStyle(fontSize: 11, fontFamily: 'Inter'),
-                            maxLines: 1,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Text(
-                            a['hotel_name']?.toString() ?? '-',
-                            style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
-                            maxLines: 1,
+                            date,
+                            style: const TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'Inter'),
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Expanded(
                           flex: 1,
                           child: Text(
-                            a['room_number']?.toString() ?? '-',
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                            guestCount,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -552,6 +596,11 @@ class _ServicesPageState extends State<ServicesPage>
         ],
       ),
     );
+  }
+
+  String _getMonthName(int month) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months[month - 1];
   }
 
   Widget _buildGuestAgeRatioChart() {
