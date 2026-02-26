@@ -310,7 +310,7 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
-Widget _buildTimelineCard() {
+  Widget _buildTimelineCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -332,31 +332,90 @@ Widget _buildTimelineCard() {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Event Timeline (${timeline.length} events)', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+              const Text('Event Timeline', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                onPressed: () => _tabController.animateTo(2),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
             ],
           ),
-          if (timeline.isNotEmpty) const SizedBox(height: 12),
-          if (timeline.isNotEmpty)
-            ...timeline.take(3).map((t) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+          const SizedBox(height: 12),
+          if (timeline.isEmpty)
+            const Center(child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('No timeline events', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+            ))
+          else
+            ...timeline.take(4).map((t) => Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Row(
                 children: [
                   Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF520350),
-                      shape: BoxShape.circle,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF520350),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          t['day_number']?.toString() ?? '01',
+                          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                        ),
+                        Text(
+                          t['day_name']?.toString().substring(0, 3) ?? 'Day',
+                          style: const TextStyle(color: Colors.white, fontSize: 10, fontFamily: 'Inter'),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 12),
                   Expanded(
-                    child: Text(
-                      '${t['function_name']} - ${t['start_time']}',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'Inter'),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          t['function_name']?.toString() ?? 'Event',
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${t['start_time']} - ${t['end_time']}',
+                              style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
+                            ),
+                          ],
+                        ),
+                        if (t['location'] != null)
+                          const SizedBox(height: 2),
+                        if (t['location'] != null)
+                          Row(
+                            children: [
+                              const Icon(Icons.location_on, size: 12, color: Colors.grey),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  t['location'].toString(),
+                                  style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
                     ),
                   ),
                 ],
@@ -368,9 +427,6 @@ Widget _buildTimelineCard() {
   }
 
   Widget _buildAccommodationCard() {
-    final totalAccommodation = accommodation.length;
-    final withPickup = accommodation.where((a) => a['pickup_required'] == '1' || a['pickup_required'] == 1).length;
-    
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -389,33 +445,97 @@ Widget _buildTimelineCard() {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
-              Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+              const Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+                onPressed: () => _tabController.animateTo(5),
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  Text('$totalAccommodation', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
-                  const SizedBox(height: 4),
-                  const Text('Total Guests', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
-                ],
-              ),
-              Column(
-                children: [
-                  Text('$withPickup', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
-                  const SizedBox(height: 4),
-                  const Text('Need Pickup', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
-                ],
-              ),
-            ],
-          ),
+          if (accommodation.isEmpty)
+            const Center(child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('No accommodation data', style: TextStyle(color: Colors.grey, fontFamily: 'Inter')),
+            ))
+          else
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Row(
+                    children: [
+                      Expanded(flex: 1, child: Text('Day', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
+                      Expanded(flex: 2, child: Text('Guest', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
+                      Expanded(flex: 2, child: Text('Hotel', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'))),
+                      Expanded(flex: 1, child: Text('Room', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'), textAlign: TextAlign.center)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...accommodation.take(5).map((a) => Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF520350).withAlpha(25),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            a['check_in_date']?.toString().split('-').last ?? '-',
+                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter'),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          a['guest_name']?.toString() ?? 'Guest',
+                          style: const TextStyle(fontSize: 11, fontFamily: 'Inter'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          a['hotel_name']?.toString() ?? '-',
+                          style: const TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          a['room_number']?.toString() ?? '-',
+                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Inter'),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+              ],
+            ),
         ],
       ),
     );
@@ -633,6 +753,12 @@ Widget _buildTimelineCard() {
     final veg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'veg' || g['food_preference']?.toString().toLowerCase() == 'vegetarian').length;
     final nonVeg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'non-veg' || g['food_preference']?.toString().toLowerCase() == 'non vegetarian').length;
     final jain = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'jain').length;
+    final total = guests.length;
+    
+    // Calculate percentages
+    final jainPercent = total > 0 ? jain / total : 0.0;
+    final nonVegPercent = total > 0 ? nonVeg / total : 0.0;
+    final vegPercent = total > 0 ? veg / total : 0.0;
     
     return Container(
       padding: const EdgeInsets.all(16),
@@ -665,12 +791,37 @@ Widget _buildTimelineCard() {
               height: 100,
               child: Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey.shade200,
+                  // Jain segment
+                  if (jain > 0)
+                    CustomPaint(
+                      size: const Size(100, 100),
+                      painter: _PieSegmentPainter(
+                        startAngle: -90,
+                        sweepAngle: jainPercent * 360,
+                        color: const Color(0xFF520350),
+                      ),
                     ),
-                  ),
+                  // Non-Veg segment
+                  if (nonVeg > 0)
+                    CustomPaint(
+                      size: const Size(100, 100),
+                      painter: _PieSegmentPainter(
+                        startAngle: -90 + (jainPercent * 360),
+                        sweepAngle: nonVegPercent * 360,
+                        color: Colors.purple.shade300,
+                      ),
+                    ),
+                  // Veg segment
+                  if (veg > 0)
+                    CustomPaint(
+                      size: const Size(100, 100),
+                      painter: _PieSegmentPainter(
+                        startAngle: -90 + (jainPercent * 360) + (nonVegPercent * 360),
+                        sweepAngle: vegPercent * 360,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                  // Center white circle
                   Center(
                     child: Container(
                       width: 50,
@@ -744,5 +895,37 @@ class _PieClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(_PieClipper oldClipper) => oldClipper.percentage != percentage;
+}
+
+class _PieSegmentPainter extends CustomPainter {
+  final double startAngle;
+  final double sweepAngle;
+  final Color color;
+
+  _PieSegmentPainter({
+    required this.startAngle,
+    required this.sweepAngle,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final startAngleRad = startAngle * 3.14159 / 180;
+    final sweepAngleRad = sweepAngle * 3.14159 / 180;
+
+    canvas.drawArc(rect, startAngleRad, sweepAngleRad, true, paint);
+  }
+
+  @override
+  bool shouldRepaint(_PieSegmentPainter oldDelegate) {
+    return oldDelegate.startAngle != startAngle ||
+        oldDelegate.sweepAngle != sweepAngle ||
+        oldDelegate.color != color;
+  }
 }
 
