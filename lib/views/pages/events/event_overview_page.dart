@@ -256,6 +256,8 @@ class _EventOverviewPageState extends State<EventOverviewPage>
           ),
           const SizedBox(height: 12),
           _buildSingleCard('Event Timeline (${timeline.length} events)'),
+          const SizedBox(height: 12),
+          _buildAccommodationCard(),
         ],
       ),
     );
@@ -531,6 +533,63 @@ class _EventOverviewPageState extends State<EventOverviewPage>
                   ],
                 ),
               )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAccommodationCard() {
+    final totalAccommodation = accommodation.length;
+    final withPickup = accommodation.where((a) => a['pickup_required'] == '1' || a['pickup_required'] == 1).length;
+    
+    return InkWell(
+      onTap: () => _tabController.animateTo(5),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade100,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+                Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text('$totalAccommodation', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                    const SizedBox(height: 4),
+                    const Text('Total Guests', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text('$withPickup', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                    const SizedBox(height: 4),
+                    const Text('Need Pickup', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
