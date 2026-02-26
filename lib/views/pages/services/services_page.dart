@@ -20,6 +20,7 @@ class _ServicesPageState extends State<ServicesPage>
   List<dynamic> guests = [];
   List<dynamic> vendors = [];
   List<dynamic> checklist = [];
+  List<dynamic> accommodation = [];
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _ServicesPageState extends State<ServicesPage>
       guests = await DatabaseService.getEventAttendees(eventId: 1);
       vendors = await DatabaseService.getEventVendors(eventId: 1);
       checklist = await DatabaseService.getEventChecklists(eventId: 1);
+      accommodation = await DatabaseService.getEventAccommodation(eventId: 1);
       setState(() {});
     } catch (e) {
       setState(() {});
@@ -164,31 +166,31 @@ class _ServicesPageState extends State<ServicesPage>
             children: [
               _buildStatCard(Icons.people, guests.length.toString(), 'Guest Invited', const Color(0xFF520350), width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.check, '0', 'Invitation Accepted', Colors.green, width),
+              _buildStatCard(Icons.check, guests.where((g) => g['rsvp_status'] == 'Confirmed').length.toString(), 'Invitation Accepted', Colors.green, width),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildStatCard(Icons.cancel, '0', 'Invitation Declined', Colors.red, width),
+              _buildStatCard(Icons.cancel, guests.where((g) => g['rsvp_status'] == 'Declined').length.toString(), 'Invitation Declined', Colors.red, width),
               const SizedBox(width: 12),
-              _buildStatCard(Icons.person, '0', 'Confirmation Pending', Colors.orange, width),
+              _buildStatCard(Icons.person, guests.where((g) => g['rsvp_status'] == 'Pending').length.toString(), 'Confirmation Pending', Colors.orange, width),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Guest Pickup', '0', 'Required', '0', 'Assigned')),
+              Expanded(child: _buildSummaryCard('Guest Pickup', accommodation.where((a) => a['pickup_required'] == '1' || a['pickup_required'] == 1).length.toString(), 'Required', accommodation.where((a) => (a['pickup_required'] == '1' || a['pickup_required'] == 1) && a['pickup_assigned'] != null && a['pickup_assigned'].toString().isNotEmpty).length.toString(), 'Assigned')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Vendors', vendors.length.toString(), 'Hired', '0', 'Shortlisted')),
+              Expanded(child: _buildSummaryCard('Vendors', vendors.where((v) => v['status'] == 'Hired').length.toString(), 'Hired', vendors.where((v) => v['status'] == 'Shortlisted').length.toString(), 'Shortlisted')),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildSummaryCard('Tasks', checklist.length.toString(), 'Pending', '0', 'Completed')),
+              Expanded(child: _buildSummaryCard('Tasks', checklist.where((c) => c['is_completed'] == '0' || c['is_completed'] == 0).length.toString(), 'Pending', checklist.where((c) => c['is_completed'] == '1' || c['is_completed'] == 1).length.toString(), 'Completed')),
               const SizedBox(width: 12),
-              Expanded(child: _buildSummaryCard('Other', '0', 'VIP Guest', '0', 'Wheelchair')),
+              Expanded(child: _buildSummaryCard('Other', guests.where((g) => g['is_vip'] == '1' || g['is_vip'] == 1).length.toString(), 'VIP Guest', guests.where((g) => g['wheelchair_required'] == '1' || g['wheelchair_required'] == 1).length.toString(), 'Wheelchair')),
             ],
           ),
           const SizedBox(height: 12),
@@ -204,12 +206,12 @@ class _ServicesPageState extends State<ServicesPage>
           const SizedBox(height: 12),
           GestureDetector(
             onTap: () => _tabController.animateTo(2),
-            child: _buildSingleCard('Event Timeline (${timeline.length} events)'),
+            child: _buildTimelineCard(),
           ),
           const SizedBox(height: 12),
           GestureDetector(
             onTap: () => _tabController.animateTo(5),
-            child: _buildSingleCard('Guest Accommodation'),
+            child: _buildAccommodationCard(),
           ),
         ],
       ),
@@ -334,7 +336,134 @@ class _ServicesPageState extends State<ServicesPage>
     );
   }
 
+  Widget _buildTimelineCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade100,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Event Timeline (${timeline.length} events)', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+            ],
+          ),
+          if (timeline.isNotEmpty) const SizedBox(height: 12),
+          if (timeline.isNotEmpty)
+            ...timeline.take(3).map((t) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF520350),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      '${t['function_name']} - ${t['start_time']}',
+                      style: const TextStyle(fontSize: 12, color: Colors.grey, fontFamily: 'Inter'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccommodationCard() {
+    final totalAccommodation = accommodation.length;
+    final withPickup = accommodation.where((a) => a['pickup_required'] == '1' || a['pickup_required'] == 1).length;
+    
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade100,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Guest Accommodation', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text('$totalAccommodation', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  const SizedBox(height: 4),
+                  const Text('Total Guests', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('$withPickup', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+                  const SizedBox(height: 4),
+                  const Text('Need Pickup', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildGuestAgeRatioChart() {
+    // Calculate age groups from guests data
+    int age1_15 = 0, age16_30 = 0, age30_45 = 0, age45_60 = 0, age60plus = 0;
+    
+    for (var guest in guests) {
+      if (guest['age'] != null) {
+        int age = int.tryParse(guest['age'].toString()) ?? 0;
+        if (age >= 1 && age <= 15) age1_15++;
+        else if (age >= 16 && age <= 30) age16_30++;
+        else if (age >= 31 && age <= 45) age30_45++;
+        else if (age >= 46 && age <= 60) age45_60++;
+        else if (age > 60) age60plus++;
+      }
+    }
+    
+    final maxCount = [age1_15, age16_30, age30_45, age45_60, age60plus].reduce((a, b) => a > b ? a : b);
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -349,24 +478,65 @@ class _ServicesPageState extends State<ServicesPage>
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Guest Age Ratio', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
-          SizedBox(height: 12),
-          Center(child: Text('Chart Coming Soon', style: TextStyle(color: Colors.grey, fontFamily: 'Inter'))),
+          const SizedBox(height: 20),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildAgeBar('1-15', age1_15, maxCount),
+              _buildAgeBar('16-30', age16_30, maxCount),
+              _buildAgeBar('30-45', age30_45, maxCount),
+              _buildAgeBar('45-60', age45_60, maxCount),
+              _buildAgeBar('60+', age60plus, maxCount),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const Center(
+            child: Text('Age Group', style: TextStyle(fontSize: 11, color: Colors.grey, fontFamily: 'Inter')),
+          ),
         ],
       ),
     );
   }
 
+  Widget _buildAgeBar(String label, int count, int maxCount) {
+    final height = maxCount > 0 ? (count / maxCount * 100).clamp(20.0, 100.0) : 20.0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('$count', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+        const SizedBox(height: 4),
+        Container(
+          width: 40,
+          height: height,
+          decoration: BoxDecoration(
+            color: const Color(0xFF520350),
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(label, style: const TextStyle(fontSize: 9, color: Colors.grey, fontFamily: 'Inter')),
+      ],
+    );
+  }
+
   Widget _buildGenderChart() {
+    final male = guests.where((g) => g['gender']?.toString().toLowerCase() == 'male').length;
+    final female = guests.where((g) => g['gender']?.toString().toLowerCase() == 'female').length;
+    final total = guests.length;
+    final malePercent = total > 0 ? (male / total * 100).round() : 0;
+    final femalePercent = total > 0 ? (female / total * 100).round() : 0;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -381,24 +551,110 @@ class _ServicesPageState extends State<ServicesPage>
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Gender', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
-          SizedBox(height: 12),
-          Center(child: Text('Chart Coming Soon', style: TextStyle(color: Colors.grey, fontFamily: 'Inter'))),
+          const SizedBox(height: 16),
+          Center(
+            child: SizedBox(
+              width: 120,
+              height: 120,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.pink.shade100,
+                    ),
+                  ),
+                  if (male > 0)
+                    ClipPath(
+                      clipper: _PieClipper(malePercent / 100),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF520350),
+                        ),
+                      ),
+                    ),
+                  Center(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF520350),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text('Male', style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text('$malePercent%', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Colors.pink.shade100,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text('Female', style: TextStyle(fontSize: 11, fontFamily: 'Inter')),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text('$femalePercent%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.pink.shade100, fontFamily: 'Inter')),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
   Widget _buildFoodPreferenceChart() {
+    final veg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'veg' || g['food_preference']?.toString().toLowerCase() == 'vegetarian').length;
+    final nonVeg = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'non-veg' || g['food_preference']?.toString().toLowerCase() == 'non vegetarian').length;
+    final jain = guests.where((g) => g['food_preference']?.toString().toLowerCase() == 'jain').length;
+    final total = guests.length;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -413,20 +669,99 @@ class _ServicesPageState extends State<ServicesPage>
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Food Pref.', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
+              Text('Food Preference', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF520350), fontFamily: 'Inter')),
               Icon(Icons.open_in_new, size: 16, color: Colors.grey),
             ],
           ),
-          SizedBox(height: 12),
-          Center(child: Text('Chart Coming Soon', style: TextStyle(color: Colors.grey, fontFamily: 'Inter'))),
+          const SizedBox(height: 16),
+          Center(
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey.shade200,
+                    ),
+                  ),
+                  Center(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildFoodItem('Jain', jain, const Color(0xFF520350)),
+              _buildFoodItem('Non-Veg', nonVeg, Colors.purple.shade300),
+              _buildFoodItem('Veg', veg, Colors.grey.shade300),
+            ],
+          ),
         ],
       ),
     );
   }
+
+  Widget _buildFoodItem(String label, int count, Color color) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 4),
+            Text(label, style: const TextStyle(fontSize: 10, fontFamily: 'Inter')),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Text('$count', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Inter')),
+      ],
+    );
+  }
 }
+
+class _PieClipper extends CustomClipper<Path> {
+  final double percentage;
+  _PieClipper(this.percentage);
+
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+    final sweepAngle = 2 * 3.14159 * percentage;
+    
+    path.moveTo(center.dx, center.dy);
+    path.arcTo(
+      Rect.fromCircle(center: center, radius: radius),
+      -3.14159 / 2,
+      sweepAngle,
+      false,
+    );
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(_PieClipper oldClipper) => oldClipper.percentage != percentage;
