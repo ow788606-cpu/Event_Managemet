@@ -131,9 +131,9 @@ class DatabaseService {
     throw Exception('Failed to load event attendees');
   }
 
-  // Event Accommodation
+  // Event Accommodation - Guest List
   static Future<List<Map<String, dynamic>>> getEventAccommodation({required int eventId}) async {
-    final response = await http.get(Uri.parse('$baseUrl/event_accommodation.php?event_id=$eventId'));
+    final response = await http.get(Uri.parse('$baseUrl/guest_accommodation.php?event_id=$eventId'));
     if (response.statusCode == 200) {
       return List<Map<String, dynamic>>.from(json.decode(response.body));
     }
